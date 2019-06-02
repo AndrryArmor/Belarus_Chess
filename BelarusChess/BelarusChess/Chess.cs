@@ -36,11 +36,11 @@ namespace BelarusChess
         private readonly string attackImageUri = projectDirectory + "\\Resources\\Attack.png";
         private readonly string attackFigureImageUri = projectDirectory + "\\Resources\\Attack figure.png";
 
-        public enum Player
+        public enum PlayerColor
         {
             White, Black
         }
-        public enum Figure
+        public enum FigureType
         {
             Rook, Bishop, Knight, Prince, King, Queen, Pawn
         }
@@ -91,10 +91,10 @@ namespace BelarusChess
                 }
             }
         }
-        public void FindMoves(Image image, Player player, Figure figure)
+        public void FindMoves(Image image, PlayerColor player, FigureType figure)
         {
-            if (chessMoves % 2 == 0 && player == Player.Black) return;
-            if (chessMoves % 2 == 1 && player == Player.White) return;
+            if (chessMoves % 2 == 0 && player == PlayerColor.Black) return;
+            if (chessMoves % 2 == 1 && player == PlayerColor.White) return;
 
             if (choosedFigure != null)
             {
@@ -109,26 +109,26 @@ namespace BelarusChess
             Moves[,] moves = null;
             switch (figure)
             {
-                case Figure.Rook:
+                case FigureType.Rook:
                     moves = MovesOf.Rook();
                     break;
-                case Figure.Bishop:
+                case FigureType.Bishop:
                     moves = MovesOf.Bishop();
                     break;
-                case Figure.Knight:
+                case FigureType.Knight:
                     moves = MovesOf.Knight();
                     break;
-                case Figure.Prince:
+                case FigureType.Prince:
                     moves = MovesOf.Prince();
                     break;
-                case Figure.King:
+                case FigureType.King:
                     moves = MovesOf.King();
                     break;
-                case Figure.Queen:
+                case FigureType.Queen:
                     moves = MovesOf.Queen();
                     break;
-                case Figure.Pawn:
-                    if (player == Player.White && rowImage > 0)
+                case FigureType.Pawn:
+                    if (player == PlayerColor.White && rowImage > 0)
                     {
                         if (chessBoard[rowImage - 1, columnImage] == null)
                         {
@@ -147,7 +147,7 @@ namespace BelarusChess
                             movesBoard[rowImage - 1, columnImage - 1] = NewImage(attackFigureImageUri, rowImage - 1, columnImage - 1, 3);
                         }
                     }
-                    else if (player == Player.Black && rowImage < 8)
+                    else if (player == PlayerColor.Black && rowImage < 8)
                     {
                         if (chessBoard[rowImage + 1, columnImage] == null)
                         {
@@ -177,7 +177,7 @@ namespace BelarusChess
                     int row = rowImage + moves[i, j].Y;
                     int column = columnImage + moves[i, j].X;
                     if (row < 0 || row > 8 || column < 0 || column > 8) break; // Borders case
-                    if (figure != Figure.King && figure != Figure.Prince &&
+                    if (figure != FigureType.King && figure != FigureType.Prince &&
                         row == 4 && column == 4)                               // Simple figures cannot move over the throne
                     {
                         if (chessBoard[row, column] == null)
@@ -211,19 +211,19 @@ namespace BelarusChess
             chessBoard[r, c] = null;
             if (chessBoard[row, column] != null)
             {
-                if ((Figure)chessBoard[row, column].Tag == Figure.King || (Figure)chessBoard[row, column].Tag == Figure.Prince)
+                if ((FigureType)chessBoard[row, column].Tag == FigureType.King || (FigureType)chessBoard[row, column].Tag == FigureType.Prince)
                 {
-                    if (PlayerColor(chessBoard[row, column]) == Player.White)
+                    if (PlayerColor(chessBoard[row, column]) == PlayerColor.White)
                         isOnlyKingOrPrinceWhite = true;
                     else
                         isOnlyKingOrPrinceBlack = true;
-                    if ((Figure)chessBoard[row, column].Tag == Figure.King)
+                    if ((FigureType)chessBoard[row, column].Tag == FigureType.King)
                     {
                         for (int i = 0; i < 9; i++)
                         {
                             for (int j = 0; j < 9; j++)
                             {
-                                if (PlayerColor(chessBoard[i, j]) == PlayerColor(chessBoard[row, column]) && (Figure)chessBoard[i, j].Tag == Figure.Prince)
+                                if (PlayerColor(chessBoard[i, j]) == PlayerColor(chessBoard[row, column]) && (FigureType)chessBoard[i, j].Tag == FigureType.Prince)
                                 {
                                     chessBoard[i, j] = chessBoard[row, column];
                                 }
@@ -249,50 +249,50 @@ namespace BelarusChess
                 return false;
             else if (chessMoves % 2 == 1 && isOnlyKingOrPrinceBlack == false)
                 return false;
-            if ((Figure)choosedFigure.Tag == Figure.King)
+            if ((FigureType)choosedFigure.Tag == FigureType.King)
                 return false;
 
             bool result = false;
             int rowImage = (int)((choosedFigure.Margin.Top - yMargin) / edge);
             int columnImage = (int)((choosedFigure.Margin.Left - xMargin) / edge);
-            Player player = PlayerColor(chessBoard[rowImage - 1, columnImage + 1]);
+            PlayerColor player = PlayerColor(chessBoard[rowImage - 1, columnImage + 1]);
             Moves[,] moves = null;
             switch (choosedFigure.Tag)
             {
-                case Figure.Rook:
+                case FigureType.Rook:
                     moves = MovesOf.Rook();
                     break;
-                case Figure.Bishop:
+                case FigureType.Bishop:
                     moves = MovesOf.Bishop();
                     break;
-                case Figure.Knight:
+                case FigureType.Knight:
                     moves = MovesOf.Knight();
                     break;
-                case Figure.Prince:
+                case FigureType.Prince:
                     moves = MovesOf.Prince();
                     break;
-                case Figure.Queen:
+                case FigureType.Queen:
                     moves = MovesOf.Queen();
                     break;
-                case Figure.Pawn:
+                case FigureType.Pawn:
                     if (chessMoves % 2 == 0 && rowImage > 0)
                     {
-                        if (player == Player.Black && columnImage < 8 && chessBoard[rowImage - 1, columnImage + 1] != null && chessBoard[rowImage - 1, columnImage + 1].Name == "imageWhiteKing")
+                        if (player == PlayerColor.Black && columnImage < 8 && chessBoard[rowImage - 1, columnImage + 1] != null && chessBoard[rowImage - 1, columnImage + 1].Name == "imageWhiteKing")
                         {
                             result = true;
                         }
-                        else if (player == Player.Black && columnImage > 0 && chessBoard[rowImage - 1, columnImage - 1] != null && chessBoard[rowImage - 1, columnImage - 1].Name == "imageWhiteKing")
+                        else if (player == PlayerColor.Black && columnImage > 0 && chessBoard[rowImage - 1, columnImage - 1] != null && chessBoard[rowImage - 1, columnImage - 1].Name == "imageWhiteKing")
                         {
                             result = true;
                         }
                     }
                     else if (chessMoves % 2 == 1 && rowImage < 8)
                     {
-                        if (player == Player.White && columnImage < 8 && chessBoard[rowImage + 1, columnImage + 1] != null && chessBoard[rowImage - 1, columnImage + 1].Name == "imageBlackKing")
+                        if (player == PlayerColor.White && columnImage < 8 && chessBoard[rowImage + 1, columnImage + 1] != null && chessBoard[rowImage - 1, columnImage + 1].Name == "imageBlackKing")
                         {
                             result = true;
                         }
-                        else if (player == Player.White && columnImage > 0 && chessBoard[rowImage + 1, columnImage - 1] != null && chessBoard[rowImage - 1, columnImage - 1].Name == "imageBlackKing")
+                        else if (player == PlayerColor.White && columnImage > 0 && chessBoard[rowImage + 1, columnImage - 1] != null && chessBoard[rowImage - 1, columnImage - 1].Name == "imageBlackKing")
                         {
                             result = true;
                         }
@@ -309,7 +309,7 @@ namespace BelarusChess
                     int column = columnImage + moves[i, j].X;
                     if (row < 0 || row > 8 || column < 0 || column > 8)
                         break; // Borders case
-                    if ((Figure)choosedFigure.Tag != Figure.Prince && row == 4 && column == 4)    // Simple figures cannot move over the throne
+                    if ((FigureType)choosedFigure.Tag != FigureType.Prince && row == 4 && column == 4)    // Simple figures cannot move over the throne
                     {
                         if (chessBoard[row, column] != null && chessBoard[row, column].Name == findString)
                         {
@@ -329,7 +329,7 @@ namespace BelarusChess
             }
             return result;
         }
-        private Player PlayerColor(Image image)
+        private PlayerColor PlayerColor(Image image)
         {
             bool isWhite = false;
             for (int i = 0; i < 2; i++)
@@ -343,7 +343,7 @@ namespace BelarusChess
                     }
                 }
             }
-            return (isWhite == true ? Player.White : Player.Black);
+            return (isWhite == true ? PlayerColor.White : PlayerColor.Black);
         }
         private void ClearMoves()
         {

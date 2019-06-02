@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 namespace BelarusChess
 {
     /// <summary>
-    /// Логика взаимодействия для _.xaml
+    /// Логика взаимодействия для EnterWindow.xaml
     /// </summary>
     public partial class EnterWindow : Window
     {

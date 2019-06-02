@@ -59,6 +59,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Figure classes\Bishop.cs" />
+    <Compile Include="Figure classes\King.cs" />
+    <Compile Include="Figure classes\Knight.cs" />
+    <Compile Include="Figure classes\Prince.cs" />
+    <Compile Include="Figure classes\Queen.cs" />
+    <Compile Include="Figure classes\Rook.cs" />
     <Page Include="EnterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -77,6 +83,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Chess.cs" />
+    <Compile Include="Figure classes\Figure.cs" />
     <Compile Include="HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
