@@ -105,7 +105,7 @@ namespace BelarusChess
             int rowClicked = (int)((Point)imageFigure.Tag).Y;
             int columnClicked = (int)((Point)imageFigure.Tag).X;
             Figure figure = chessBoard[rowClicked, columnClicked];
-
+            // If not turn of current figure
             if (currentColor != figure.Color)
                 return;
             if (choosedFigure != null)
@@ -115,12 +115,13 @@ namespace BelarusChess
             movesBoard[rowClicked, columnClicked] = NewImage(choosedFigureUri, rowClicked, columnClicked, 1);
 
             Moves[,] moves = choosedFigure.Moves();
+            // Special case for pawn
             if (choosedFigure.Type == FigureType.Pawn)
             {
                 PawnMoves(moves, rowClicked, columnClicked);
                 return;
             }
-
+            // Finds accessable moves for figure
             for (int i = 0; i < moves.GetLength(0); i++)
             {
                 for (int j = 0; j < moves.GetLength(1); j++)
@@ -244,98 +245,86 @@ namespace BelarusChess
             chessBoard[row, column].Image.Margin = new Thickness(xMargin + column * edge, yMargin + row * edge, 0, 0);
             currentColor = Next(currentColor);
 
-            /*if (IsCheck() == true)
+            // Every-move ckeckings
+
+            // Checks whether two contenders (претенденти) of throne are both alive (king and prince)
+            if(figures[0, 4].Image.Visibility == Visibility.Hidden || figures[0, 5].Image.Visibility == Visibility.Hidden)
+            {
+                isOnlyKingOrPrinceBlack = true;
+            }
+            else if (figures[3, 4].Image.Visibility == Visibility.Hidden || figures[3, 3].Image.Visibility == Visibility.Hidden)
+            {
+                isOnlyKingOrPrinceWhite = true;
+            }
+
+            if (IsCheck() == true)
             {
                 MessageBox.Show("Check!");
-            }*/
+            }
         }
-        /*private bool IsCheck()
+        private bool IsCheck()
         {
-            string findString = currentColor % 2 == 0 ? "imageWhiteKing" : "imageBlackKing";
-            if (currentColor % 2 == 0 && isOnlyKingOrPrinceWhite == false)
+            // Exclusions
+            if (currentColor == PlayerColor.White && isOnlyKingOrPrinceWhite == false)
                 return false;
-            else if (currentColor % 2 == 1 && isOnlyKingOrPrinceBlack == false)
+            else if (currentColor == PlayerColor.Black && isOnlyKingOrPrinceBlack == false)
                 return false;
-            if ((FigureType)choosedFigure.Tag == FigureType.King)
+            if (choosedFigure.Type == FigureType.King)
                 return false;
 
-            bool result = false;
-            int rowImage = (int)((choosedFigure.Margin.Top - yMargin) / edge);
-            int columnImage = (int)((choosedFigure.Margin.Left - xMargin) / edge);
-            PlayerColor player = PlayerColor(chessBoard[rowImage - 1, columnImage + 1]);
-            Moves[,] moves = null;
-            switch (choosedFigure.Tag)
+            /// Finds the figure which is represented by imageFigure
+            int newRow = (int)((Point)choosedFigure.Image.Tag).Y;
+            int newColumn = (int)((Point)choosedFigure.Image.Tag).X;
+            Figure figure = chessBoard[newRow, newColumn];
+            // If not turn of current figure
+            if (currentColor != figure.Color)
+                return false;
+            if (choosedFigure != null)
+                ClearMoves();
+            
+            Moves[,] moves = (currentColor == PlayerColor.White ? figures[3, 4]. : figures[0, 4]);
+            // Special case for pawn
+            if (choosedFigure.Type == FigureType.Pawn)
             {
-                case FigureType.Rook:
-                    moves = MovesOf.Rook();
-                    break;
-                case FigureType.Bishop:
-                    moves = MovesOf.Bishop();
-                    break;
-                case FigureType.Knight:
-                    moves = MovesOf.Knight();
-                    break;
-                case FigureType.Prince:
-                    moves = MovesOf.Prince();
-                    break;
-                case FigureType.Queen:
-                    moves = MovesOf.Queen();
-                    break;
-                case FigureType.Pawn:
-                    if (currentColor % 2 == 0 && rowImage > 0)
-                    {
-                        if (player == PlayerColor.Black && columnImage < 8 && chessBoard[rowImage - 1, columnImage + 1] != null && chessBoard[rowImage - 1, columnImage + 1].Name == "imageWhiteKing")
-                        {
-                            result = true;
-                        }
-                        else if (player == PlayerColor.Black && columnImage > 0 && chessBoard[rowImage - 1, columnImage - 1] != null && chessBoard[rowImage - 1, columnImage - 1].Name == "imageWhiteKing")
-                        {
-                            result = true;
-                        }
-                    }
-                    else if (currentColor % 2 == 1 && rowImage < 8)
-                    {
-                        if (player == PlayerColor.White && columnImage < 8 && chessBoard[rowImage + 1, columnImage + 1] != null && chessBoard[rowImage - 1, columnImage + 1].Name == "imageBlackKing")
-                        {
-                            result = true;
-                        }
-                        else if (player == PlayerColor.White && columnImage > 0 && chessBoard[rowImage + 1, columnImage - 1] != null && chessBoard[rowImage - 1, columnImage - 1].Name == "imageBlackKing")
-                        {
-                            result = true;
-                        }
-                    }
-                    break;
-                default:
-                    break;
+                PawnMoves(moves, newRow, newColumn);
             }
+            // Finds accessable moves for figure
             for (int i = 0; i < moves.GetLength(0); i++)
             {
                 for (int j = 0; j < moves.GetLength(1); j++)
                 {
-                    int row = rowImage + moves[i, j].Y;
-                    int column = columnImage + moves[i, j].X;
+                    int row = newRow + moves[i, j].Y;
+                    int column = newColumn + moves[i, j].X;
                     if (row < 0 || row > 8 || column < 0 || column > 8)
                         break; // Borders case
-                    if ((FigureType)choosedFigure.Tag != FigureType.Prince && row == 4 && column == 4)    // Simple figures cannot move over the throne
+                    if (figure.Type != FigureType.King && figure.Type != FigureType.Prince &&
+                        row == 4 && column == 4)                               // Simple figures cannot move over the throne
                     {
-                        if (chessBoard[row, column] != null && chessBoard[row, column].Name == findString)
+                        if (chessBoard[row, column] == null)
                         {
-                            result = true;
+                            movesBoard[row, column] = NewImage(attackImageUri, row, column, 3);
+                        }
+                        else if (chessBoard[row, column].Color != currentColor)
+                        {
+                            movesBoard[row, column] = NewImage(attackFigureImageUri, row, column, 3);
                         }
                         break;
                     }
-                    if (chessBoard[row, column] != null)
+
+                    if (chessBoard[row, column] == null)
                     {
-                        if (chessBoard[row, column].Name == findString)
-                            result = true;
+                        movesBoard[row, column] = NewImage(attackImageUri, row, column, 3);
+                    }
+                    else if (chessBoard[row, column].Color != currentColor)
+                    {
+                        movesBoard[row, column] = NewImage(attackFigureImageUri, row, column, 3);
                         break;
                     }
                     else
                         break;
                 }
             }
-            return result;
-        }*/
+        }
         private void ClearMoves()
         {
             grid.Children.Remove(tempTile);
