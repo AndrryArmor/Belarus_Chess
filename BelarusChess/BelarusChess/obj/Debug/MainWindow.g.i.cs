@@ -424,7 +424,7 @@ namespace BelarusChess {
             this.imageBlackRook1 = ((System.Windows.Controls.Image)(target));
             
             #line 12 "..\..\MainWindow.xaml"
-            this.imageBlackRook1.MouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(this.ImageBlackRook1_MouseLeftButtonDown);
+            this.imageBlackRook1.MouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(this.Figure_MouseLeftButtonDown);
             
             #line default
             #line hidden

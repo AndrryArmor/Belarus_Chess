@@ -22,47 +22,74 @@ namespace BelarusChess
     /// </summary>
     public partial class MainWindow : Window
     {
-        HelpWindow helpWindow;
-        Image[,] blackFigures;
-        Image[,] whiteFigures;
         Chess chess;
+        Figure[,] figures;
         System.Timers.Timer timer;
         int time;
+        HelpWindow helpWindow;
         public MainWindow()
         {
             InitializeComponent();
-            imageBlackRook1.Tag = Chess.FigureType.Rook;        imageWhiteRook1.Tag = Chess.FigureType.Rook;   
-            imageBlackKnight1.Tag = Chess.FigureType.Knight;    imageWhiteKnight1.Tag = Chess.FigureType.Knight;
-            imageBlackBishopW.Tag = Chess.FigureType.Bishop;    imageWhiteBishopW.Tag = Chess.FigureType.Bishop;
-            imageBlackQueen.Tag = Chess.FigureType.Queen;       imageWhiteQueen.Tag = Chess.FigureType.Queen;
-            imageBlackKing.Tag = Chess.FigureType.King;         imageWhiteKing.Tag = Chess.FigureType.King;
-            imageBlackPrince.Tag = Chess.FigureType.Prince;     imageWhitePrince.Tag = Chess.FigureType.Prince;
-            imageBlackKnight2.Tag = Chess.FigureType.Knight;    imageWhiteKnight2.Tag = Chess.FigureType.Knight;
-            imageBlackBishopB.Tag = Chess.FigureType.Bishop;    imageWhiteBishopB.Tag = Chess.FigureType.Bishop;
-            imageBlackRook2.Tag = Chess.FigureType.Rook;        imageWhiteRook2.Tag = Chess.FigureType.Rook;
-            imageBlackPawnA.Tag = Chess.FigureType.Pawn;        imageWhitePawnA.Tag = Chess.FigureType.Pawn;
-            imageBlackPawnB.Tag = Chess.FigureType.Pawn;        imageWhitePawnB.Tag = Chess.FigureType.Pawn;
-            imageBlackPawnC.Tag = Chess.FigureType.Pawn;        imageWhitePawnC.Tag = Chess.FigureType.Pawn;
-            imageBlackPawnD.Tag = Chess.FigureType.Pawn;        imageWhitePawnD.Tag = Chess.FigureType.Pawn;
-            imageBlackPawnE.Tag = Chess.FigureType.Pawn;        imageWhitePawnE.Tag = Chess.FigureType.Pawn;
-            imageBlackPawnE.Tag = Chess.FigureType.Pawn;        imageWhitePawnE.Tag = Chess.FigureType.Pawn;
-            imageBlackPawnG.Tag = Chess.FigureType.Pawn;        imageWhitePawnG.Tag = Chess.FigureType.Pawn;
-            imageBlackPawnH.Tag = Chess.FigureType.Pawn;        imageWhitePawnH.Tag = Chess.FigureType.Pawn;
-            imageBlackPawnI.Tag = Chess.FigureType.Pawn;        imageWhitePawnI.Tag = Chess.FigureType.Pawn;
+            figures = InitializeFigures();
+            InitializeImages(figures);
+            chess = new Chess(grid, imageChessBoard, figures);
 
-            blackFigures = new Image[,]{ 
-            { imageBlackRook1, imageBlackKnight1, imageBlackBishopW,  imageBlackQueen, imageBlackKing, imageBlackPrince, imageBlackKnight2, imageBlackBishopB, imageBlackRook2 },
-            { imageBlackPawnA, imageBlackPawnB,   imageBlackPawnC,   imageBlackPawnD,  imageBlackPawnE, imageBlackPawnF, imageBlackPawnG,   imageBlackPawnH,   imageBlackPawnI } };
-
-            whiteFigures = new Image[,]{
-            { imageWhitePawnA, imageWhitePawnB,   imageWhitePawnC,   imageWhitePawnD,  imageWhitePawnE, imageWhitePawnF, imageWhitePawnG,   imageWhitePawnH,   imageWhitePawnI },
-            { imageWhiteRook1, imageWhiteBishopB, imageWhiteKnight1, imageWhitePrince, imageWhiteKing,  imageWhiteQueen, imageWhiteBishopW, imageWhiteKnight2, imageWhiteRook2 } };
-
-            chess = new Chess(grid, imageChessBoard, whiteFigures, blackFigures);
             // Set parameters of a timer
             timer = new System.Timers.Timer();
             timer.Interval = 1000;
             timer.Elapsed += Timer_Elapsed;
+        }
+        /// <summary>
+        /// Creates a matrix that contains all the Images of figures
+        /// </summary>
+        private Figure[,] InitializeFigures()
+        {
+            return new Figure[,]
+            {
+                // Black figures
+                { new Rook(imageBlackRook1, Chess.PlayerColor.Black),     new Knight(imageBlackKnight1, Chess.PlayerColor.Black),
+                  new Bishop(imageBlackBishopW, Chess.PlayerColor.Black), new Queen(imageBlackQueen, Chess.PlayerColor.Black),
+                  new King(imageBlackKing, Chess.PlayerColor.Black),      new Prince(imageBlackPrince, Chess.PlayerColor.Black),
+                  new Knight(imageBlackKnight2, Chess.PlayerColor.Black), new Bishop(imageBlackBishopB, Chess.PlayerColor.Black),
+                  new Rook(imageBlackRook2, Chess.PlayerColor.Black) },
+
+                { new Pawn(imageBlackPawnA, Chess.PlayerColor.Black),     new Pawn(imageBlackPawnB, Chess.PlayerColor.Black),
+                  new Pawn(imageBlackPawnC, Chess.PlayerColor.Black),     new Pawn(imageBlackPawnD, Chess.PlayerColor.Black),
+                  new Pawn(imageBlackPawnE, Chess.PlayerColor.Black),     new Pawn(imageBlackPawnF, Chess.PlayerColor.Black),
+                  new Pawn(imageBlackPawnG, Chess.PlayerColor.Black),     new Pawn(imageBlackPawnH, Chess.PlayerColor.Black),
+                  new Pawn(imageBlackPawnI, Chess.PlayerColor.Black), },
+                // White figures
+                { new Pawn(imageWhitePawnA, Chess.PlayerColor.White),     new Pawn(imageWhitePawnB, Chess.PlayerColor.White),
+                  new Pawn(imageWhitePawnC, Chess.PlayerColor.White),     new Pawn(imageWhitePawnD, Chess.PlayerColor.White),
+                  new Pawn(imageWhitePawnE, Chess.PlayerColor.White),     new Pawn(imageWhitePawnF, Chess.PlayerColor.White),
+                  new Pawn(imageWhitePawnG, Chess.PlayerColor.White),     new Pawn(imageWhitePawnH, Chess.PlayerColor.White),
+                  new Pawn(imageWhitePawnI, Chess.PlayerColor.White), },
+
+                { new Rook(imageWhiteRook1, Chess.PlayerColor.White),     new Bishop(imageWhiteBishopB, Chess.PlayerColor.White),
+                  new Knight(imageWhiteKnight1, Chess.PlayerColor.White), new Prince(imageWhitePrince, Chess.PlayerColor.White),
+                  new King(imageWhiteKing, Chess.PlayerColor.White),      new Queen(imageWhiteQueen, Chess.PlayerColor.White),
+                  new Bishop(imageWhiteBishopW, Chess.PlayerColor.White), new Knight(imageWhiteKnight2, Chess.PlayerColor.White),
+                  new Rook(imageWhiteRook2, Chess.PlayerColor.White) }
+            };
+        }
+        /// <summary>
+        /// Binds a coordinates of the figures on the board 
+        /// (begin in the left top corner)
+        /// to the Images of figures
+        /// </summary>
+        private void InitializeImages(Figure[,] figures)
+        {
+            for (int i = 0; i < figures.GetLength(0); i++)
+            {
+                for (int j = 0; j < figures.GetLength(1); j++)
+                {
+                    if (figures[i, j].Color == Chess.PlayerColor.Black)
+                        figures[i, j].Image.Tag = new Point(i, j);
+                    else
+                        figures[i + 5, j].Image.Tag = new Point(i + 5, j);
+
+                }
+            }
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -89,7 +116,8 @@ namespace BelarusChess
         }
         private void ButtonHelp_Click(object sender, RoutedEventArgs e)
         {
-            helpWindow = new HelpWindow();
+            if (helpWindow == null)
+                helpWindow = new HelpWindow();
             helpWindow.Show();
         }
 
@@ -101,183 +129,9 @@ namespace BelarusChess
                 e.Cancel = true;
         }
 
-        private void ImageBlackRook1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Figure_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.Black, Chess.FigureType.Rook);
-        }
-
-        private void ImageBlackKnight1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.Black, Chess.FigureType.Knight);
-        }
-
-        private void ImageBlackBishopW_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.Black, Chess.FigureType.Bishop);
-        }
-
-        private void ImageBlackQueen_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.Black, Chess.FigureType.Queen);
-        }
-
-        private void ImageBlackKing_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.Black, Chess.FigureType.King);
-        }
-
-        private void ImageBlackPrince_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.Black, Chess.FigureType.Prince);
-        }
-
-        private void ImageBlackKnight2_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.Black, Chess.FigureType.Knight);
-        }
-
-        private void ImageBlackBishopB_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.Black, Chess.FigureType.Bishop);
-        }
-
-        private void ImageBlackRook2_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.Black, Chess.FigureType.Rook);
-        }
-
-        private void ImageBlackPawnA_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image) sender, Chess.PlayerColor.Black, Chess.FigureType.Pawn);
-        }
-
-        private void ImageBlackPawnB_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.Black, Chess.FigureType.Pawn);
-        }
-
-        private void ImageBlackPawnC_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.Black, Chess.FigureType.Pawn);
-        }
-
-        private void ImageBlackPawnD_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.Black, Chess.FigureType.Pawn);
-        }
-
-        private void ImageBlackPawnE_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.Black, Chess.FigureType.Pawn);
-        }
-
-        private void ImageBlackPawnF_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.Black, Chess.FigureType.Pawn);
-        }
-
-        private void ImageBlackPawnG_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.Black, Chess.FigureType.Pawn);
-        }
-
-        private void ImageBlackPawnH_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.Black, Chess.FigureType.Pawn);
-        }
-
-        private void ImageBlackPawnI_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.Black, Chess.FigureType.Pawn);
-        }
-
-        private void ImageWhitePawnA_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.White, Chess.FigureType.Pawn);
-        }
-
-        private void ImageWhitePawnB_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.White, Chess.FigureType.Pawn);
-        }
-
-        private void ImageWhitePawnC_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.White, Chess.FigureType.Pawn);
-        }
-
-        private void ImageWhitePawnD_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.White, Chess.FigureType.Pawn);
-        }
-
-        private void ImageWhitePawnE_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.White, Chess.FigureType.Pawn);
-        }
-
-        private void ImageWhitePawnF_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.White, Chess.FigureType.Pawn);
-        }
-
-        private void ImageWhitePawnG_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.White, Chess.FigureType.Pawn);
-        }
-
-        private void ImageWhitePawnH_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.White, Chess.FigureType.Pawn);
-        }
-
-        private void ImageWhitePawnI_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.White, Chess.FigureType.Pawn);
-        }
-        private void ImageWhiteRook1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.White, Chess.FigureType.Rook);
-        }
-
-        private void ImageWhiteBishopB_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.White, Chess.FigureType.Bishop);
-        }
-
-        private void ImageWhiteKnight1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.White, Chess.FigureType.Knight);
-        }
-
-        private void ImageWhitePrince_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.White, Chess.FigureType.Prince);
-        }
-
-        private void ImageWhiteKing_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.White, Chess.FigureType.King);
-        }
-
-        private void ImageWhiteQueen_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.White, Chess.FigureType.Queen);
-        }
-
-        private void ImageWhiteBishopW_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.White, Chess.FigureType.Bishop);
-        }
-
-        private void ImageWhiteKnight2_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.White, Chess.FigureType.Knight);
-        }
-
-        private void ImageWhiteRook2_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            chess.FindMoves((Image)sender, Chess.PlayerColor.White, Chess.FigureType.Rook);
+            chess.FindMoves((Image)sender);
         }
 
 

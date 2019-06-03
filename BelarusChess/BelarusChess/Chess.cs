@@ -15,16 +15,18 @@ namespace BelarusChess
 {
     public class Chess
     {
-        private Image[,] chessBoard;         /// A massive of Images that shows the location of the figures on the board
+        private Figure[,] figures;        /// A massive of chess figures on the board
+        private Grid grid;                   /// Binding of the MainWindow's grid to create new controls
+        private Image boardPlane;            /// Binding of the MainWindow's chess board to control mouse clicks on it
+        private Figure[,] chessBoard;         /// A massive of Images that shows the location of the figures on the board
         private Image[,] movesBoard;         /// A massive of Images that shows the location of the attacked fields
-        private Image choosedFigure;         /// An Image of a figure which is choosed to make a move
+        private PlayerColor currentColor = PlayerColor.White;
+
+        private Figure choosedFigure;         /// An Image of a figure which is choosed to make a move
         private Image tempTile;
-        private int chessMoves = 0;
         private bool isOnlyKingOrPrinceWhite = false;
         private bool isOnlyKingOrPrinceBlack = false;
         // Inherited and constant objects
-        private Grid grid;                   /// Binding of the MainWindow's grid to create new controls
-        private Image boardPlane;            /// Binding of the MainWindow's chess board to control mouse clicks on it
         private Image[,] white;              /// Binding of the MainWindow's white chess figures to control them
         private Image[,] black;              /// Binding of the MainWindow's black chess figures to control them
         private readonly double xMargin;
@@ -44,13 +46,20 @@ namespace BelarusChess
         {
             Rook, Bishop, Knight, Prince, King, Queen, Pawn
         }
-        public Chess(Grid grid, Image boardPlane, Image[,] white, Image[,] black)
+        private PlayerColor Next(PlayerColor color)
+        {
+            if (color == PlayerColor.Black)
+                return PlayerColor.White;
+            else
+                return PlayerColor.Black;
+        }
+        public Chess(Grid grid, Image boardPlane, Figure[,] figures)
         {
             this.grid = grid;
             this.boardPlane = boardPlane;
-            this.white = white;
-            this.black = black;
-            chessBoard = new Image[9, 9];
+            this.figures = figures;
+
+            chessBoard = new Figure[9, 9];
             movesBoard = new Image[9, 9];
             boardPlane.MouseLeftButtonDown += new MouseButtonEventHandler(BoardPlane_MouseLeftButtonDown);
             // Start margin equal to the margin of a board Image
@@ -60,16 +69,16 @@ namespace BelarusChess
 
         public void NewGame()
         {
-            chessMoves = 0;
+            currentColor = 0;
             ClearMoves();
             // Start positions of black figures
             for (int i = 0; i < 2; i++)
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    chessBoard[i, j] = black[i, j];
-                    chessBoard[i, j].Visibility = Visibility.Visible;
-                    black[i, j].Margin = new Thickness(xMargin + j * edge, yMargin + i * edge, 0, 0);
+                    chessBoard[i, j] = figures[i, j];
+                    chessBoard[i, j].Image.Visibility = Visibility.Visible;
+                    figures[i, j].Image.Margin = new Thickness(xMargin + j * edge, yMargin + i * edge, 0, 0);
                 }
             }
             // Clearing middle part of the chess board
@@ -85,25 +94,28 @@ namespace BelarusChess
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    chessBoard[i, j] = white[i - 7, j];
-                    chessBoard[i, j].Visibility = Visibility.Visible;
-                    white[i - 7, j].Margin = new Thickness(xMargin + j * edge, yMargin + i * edge, 0, 0);
+                    chessBoard[i, j] = figures[i - 7, j];
+                    chessBoard[i, j].Image.Visibility = Visibility.Visible;
+                    figures[i - 7, j].Image.Margin = new Thickness(xMargin + j * edge, yMargin + i * edge, 0, 0);
                 }
             }
         }
-        public void FindMoves(Image image, PlayerColor player, FigureType figure)
+        public void FindMoves(Image imageFigure)
         {
-            if (chessMoves % 2 == 0 && player == PlayerColor.Black) return;
-            if (chessMoves % 2 == 1 && player == PlayerColor.White) return;
+            /// Finds the figure which is represented by imageFigure
+            int row = (int)((Point)imageFigure.Tag).X;
+            int column = (int)((Point)imageFigure.Tag).Y;
+            Figure figure = chessBoard[row, column];
 
+            if (currentColor != figure.Color) return;
             if (choosedFigure != null)
             {
                 ClearMoves();
             }
-            choosedFigure = image;
-            choosedFigure.Tag = figure;
-            int rowImage = (int)((image.Margin.Top - yMargin) / edge);
-            int columnImage = (int)((image.Margin.Left - xMargin) / edge);
+
+            choosedFigure = figure;
+            int rowImage = (int)((imageFigure.Margin.Top - yMargin) / edge);
+            int columnImage = (int)((imageFigure.Margin.Left - xMargin) / edge);
             movesBoard[rowImage, columnImage] = NewImage(choosedFigureUri, rowImage, columnImage, 1);
 
             Moves[,] moves = null;
@@ -128,44 +140,7 @@ namespace BelarusChess
                     moves = MovesOf.Queen();
                     break;
                 case FigureType.Pawn:
-                    if (player == PlayerColor.White && rowImage > 0)
-                    {
-                        if (chessBoard[rowImage - 1, columnImage] == null)
-                        {
-                            movesBoard[rowImage - 1, columnImage] = NewImage(attackImageUri, rowImage - 1, columnImage, 3);
-                            if (rowImage == 7 && chessBoard[rowImage - 2, columnImage] == null)     // En passant
-                            {
-                                movesBoard[rowImage - 2, columnImage] = NewImage(attackImageUri, rowImage - 2, columnImage, 3);
-                            }
-                        }
-                        if (columnImage < 8 && chessBoard[rowImage - 1, columnImage + 1] != null && PlayerColor(chessBoard[rowImage - 1, columnImage + 1]) != player)
-                        {
-                            movesBoard[rowImage - 1, columnImage + 1] = NewImage(attackFigureImageUri, rowImage - 1, columnImage + 1, 3);
-                        }
-                        if (columnImage > 0 && chessBoard[rowImage - 1, columnImage - 1] != null && PlayerColor(chessBoard[rowImage - 1, columnImage - 1]) != player)
-                        {
-                            movesBoard[rowImage - 1, columnImage - 1] = NewImage(attackFigureImageUri, rowImage - 1, columnImage - 1, 3);
-                        }
-                    }
-                    else if (player == PlayerColor.Black && rowImage < 8)
-                    {
-                        if (chessBoard[rowImage + 1, columnImage] == null)
-                        {
-                            movesBoard[rowImage + 1, columnImage] = NewImage(attackImageUri, rowImage + 1, columnImage, 3);
-                            if (rowImage == 1 && chessBoard[rowImage + 2, columnImage] == null)     // En passant
-                            {
-                                movesBoard[rowImage + 2, columnImage] = NewImage(attackImageUri, rowImage + 2, columnImage, 3);
-                            }
-                        }
-                        if (columnImage < 8 && chessBoard[rowImage + 1, columnImage + 1] != null && PlayerColor(chessBoard[rowImage + 1, columnImage + 1]) != player)
-                        {
-                            movesBoard[rowImage + 1, columnImage + 1] = NewImage(attackFigureImageUri, rowImage + 1, columnImage + 1, 3);
-                        }
-                        if (columnImage > 0 && chessBoard[rowImage + 1, columnImage - 1] != null && PlayerColor(chessBoard[rowImage + 1, columnImage - 1]) != player)
-                        {
-                            movesBoard[rowImage + 1, columnImage - 1] = NewImage(attackFigureImageUri, rowImage + 1, columnImage - 1, 3);
-                        }
-                    }
+                    
                     return;
                 default:
                     break;
@@ -235,7 +210,7 @@ namespace BelarusChess
             }
             chessBoard[row, column] = choosedFigure;
             chessBoard[row, column].Margin = new Thickness(xMargin + column * edge, yMargin + row * edge, 0, 0);
-            chessMoves++;
+            currentColor++;
 
             if (IsCheck() == true)
             {
@@ -244,10 +219,10 @@ namespace BelarusChess
         }
         private bool IsCheck()
         {
-            string findString = chessMoves % 2 == 0 ? "imageWhiteKing" : "imageBlackKing";
-            if (chessMoves % 2 == 0 && isOnlyKingOrPrinceWhite == false)
+            string findString = currentColor % 2 == 0 ? "imageWhiteKing" : "imageBlackKing";
+            if (currentColor % 2 == 0 && isOnlyKingOrPrinceWhite == false)
                 return false;
-            else if (chessMoves % 2 == 1 && isOnlyKingOrPrinceBlack == false)
+            else if (currentColor % 2 == 1 && isOnlyKingOrPrinceBlack == false)
                 return false;
             if ((FigureType)choosedFigure.Tag == FigureType.King)
                 return false;
@@ -275,7 +250,7 @@ namespace BelarusChess
                     moves = MovesOf.Queen();
                     break;
                 case FigureType.Pawn:
-                    if (chessMoves % 2 == 0 && rowImage > 0)
+                    if (currentColor % 2 == 0 && rowImage > 0)
                     {
                         if (player == PlayerColor.Black && columnImage < 8 && chessBoard[rowImage - 1, columnImage + 1] != null && chessBoard[rowImage - 1, columnImage + 1].Name == "imageWhiteKing")
                         {
@@ -286,7 +261,7 @@ namespace BelarusChess
                             result = true;
                         }
                     }
-                    else if (chessMoves % 2 == 1 && rowImage < 8)
+                    else if (currentColor % 2 == 1 && rowImage < 8)
                     {
                         if (player == PlayerColor.White && columnImage < 8 && chessBoard[rowImage + 1, columnImage + 1] != null && chessBoard[rowImage - 1, columnImage + 1].Name == "imageBlackKing")
                         {
@@ -329,7 +304,7 @@ namespace BelarusChess
             }
             return result;
         }
-        private PlayerColor PlayerColor(Image image)
+        private PlayerColor PlayerC(Image image)
         {
             bool isWhite = false;
             for (int i = 0; i < 2; i++)
