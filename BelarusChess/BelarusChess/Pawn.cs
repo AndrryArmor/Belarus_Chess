@@ -15,46 +15,32 @@ namespace BelarusChess
             Color = color;
             Type = Chess.FigureType.Pawn;
         }
-        public override Moves[,] Moves(Chess chess)
+        public override Moves[,] Moves()
         {
-            if (chess. == PlayerColor.White && rowImage > 0)
+            Moves[,] moves = new Moves[3, 2];
+            if (Color == Chess.PlayerColor.White)
             {
-                if (chessBoard[rowImage - 1, columnImage] == null)
-                {
-                    movesBoard[rowImage - 1, columnImage] = NewImage(attackImageUri, rowImage - 1, columnImage, 3);
-                    if (rowImage == 7 && chessBoard[rowImage - 2, columnImage] == null)     // En passant
-                    {
-                        movesBoard[rowImage - 2, columnImage] = NewImage(attackImageUri, rowImage - 2, columnImage, 3);
-                    }
-                }
-                if (columnImage < 8 && chessBoard[rowImage - 1, columnImage + 1] != null && PlayerColor(chessBoard[rowImage - 1, columnImage + 1]) != player)
-                {
-                    movesBoard[rowImage - 1, columnImage + 1] = NewImage(attackFigureImageUri, rowImage - 1, columnImage + 1, 3);
-                }
-                if (columnImage > 0 && chessBoard[rowImage - 1, columnImage - 1] != null && PlayerColor(chessBoard[rowImage - 1, columnImage - 1]) != player)
-                {
-                    movesBoard[rowImage - 1, columnImage - 1] = NewImage(attackFigureImageUri, rowImage - 1, columnImage - 1, 3);
-                }
+                // Up
+                moves[0, 0] = new Moves(-1, 0);
+                // Double up
+                moves[0, 1] = new Moves(-2, 0);
+                // Up-left
+                moves[1, 0] = new Moves(-1, -1);
+                // Up-right
+                moves[2, 0] = new Moves(-1, 1);
             }
-            else if (player == PlayerColor.Black && rowImage < 8)
+            else
             {
-                if (chessBoard[rowImage + 1, columnImage] == null)
-                {
-                    movesBoard[rowImage + 1, columnImage] = NewImage(attackImageUri, rowImage + 1, columnImage, 3);
-                    if (rowImage == 1 && chessBoard[rowImage + 2, columnImage] == null)     // En passant
-                    {
-                        movesBoard[rowImage + 2, columnImage] = NewImage(attackImageUri, rowImage + 2, columnImage, 3);
-                    }
-                }
-                if (columnImage < 8 && chessBoard[rowImage + 1, columnImage + 1] != null && PlayerColor(chessBoard[rowImage + 1, columnImage + 1]) != player)
-                {
-                    movesBoard[rowImage + 1, columnImage + 1] = NewImage(attackFigureImageUri, rowImage + 1, columnImage + 1, 3);
-                }
-                if (columnImage > 0 && chessBoard[rowImage + 1, columnImage - 1] != null && PlayerColor(chessBoard[rowImage + 1, columnImage - 1]) != player)
-                {
-                    movesBoard[rowImage + 1, columnImage - 1] = NewImage(attackFigureImageUri, rowImage + 1, columnImage - 1, 3);
-                }
+                // Up
+                moves[0, 0] = new Moves(1, 0);
+                // Double up
+                moves[0, 1] = new Moves(2, 0);
+                // Up-left
+                moves[1, 0] = new Moves(1, -1);
+                // Up-right
+                moves[2, 0] = new Moves(1, 1);
             }
+            return moves;
         }
     }
 }

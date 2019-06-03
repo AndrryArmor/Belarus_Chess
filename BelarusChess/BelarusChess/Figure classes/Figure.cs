@@ -7,7 +7,7 @@ using System.Windows.Controls;
 
 namespace BelarusChess
 {
-    abstract public class Figure
+    public abstract class Figure
     {
         public Image Image { get; set; }
         public Chess.PlayerColor Color { get; set; }

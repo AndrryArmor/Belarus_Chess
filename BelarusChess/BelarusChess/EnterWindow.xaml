@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BelarusChess"
         mc:Ignorable="d"
-        Title="Білоруські шахи" Height="415" Width="505" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Білоруські шахи" Height="415" Width="505" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="Resources/BelarusChess.png">
     <Window.Background>
         <ImageBrush ImageSource="Resources/Chess image.png" Stretch="UniformToFill"/>
     </Window.Background>

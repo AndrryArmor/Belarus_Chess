@@ -32,3 +32,22 @@ F:\Андрій\КПІ\1 курс\Курсова робота\BelarusChess\Belar
 F:\Андрій\КПІ\1 курс\Курсова робота\BelarusChess\BelarusChess\obj\Debug\BelarusChess.pdb
 F:\Андрій\КПІ\1 курс\Курсова робота\BelarusChess\BelarusChess\obj\Debug\HelpWindow.g.cs
 F:\Андрій\КПІ\1 курс\Курсова робота\BelarusChess\BelarusChess\obj\Debug\HelpWindow.baml
+F:\Андрій\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\obj\Debug\BelarusChess.csprojAssemblyReference.cache
+F:\Андрій\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\obj\Debug\EnterWindow.g.cs
+F:\Андрій\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\obj\Debug\HelpWindow.g.cs
+F:\Андрій\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\obj\Debug\MainWindow.g.cs
+F:\Андрій\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\obj\Debug\App.g.cs
+F:\Андрій\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\obj\Debug\BelarusChess_MarkupCompile.cache
+F:\Андрій\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\obj\Debug\BelarusChess_MarkupCompile.lref
+F:\Андрій\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\obj\Debug\BelarusChess.exe
+F:\Андрій\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\obj\Debug\BelarusChess.pdb
+F:\Андрій\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\bin\Debug\BelarusChess.exe.config
+F:\Андрій\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\bin\Debug\BelarusChess.exe
+F:\Андрій\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\bin\Debug\BelarusChess.pdb
+F:\Андрій\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\obj\Debug\EnterWindow.baml
+F:\Андрій\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\obj\Debug\HelpWindow.baml
+F:\Андрій\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\obj\Debug\MainWindow.baml
+F:\Андрій\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\obj\Debug\BelarusChess.g.resources
+F:\Андрій\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\obj\Debug\BelarusChess.Properties.Resources.resources
+F:\Андрій\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\obj\Debug\BelarusChess.csproj.GenerateResource.cache
+F:\Андрій\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\obj\Debug\BelarusChess.csproj.CoreCompileInputs.cache

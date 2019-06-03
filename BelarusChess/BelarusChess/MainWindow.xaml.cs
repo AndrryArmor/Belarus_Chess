@@ -84,9 +84,9 @@ namespace BelarusChess
                 for (int j = 0; j < figures.GetLength(1); j++)
                 {
                     if (figures[i, j].Color == Chess.PlayerColor.Black)
-                        figures[i, j].Image.Tag = new Point(i, j);
+                        figures[i, j].Image.Tag = new Point(j, i);
                     else
-                        figures[i + 5, j].Image.Tag = new Point(i + 5, j);
+                        figures[i, j].Image.Tag = new Point(j, i + 5);
 
                 }
             }
@@ -109,10 +109,20 @@ namespace BelarusChess
             labelTime.Content = "00:00";
             time = 0;
             timer.Start();
+            buttonNewGame.IsEnabled = false;
+            buttonFinishGame.IsEnabled = true;
+            labelBlackPlayer.Content = labelWhitePlayer.Content = "";
         }
         private void ButtonFinishGame_Click(object sender, RoutedEventArgs e)
         {
             var result = MessageBox.Show("Справді завершити гру?", "Завершення гри", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                chess.isStarted = false;
+                buttonFinishGame.IsEnabled = false;
+                buttonNewGame.IsEnabled = true;
+                labelBlackPlayer.Content = labelWhitePlayer.Content = "Гру завершено достроково";
+            }
         }
         private void ButtonHelp_Click(object sender, RoutedEventArgs e)
         {
@@ -120,21 +130,17 @@ namespace BelarusChess
                 helpWindow = new HelpWindow();
             helpWindow.Show();
         }
-
-
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             var result = MessageBox.Show("Справді вийти з програми?", "Закриття програми", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.No)
                 e.Cancel = true;
         }
-
         private void Figure_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            chess.FindMoves((Image)sender);
+            if (chess.isStarted == true)
+                chess.FindMoves((Image)sender);
         }
-
-
         /*
         Point picturePos; = pictureBox1.Location;
         Point mousePos;

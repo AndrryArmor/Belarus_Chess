@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BelarusChess"
         mc:Ignorable="d"
-        Title="Довідка" Height="500" Width="500" WindowStartupLocation="Manual" Padding="6,0,0,0" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+        Title="Довідка" Height="500" Width="500" WindowStartupLocation="Manual" Padding="6,0,0,0" SizeToContent="WidthAndHeight" ResizeMode="NoResize" Icon="Resources/BelarusChess.png">
     <Grid>
         <RichTextBox HorizontalAlignment="Left" Height="469" VerticalAlignment="Top" Width="492" VerticalScrollBarVisibility="Visible" Margin="0" Background="{x:Null}">
             <FlowDocument>
