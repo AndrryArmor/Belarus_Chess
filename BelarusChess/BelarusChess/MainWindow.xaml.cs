@@ -31,7 +31,6 @@ namespace BelarusChess
         {
             InitializeComponent();
             figures = InitializeFigures();
-            InitializeImages(figures);
             chess = new Chess(grid, imageChessBoard, figures);
 
             // Set parameters of a timer
@@ -77,21 +76,6 @@ namespace BelarusChess
         /// (begin in the left top corner)
         /// to the Images of figures
         /// </summary>
-        private void InitializeImages(Figure[,] figures)
-        {
-            for (int i = 0; i < figures.GetLength(0); i++)
-            {
-                for (int j = 0; j < figures.GetLength(1); j++)
-                {
-                    if (figures[i, j].Color == Chess.PlayerColor.Black)
-                        figures[i, j].Image.Tag = new Point(j, i);
-                    else
-                        figures[i, j].Image.Tag = new Point(j, i + 5);
-
-                }
-            }
-        }
-
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             time++;
@@ -104,7 +88,6 @@ namespace BelarusChess
         }
         private void ButtonNewGame_Click(object sender, RoutedEventArgs e)
         {
-            timer.Stop();
             chess.NewGame();
             labelTime.Content = "00:00";
             time = 0;
@@ -122,6 +105,7 @@ namespace BelarusChess
                 buttonFinishGame.IsEnabled = false;
                 buttonNewGame.IsEnabled = true;
                 labelBlackPlayer.Content = labelWhitePlayer.Content = "Гру завершено достроково";
+                timer.Stop();
             }
         }
         private void ButtonHelp_Click(object sender, RoutedEventArgs e)
@@ -141,27 +125,5 @@ namespace BelarusChess
             if (chess.isStarted == true)
                 chess.FindMoves((Image)sender);
         }
-        /*
-        Point picturePos; = pictureBox1.Location;
-        Point mousePos;
-        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
-        {
-        mousePos = e.Location;
-        }
-
-        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
-        {
-        if (e.Button == MouseButtons.Left)
-        {
-        int dx = e.X - mousePos.X;
-        int dy = e.Y - mousePos.Y;
-        pictureBox1.Location = new Point(pictureBox1.Left + dx, pictureBox1.Top + dy);
-        }
-        }
-
-        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
-        {
-        pictureBox1.Location = picturePos;
-        }*/
     }
 }

@@ -37,7 +37,7 @@ namespace BelarusChess
 
             return moves;
         }
-        public Moves[,] attackDirections()
+        public Moves[,] AttackDirections()
         {
             Moves[,] moves = new Moves[16, 8];
             for (int i = 0; i < 8; i++)
