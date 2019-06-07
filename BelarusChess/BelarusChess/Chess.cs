@@ -18,6 +18,8 @@ namespace BelarusChess
         private Figure[,] figures;        /// A massive of chess figures on the board
         private Grid grid;                   /// Binding of the MainWindow's grid to create new controls
         private Image boardPlane;            /// Binding of the MainWindow's chess board to control mouse clicks on it
+        private Label labelBlack;           /// Binding of the label of black player
+        private Label labelWhite;           /// Binding of the label of white player
         private Figure[,] chessBoard;         /// A massive of Images that shows the location of the figures on the board
         private Image[,] movesBoard;         /// A massive of Images that shows the location of the attacked fields
         private PlayerColor currentColor;
@@ -36,6 +38,7 @@ namespace BelarusChess
         private readonly string choosedFigureUri = projectDirectory + "\\Resources\\Attack tile.png";
         private readonly string attackImageUri = projectDirectory + "\\Resources\\Attack.png";
         private readonly string attackFigureImageUri = projectDirectory + "\\Resources\\Attack figure.png";
+        private readonly string checkImageUri = projectDirectory + "\\Resources\\Check tile.png";
         // Enumerators
         public enum PlayerColor
         {
@@ -57,11 +60,13 @@ namespace BelarusChess
             Regular, Check, Checkmate, Inauguration, Throne, Rokash, ThroneMine
         }
 
-        public Chess(Grid grid, Image boardPlane, Figure[,] figures)
+        public Chess(Grid grid, Image boardPlane, Figure[,] figures, Label labelBlack, Label labelWhite)
         {
             this.grid = grid;
             this.boardPlane = boardPlane;
             this.figures = figures;
+            this.labelBlack = labelBlack;
+            this.labelWhite = labelWhite;
 
             chessBoard = new Figure[9, 9];
             movesBoard = new Image[9, 9];
@@ -233,6 +238,11 @@ namespace BelarusChess
             // Deletes the old location of the figure
             int oldRow = (int)((Point)choosedFigure.Image.Tag).Y;
             int oldColumn = (int)((Point)choosedFigure.Image.Tag).X;
+            if (movesBoard[oldRow, oldColumn] != null)
+            {
+                grid.Children.Remove(movesBoard[oldRow, oldColumn]);
+                movesBoard[oldRow, oldColumn] = null;
+            }
             chessBoard[oldRow, oldColumn] = null;
             Figure oldFigure = chessBoard[row, column];
             // Moves the choosed figure
@@ -248,9 +258,39 @@ namespace BelarusChess
         }
         private void CheckForSpecialCases(Figure figure)
         {
-            IsInauguration(figure);
+            string message = "";
+            if (IsInauguration(figure) == true)
+            {
+                message += "Інавгурація";
+            }
             if (IsCheck(figure) == true)
-                MessageBox.Show("Check!");
+            {
+                if (message != "")
+                    message += "; ";
+                message += "Шах!";
+
+                Figure king;
+                if (currentColor == PlayerColor.Black)
+                    king = figures[0, 4];
+                else
+                    king = figures[3, 4];
+
+                int row = (int)((Point)king.Image.Tag).Y;
+                int column = (int)((Point)king.Image.Tag).X;
+                movesBoard[row, column] = NewImage(checkImageUri, row, column, 1);
+            }
+            if (IsThrone() == true)
+            {
+                if (movesSinceThroneOrRokash == 1)
+                    message = "Трон мій!";
+                else
+                    message = "Трон!";
+            }
+
+            if (currentColor == PlayerColor.Black)
+                labelWhite.Content = message;
+            else
+                labelBlack.Content = message;
         }
 
         private bool IsInauguration(Figure figure)
@@ -273,7 +313,6 @@ namespace BelarusChess
                     chessBoard[rowPrince, columnPrince].Image.Visibility = Visibility.Hidden;
                     chessBoard[rowPrince, columnPrince] = figure;
                     chessBoard[rowPrince, columnPrince].Image.Visibility = Visibility.Visible;
-                    currentColor = Next(currentColor);
                     return true;
                 }
             }
@@ -294,7 +333,6 @@ namespace BelarusChess
                     chessBoard[rowPrince, columnPrince].Image.Visibility = Visibility.Hidden;
                     chessBoard[rowPrince, columnPrince] = figure;
                     chessBoard[rowPrince, columnPrince].Image.Visibility = Visibility.Visible;
-                    currentColor = Next(currentColor);
                     return true;
 
                 }
@@ -330,6 +368,7 @@ namespace BelarusChess
                     {
                         if (chessBoard[row, column] != null && chessBoard[row, column].Color != currentColor)
                         {
+                            /*if (chessBoard[row, column].Type == )*/
                             return true;
                         }
                         break;
@@ -345,6 +384,16 @@ namespace BelarusChess
                 }
             }
             return false;                
+        }
+        private bool IsThrone()
+        {
+            if (choosedFigure.Type == FigureType.King && ((Point)choosedFigure.Image.Tag).X == 4
+                                                      && ((Point)choosedFigure.Image.Tag).X == 4)
+            {
+                return true;
+            }
+            else
+                return false;
         }
 
             /*/ Finds the figure which is represented by imageFigure
@@ -364,8 +413,11 @@ namespace BelarusChess
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    grid.Children.Remove(movesBoard[i, j]);
-                    movesBoard[i, j] = null;
+                    if (movesBoard[i, j] != null && movesBoard[i, j].Tag.ToString() != checkImageUri)
+                    {
+                        grid.Children.Remove(movesBoard[i, j]);
+                        movesBoard[i, j] = null;
+                    }
                 }
             }
         }
@@ -380,11 +432,15 @@ namespace BelarusChess
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Width = edge,
                 Height = edge,
+                Tag = uri
             };
             Panel.SetZIndex(image, zIndex);
-            image.MouseLeftButtonDown += new MouseButtonEventHandler(Image_MouseLeftButtonDown);
-            image.MouseEnter += new MouseEventHandler(Image_MouseEnter);
-            image.MouseLeave += new MouseEventHandler(Image_MouseLeave);
+            if (uri != checkImageUri)
+            {
+                image.MouseLeftButtonDown += new MouseButtonEventHandler(Image_MouseLeftButtonDown);
+                image.MouseEnter += new MouseEventHandler(Image_MouseEnter);
+                image.MouseLeave += new MouseEventHandler(Image_MouseLeave);
+            }
             grid.Children.Add(image);
             return image;
         }

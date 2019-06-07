@@ -31,7 +31,7 @@ namespace BelarusChess
         {
             InitializeComponent();
             figures = InitializeFigures();
-            chess = new Chess(grid, imageChessBoard, figures);
+            chess = new Chess(grid, imageChessBoard, figures, labelBlackPlayer, labelWhitePlayer);
 
             // Set parameters of a timer
             timer = new System.Timers.Timer();
