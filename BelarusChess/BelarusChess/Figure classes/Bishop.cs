@@ -15,6 +15,7 @@ namespace BelarusChess
             Color = color;
             Type = Chess.FigureType.Bishop;
         }
+        public Bishop() { }
         public override Moves[,] Moves()
         {
             Moves[,] moves = new Moves[4, 8];

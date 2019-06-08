@@ -15,6 +15,7 @@ namespace BelarusChess
             Color = color;
             Type = Chess.FigureType.Queen;
         }
+        public Queen() { }
         public override Moves[,] Moves()
         {
             Moves[,] moves = new Moves[8, 8];
