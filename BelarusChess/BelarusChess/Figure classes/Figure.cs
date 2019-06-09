@@ -10,8 +10,8 @@ namespace BelarusChess
     public abstract class Figure
     {
         public Image Image { get; set; }
-        public Chess.PlayerColor Color { get; set; }
-        public Chess.FigureType Type { get; set; }
+        public MainWindow.PlayerColor Color { get; set; }
+        public MainWindow.FigureType Type { get; set; }
         public abstract Moves[,] Moves();
     }
 }

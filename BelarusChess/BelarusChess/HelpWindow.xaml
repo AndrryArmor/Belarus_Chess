@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Довідка" Height="500" Width="500" WindowStartupLocation="Manual" Padding="6,0,0,0" SizeToContent="WidthAndHeight" ResizeMode="NoResize" Icon="Resources/BelarusChess.png">
     <Grid>
-        <RichTextBox HorizontalAlignment="Left" Height="469" VerticalAlignment="Top" Width="492" VerticalScrollBarVisibility="Visible" Margin="0" Background="{x:Null}" ScrollViewer.CanContentScroll="True">
+        <RichTextBox HorizontalAlignment="Left" Height="469" VerticalAlignment="Top" Width="492" VerticalScrollBarVisibility="Visible" Margin="0" Background="{x:Null}" ScrollViewer.CanContentScroll="True" AllowDrop="False">
             <FlowDocument>
                 <Paragraph>
                     <Run FontWeight="Bold" FontSize="16" Text="Трохи історії" TextDecorations="{x:Null}"/>

@@ -9,16 +9,16 @@ namespace BelarusChess
 {
     public class Pawn : Figure
     {
-        public Pawn(Image image, Chess.PlayerColor color)
+        public Pawn(Image image, MainWindow.PlayerColor color)
         {
             Image = image;
             Color = color;
-            Type = Chess.FigureType.Pawn;
+            Type = MainWindow.FigureType.Pawn;
         }
         public override Moves[,] Moves()
         {
             Moves[,] moves = new Moves[3, 2];
-            if (Color == Chess.PlayerColor.White)
+            if (Color == MainWindow.PlayerColor.White)
             {
                 // Up
                 moves[0, 0] = new Moves(-1, 0);

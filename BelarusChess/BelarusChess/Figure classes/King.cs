@@ -9,11 +9,11 @@ namespace BelarusChess
 {
     public class King : Figure
     {
-        public King(Image image, Chess.PlayerColor color)
+        public King(Image image, MainWindow.PlayerColor color)
         {
             Image = image;
             Color = color;
-            Type = Chess.FigureType.King;
+            Type = MainWindow.FigureType.King;
         }
         public King() { }
         public override Moves[,] Moves()

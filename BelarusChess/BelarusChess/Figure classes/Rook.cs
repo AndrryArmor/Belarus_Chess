@@ -9,11 +9,11 @@ namespace BelarusChess
 {
     public class Rook : Figure
     {
-        public Rook(Image image, Chess.PlayerColor color)
+        public Rook(Image image, MainWindow.PlayerColor color)
         {
             Image = image;
             Color = color;
-            Type = Chess.FigureType.Rook;
+            Type = MainWindow.FigureType.Rook;
         }
         public Rook() { }
         public override Moves[,] Moves()

@@ -9,11 +9,11 @@ namespace BelarusChess
 {
     public class Bishop : Figure
     {
-        public Bishop(Image image, Chess.PlayerColor color)
+        public Bishop(Image image, MainWindow.PlayerColor color)
         {
             Image = image;
             Color = color;
-            Type = Chess.FigureType.Bishop;
+            Type = MainWindow.FigureType.Bishop;
         }
         public Bishop() { }
         public override Moves[,] Moves()

@@ -94,7 +94,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Pawn.cs" />
+    <Compile Include="Figure classes\Pawn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
