@@ -240,7 +240,11 @@ namespace BelarusChess
             Figure oldFigure = chessBoard[row, column];
             // Moves the choosed figure
             if (chessBoard[row, column] != null)
+            {
+                if (chessBoard[row, column].Type == FigureType.King)
+                    movesSinceThroneOrRokash = 0;
                 chessBoard[row, column].Image.Visibility = Visibility.Hidden;
+            }
             chessBoard[row, column] = choosedFigure;
             chessBoard[row, column].Image.Tag = new Point(column, row);
             chessBoard[row, column].Image.Margin = new Thickness(xMargin + column * edge, yMargin + row * edge, 0, 0);
@@ -249,25 +253,14 @@ namespace BelarusChess
         }
         private void CheckForSpecialCases(Figure figure)
         {
-            string message = "";
+            string messageBlack = "";
+            string messageWhite = "";
             int accessibleMoves = 0;
             if (IsInauguration(figure) == MoveType.Inauguration)
-                message += "Інавгурація ";
-            if (IsThroneOrThroneMine() == MoveType.Throne)
-            {
-                message = "Трон! ";
-            }
-            if (IsThroneOrThroneMine() == MoveType.ThroneMine)
-            {
-                isStarted = false;
-                buttonFinishGame.IsEnabled = false;
-                buttonNewGame.IsEnabled = true;
-                timer.Stop();
-                message = "Трон мій! ";
-                MessageBox.Show((currentColor == PlayerColor.Black ? "Чорні" : "Білі") + " перемогли!");
-            }
+                messageBlack += "Інавгурація ";
             if (IsCheck() == MoveType.Check)
             {
+                movesSinceThroneOrRokash = 0;
                 Figure king;
                 if (currentColor == PlayerColor.Black)
                     king = figures[0, 4];
@@ -280,25 +273,36 @@ namespace BelarusChess
                     buttonFinishGame.IsEnabled = false;
                     buttonNewGame.IsEnabled = true;
                     timer.Stop();
-                    message += "Шах і мат! ";
+                    messageBlack += "Шах і мат! ";
                     MessageBox.Show((currentColor == PlayerColor.Black ? "Чорні" : "Білі") + " перемогли!");
                 }
                 else
-                {
-                    movesSinceThroneOrRokash = 0;
-                    message += "Шах! ";
-                }
+                    messageBlack += "Шах! ";
+            }
+            if (IsThroneOrThroneMine(figure) == MoveType.Throne)
+            {
+                messageBlack += "Трон! ";
+            }
+            if (IsThroneOrThroneMine(figure) == MoveType.ThroneMine)
+            {
+                isStarted = false;
+                buttonFinishGame.IsEnabled = false;
+                buttonNewGame.IsEnabled = true;
+                timer.Stop();
+                if (messageBlack == "")
+                    MessageBox.Show((currentColor == PlayerColor.Black ? "Чорні" : "Білі") + " перемогли!");
+                messageBlack += "Трон мій! ";
             }
 
             if (currentColor == PlayerColor.White)
             {
-                labelWhitePlayer.Content = message;
-                labelBlackPlayer.Content = "";
+                labelWhitePlayer.Content = messageBlack;
+                labelBlackPlayer.Content = messageWhite;
             }
             else
             {
-                labelBlackPlayer.Content = message;
-                labelWhitePlayer.Content = "";
+                labelBlackPlayer.Content = messageBlack;
+                labelWhitePlayer.Content = messageWhite;
             }
 
             if (movesSinceThroneOrRokash == 1)
@@ -443,19 +447,18 @@ namespace BelarusChess
             }
             return MoveType.Regular;                
         }
-        private MoveType IsThroneOrThroneMine()
+        private MoveType IsThroneOrThroneMine(Figure figure)
         {
-            if (choosedFigure.Type == FigureType.King && ((Point)choosedFigure.Image.Tag).X == 4
+            if (movesSinceThroneOrRokash == 2)
+                return MoveType.ThroneMine;
+            else if (choosedFigure.Type == FigureType.King && ((Point)choosedFigure.Image.Tag).X == 4
                                                       && ((Point)choosedFigure.Image.Tag).Y == 4)
             {
                 movesSinceThroneOrRokash++;
                 return MoveType.Throne;
             }
-            else if (movesSinceThroneOrRokash == 2)
-                return MoveType.ThroneMine;
             else
                 return MoveType.Regular;
-
         }
 
         private void ClearMoves()
