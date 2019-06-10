@@ -213,5 +213,18 @@ namespace BelarusChess
                 choosedFigure = null;
             }
         }
+        /// <summary>
+        /// Describes the translation of a location of the figure
+        /// </summary>
+        public struct Moves
+        {
+            public int X;
+            public int Y;
+            public Moves(int x, int y)
+            {
+                X = x;
+                Y = y;
+            }
+        }
     }
 }
