@@ -1,34 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
 
 namespace BelarusChess
 {
     public partial class MainWindow : Window
     {
         private Figure[,] chessBoard;
-        private Image[,] movesBoard;                    // A massive of Images that shows the location of the attacked fields
+        /// <summary> A massive of Images that shows the location of the attacked fields </summary>
+        private Image[,] movesBoard;
         private Figure choosedFigure;
         private PlayerColor currentColor;
         private Image tempTile;
         private bool isOnlyKingOrPrinceWhite;
         private bool isOnlyKingOrPrinceBlack;
         private int movesSinceThroneOrRokash;
-
-        // Enumerators
-        public enum PlayerColor
-        {
-            White, Black
-        }
         private PlayerColor Next(PlayerColor color)
         {
             if (color == PlayerColor.Black)
@@ -36,15 +21,8 @@ namespace BelarusChess
             else
                 return PlayerColor.Black;
         }
-        public enum FigureType
-        {
-            Rook, Bishop, Knight, Prince, Queen, King, Pawn
-        }
-        public enum MoveType
-        {
-            Regular, Check, Checkmate, Inauguration, Throne, ThroneMine
-        }
 
+        /// <summary> Sets parameters to begin a new game </summary>
         public void NewGame()
         {
             ClearMoves();
@@ -79,6 +57,7 @@ namespace BelarusChess
             }
         }
 
+        /// <summary> Finds legal moves for clicked figure </summary>
         public int FindMoves(Image imageFigure, bool isCheckmateCheck = false)
         {
             /// Finds the figure which is represented by imageFigure
@@ -86,10 +65,10 @@ namespace BelarusChess
             int columnClicked = (int)((Point)imageFigure.Tag).X;
             Figure figure = chessBoard[rowClicked, columnClicked];
             /// If not turn of current figure
-            if (currentColor != figure.Color)
-                return 0;
             if (choosedFigure != null)
                 ClearMoves();
+            if (currentColor != figure.Color)
+                return 0;
 
             choosedFigure = figure;
             if (isCheckmateCheck == false)
@@ -162,6 +141,8 @@ namespace BelarusChess
             }
             return accessableMoves;
         }
+
+        /// <summary> Sets legal moves for pawn </summary>
         private void PawnMoves(Moves[,] moves, int row, int column)
         {
             if (currentColor == PlayerColor.White && row > 0)
@@ -226,6 +207,7 @@ namespace BelarusChess
             }
         }
 
+        /// <summary> Make a move </summary>
         public void MakeMove(int row, int column)
         {
             // Deletes the old location of the figure
@@ -251,6 +233,8 @@ namespace BelarusChess
             currentColor = Next(currentColor);
             CheckForSpecialCases(oldFigure);
         }
+
+        /// <summary> Checkes if there is special situations like check or checkmate </summary>
         private void CheckForSpecialCases(Figure figure)
         {
             string messageBlack = "";
@@ -274,14 +258,14 @@ namespace BelarusChess
                     buttonNewGame.IsEnabled = true;
                     timer.Stop();
                     messageBlack += "Шах і мат! ";
-                    MessageBox.Show((currentColor == PlayerColor.Black ? "Чорні" : "Білі") + " перемогли!");
+                    MessageBox.Show((currentColor == PlayerColor.White ? "Чорні" : "Білі") + " перемогли!");
                 }
                 else
                     messageBlack += "Шах! ";
             }
             if (IsThroneOrThroneMine(figure) == MoveType.Throne)
             {
-                messageBlack += "Трон! ";
+                messageWhite += "Трон! ";
             }
             if (IsThroneOrThroneMine(figure) == MoveType.ThroneMine)
             {
@@ -452,7 +436,7 @@ namespace BelarusChess
             if (movesSinceThroneOrRokash == 2)
                 return MoveType.ThroneMine;
             else if (choosedFigure.Type == FigureType.King && ((Point)choosedFigure.Image.Tag).X == 4
-                                                      && ((Point)choosedFigure.Image.Tag).Y == 4)
+														   && ((Point)choosedFigure.Image.Tag).Y == 4)
             {
                 movesSinceThroneOrRokash++;
                 return MoveType.Throne;

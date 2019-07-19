@@ -1,27 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BelarusChess
 {
-    /// <summary> 
-    /// Логика взаимодействия для MainWindow.xaml 
-    /// </summary>
+    /// <summary> Логика взаимодействия для MainWindow.xaml </summary>
     public partial class MainWindow : Window
     {
         private Figure[,] figures;
@@ -39,29 +27,33 @@ namespace BelarusChess
         private readonly string attackImageUri;
         private readonly string attackFigureImageUri;
         private readonly string checkImageUri;
+
         public MainWindow()
         {
             InitializeComponent();
+
             // String constants
             string projectDirectory = Directory.GetParent(Assembly.GetExecutingAssembly().Location).Parent.Parent.FullName;
             choosedFigureUri = projectDirectory + "\\Resources\\Attack tile.png";
             attackImageUri = projectDirectory + "\\Resources\\Attack.png";
             attackFigureImageUri = projectDirectory + "\\Resources\\Attack figure.png";
             checkImageUri = projectDirectory + "\\Resources\\Check tile.png";
+
             // Initializing
             figures = InitializeFigures();
             chessBoard = new Figure[9, 9];
             movesBoard = new Image[9, 9];
+
             // Start margin equal to the margin of a board Image
             xMargin = imageChessBoard.Margin.Left;
             yMargin = imageChessBoard.Margin.Top;
+
             // Set parameters of a timer
             timer = new System.Timers.Timer {Interval = 1000};
             timer.Elapsed += Timer_Elapsed;
         }
-        /// <summary> 
-        /// Creates a matrix that contains all the Images of figures 
-        /// </summary>
+
+        /// <summary> Creates a matrix with size [4,9] that contains all the Images of figures </summary>
         private Figure[,] InitializeFigures()
         {
             return new Figure[,]
@@ -92,9 +84,8 @@ namespace BelarusChess
                   new Rook(imageWhiteRook2, PlayerColor.White) }
             };
         }
-        /// <summary> 
-        /// Binds coordinates of the figures on the board to the Images of the figures 
-        /// </summary>
+
+        /// <summary> Binds coordinates of the figures on the board to the Images of the figures </summary>
         private void InitializeImages(Figure[,] figures)
         {
             for (int i = 0; i < figures.GetLength(0); i++)
@@ -108,9 +99,8 @@ namespace BelarusChess
                 }
             }
         }
-        /// <summary>
-        /// Creates highlight images in the position chessBoard[row, column]
-        /// </summary>
+
+        /// <summary> Creates highlight images in the position chessBoard[row, column] </summary>
         private Image NewImage(string uri, int row, int column, int zIndex)
         {
             Image image = new Image
@@ -213,18 +203,21 @@ namespace BelarusChess
                 choosedFigure = null;
             }
         }
-        /// <summary>
-        /// Describes the translation of a location of the figure
-        /// </summary>
-        public struct Moves
-        {
-            public int X;
-            public int Y;
-            public Moves(int x, int y)
-            {
-                X = x;
-                Y = y;
-            }
-        }
+    }
+
+    // Enumerators
+    /// <summary> Determines all possible types of figures </summary>
+    public enum FigureType
+    {
+        Rook, Bishop, Knight, Prince, Queen, King, Pawn
+    }
+    /// <summary> Determines all possible types of moves </summary>
+    public enum MoveType
+    {
+        Regular, Check, Checkmate, Inauguration, Throne, ThroneMine
+    }
+    public enum PlayerColor
+    {
+        White, Black
     }
 }

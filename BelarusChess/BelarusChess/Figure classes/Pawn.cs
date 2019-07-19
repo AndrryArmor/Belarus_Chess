@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using static BelarusChess.MainWindow;
+﻿using System.Windows.Controls;
 
 namespace BelarusChess
 {
     public class Pawn : Figure
     {
-        public Pawn(Image image, MainWindow.PlayerColor color)
+        public Pawn(Image image, PlayerColor color)
         {
             Image = image;
             Color = color;
-            Type = MainWindow.FigureType.Pawn;
+            Type = FigureType.Pawn;
         }
+        /// <summary> Returns all legal moves for pawn </summary>
         public override Moves[,] Moves()
         {
             Moves[,] moves = new Moves[3, 2];
-            if (Color == MainWindow.PlayerColor.White)
+            if (Color == PlayerColor.White)
             {
                 // Up
                 moves[0, 0] = new Moves(-1, 0);

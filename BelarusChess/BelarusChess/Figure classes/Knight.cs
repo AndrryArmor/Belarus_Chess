@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using static BelarusChess.MainWindow;
+﻿using System.Windows.Controls;
 
 namespace BelarusChess
 {
     public class Knight : Figure
     {
-        public Knight(Image image, MainWindow.PlayerColor color)
+        public Knight(Image image, PlayerColor color)
         {
             Image = image;
             Color = color;
-            Type = MainWindow.FigureType.Knight;
+            Type = FigureType.Knight;
         }
         public Knight() { }
+        /// <summary> Returns all legal moves for knight </summary>
         public override Moves[,] Moves()
         {
             Moves[,] moves = new Moves[8, 1];

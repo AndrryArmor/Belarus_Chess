@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using static BelarusChess.MainWindow;
+﻿using System.Windows.Controls;
 
 namespace BelarusChess
 {
     public class Rook : Figure
     {
-        public Rook(Image image, MainWindow.PlayerColor color)
+        public Rook(Image image, PlayerColor color)
         {
             Image = image;
             Color = color;
-            Type = MainWindow.FigureType.Rook;
+            Type = FigureType.Rook;
         }
         public Rook() { }
+        /// <summary> Returns all legal moves for rook </summary>
         public override Moves[,] Moves()
         {
             Moves[,] moves = new Moves[4, 8];
