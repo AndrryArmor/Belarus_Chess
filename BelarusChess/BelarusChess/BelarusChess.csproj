@@ -59,12 +59,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Figure classes\Bishop.cs" />
-    <Compile Include="Figure classes\King.cs" />
-    <Compile Include="Figure classes\Knight.cs" />
-    <Compile Include="Figure classes\Prince.cs" />
-    <Compile Include="Figure classes\Queen.cs" />
-    <Compile Include="Figure classes\Rook.cs" />
     <Page Include="EnterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -83,7 +77,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Chess.cs" />
-    <Compile Include="Figure classes\Figure.cs" />
+    <Compile Include="Figure.cs" />
+    <Compile Include="FigureMoves.cs" />
     <Compile Include="HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
@@ -93,7 +88,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Figure classes\Pawn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -141,8 +135,8 @@
     <Resource Include="Resources\White rook.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Attack tile.png" />
-    <Resource Include="Resources\Move tile.png" />
+    <Resource Include="Resources\Attack cell.png" />
+    <Resource Include="Resources\Move cell.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Chess image.png" />
@@ -151,7 +145,10 @@
     <Resource Include="Resources\BelarusChess.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Check tile.png" />
+    <Resource Include="Resources\Check cell.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Шаховий інтерфейс.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

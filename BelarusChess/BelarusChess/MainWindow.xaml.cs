@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Reflection;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,109 +10,53 @@ namespace BelarusChess
     /// <summary> Логика взаимодействия для MainWindow.xaml </summary>
     public partial class MainWindow : Window
     {
-        private Figure[,] figures;
-        private System.Timers.Timer timer;
-        private int time;
+        /// <summary> Adds a second to the time </summary>
+        private System.Timers.Timer oneSecond;
         private HelpWindow helpWindow;
-        public bool isStarted = false;
+        private bool isGameStarted = false;
+        private int time;
 
-        // Inherited and constant objects
-        private readonly double xMargin;
-        private readonly double yMargin;
-        private const double edge = 55;
-        // Image source paths
-        private readonly string choosedFigureUri;
-        private readonly string attackImageUri;
-        private readonly string attackFigureImageUri;
-        private readonly string checkImageUri;
+        // Static readonly objects
+        public static readonly double xMargin = 10;
+        public static readonly double yMargin = 10;
+        public static readonly double cellEdge = 55;
+        // Image relative source paths
+        private readonly string choosedFigureUri = "Resources\\Attack cell.png";
+        private readonly string attackImageUri = "Resources\\Attack.png";
+        private readonly string attackFigureImageUri = "Resources\\Attack figure.png";
+        private readonly string checkImageUri = "Resources\\Check cell.png";
 
         public MainWindow()
         {
             InitializeComponent();
 
-            // String constants
-            string projectDirectory = Directory.GetParent(Assembly.GetExecutingAssembly().Location).Parent.Parent.FullName;
-            choosedFigureUri = projectDirectory + "\\Resources\\Attack tile.png";
-            attackImageUri = projectDirectory + "\\Resources\\Attack.png";
-            attackFigureImageUri = projectDirectory + "\\Resources\\Attack figure.png";
-            checkImageUri = projectDirectory + "\\Resources\\Check tile.png";
-
             // Initializing
-            figures = InitializeFigures();
             chessBoard = new Figure[9, 9];
-            movesBoard = new Image[9, 9];
+            legalMovesBoard = new Image[9, 9];
 
-            // Start margin equal to the margin of a board Image
-            xMargin = imageChessBoard.Margin.Left;
-            yMargin = imageChessBoard.Margin.Top;
+            // Set margin of a board Image equal to the start margin
+            imageChessBoard.Margin = new Thickness(xMargin, yMargin, 0, 0);
 
             // Set parameters of a timer
-            timer = new System.Timers.Timer {Interval = 1000};
-            timer.Elapsed += Timer_Elapsed;
-        }
-
-        /// <summary> Creates a matrix with size [4,9] that contains all the Images of figures </summary>
-        private Figure[,] InitializeFigures()
-        {
-            return new Figure[,]
-            {
-                // Black figures
-                { new Rook(imageBlackRook1, PlayerColor.Black),     new Knight(imageBlackKnight1, PlayerColor.Black),
-                  new Bishop(imageBlackBishopW, PlayerColor.Black), new Queen(imageBlackQueen, PlayerColor.Black),
-                  new King(imageBlackKing, PlayerColor.Black),      new Prince(imageBlackPrince, PlayerColor.Black),
-                  new Knight(imageBlackKnight2, PlayerColor.Black), new Bishop(imageBlackBishopB, PlayerColor.Black),
-                  new Rook(imageBlackRook2, PlayerColor.Black) },
-
-                { new Pawn(imageBlackPawnA, PlayerColor.Black),     new Pawn(imageBlackPawnB, PlayerColor.Black),
-                  new Pawn(imageBlackPawnC, PlayerColor.Black),     new Pawn(imageBlackPawnD, PlayerColor.Black),
-                  new Pawn(imageBlackPawnE, PlayerColor.Black),     new Pawn(imageBlackPawnF, PlayerColor.Black),
-                  new Pawn(imageBlackPawnG, PlayerColor.Black),     new Pawn(imageBlackPawnH, PlayerColor.Black),
-                  new Pawn(imageBlackPawnI, PlayerColor.Black), },
-                // White figures
-                { new Pawn(imageWhitePawnA, PlayerColor.White),     new Pawn(imageWhitePawnB, PlayerColor.White),
-                  new Pawn(imageWhitePawnC, PlayerColor.White),     new Pawn(imageWhitePawnD, PlayerColor.White),
-                  new Pawn(imageWhitePawnE, PlayerColor.White),     new Pawn(imageWhitePawnF, PlayerColor.White),
-                  new Pawn(imageWhitePawnG, PlayerColor.White),     new Pawn(imageWhitePawnH, PlayerColor.White),
-                  new Pawn(imageWhitePawnI, PlayerColor.White), },
-
-                { new Rook(imageWhiteRook1, PlayerColor.White),     new Bishop(imageWhiteBishopB, PlayerColor.White),
-                  new Knight(imageWhiteKnight1, PlayerColor.White), new Prince(imageWhitePrince, PlayerColor.White),
-                  new King(imageWhiteKing, PlayerColor.White),      new Queen(imageWhiteQueen, PlayerColor.White),
-                  new Bishop(imageWhiteBishopW, PlayerColor.White), new Knight(imageWhiteKnight2, PlayerColor.White),
-                  new Rook(imageWhiteRook2, PlayerColor.White) }
-            };
-        }
-
-        /// <summary> Binds coordinates of the figures on the board to the Images of the figures </summary>
-        private void InitializeImages(Figure[,] figures)
-        {
-            for (int i = 0; i < figures.GetLength(0); i++)
-            {
-                for (int j = 0; j < figures.GetLength(1); j++)
-                {
-                    if (figures[i, j].Color == PlayerColor.Black)
-                        figures[i, j].Image.Tag = new Point(j, i);
-                    else
-                        figures[i, j].Image.Tag = new Point(j, i + 5);
-                }
-            }
+            oneSecond = new System.Timers.Timer {Interval = 1000};
+            oneSecond.Elapsed += OneSecond_Elapsed;
         }
 
         /// <summary> Creates highlight images in the position chessBoard[row, column] </summary>
-        private Image NewImage(string uri, int row, int column, int zIndex)
+        private Image NewImage(string imageUri, int row, int column, int zIndex)
         {
             Image image = new Image
             {
-                Source = new BitmapImage(new Uri(uri)),
-                Margin = new Thickness(xMargin + column * edge, yMargin + row * edge, 0, 0),
+                Source = new BitmapImage(new Uri(imageUri, UriKind.Relative)),
+                Margin = new Thickness(xMargin + column * cellEdge, yMargin + row * cellEdge, 0, 0),
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Left,
-                Width = edge,
-                Height = edge,
-                Tag = uri
+                Width = cellEdge,
+                Height = cellEdge,
+                Tag = imageUri // Why it is necessary?
             };
             Panel.SetZIndex(image, zIndex);
-            if (uri != checkImageUri)
+            if (imageUri != checkImageUri)
             {
                 image.MouseLeftButtonDown += new MouseButtonEventHandler(Image_MouseLeftButtonDown);
                 image.MouseEnter += new MouseEventHandler(Image_MouseEnter);
@@ -125,7 +67,7 @@ namespace BelarusChess
         }
 
         // Events
-        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        private void OneSecond_Elapsed(object sender, ElapsedEventArgs e)
         {
             time++;
             int minutes = (time / 60) % 60;
@@ -140,22 +82,22 @@ namespace BelarusChess
             NewGame();
             labelTime.Content = "00:00";
             time = 0;
-            timer.Start();
-            isStarted = true;
+            isGameStarted = true;
             buttonNewGame.IsEnabled = false;
             buttonFinishGame.IsEnabled = true;
             labelBlackPlayer.Content = labelWhitePlayer.Content = "";
+            oneSecond.Start();
         }
         private void ButtonFinishGame_Click(object sender, RoutedEventArgs e)
         {
             var result = MessageBox.Show("Справді завершити гру?", "Завершення гри", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                isStarted = false;
+                isGameStarted = false;
                 buttonFinishGame.IsEnabled = false;
                 buttonNewGame.IsEnabled = true;
                 labelBlackPlayer.Content = labelWhitePlayer.Content = "Гру завершено";
-                timer.Stop();
+                oneSecond.Stop();
             }
         }
         private void ButtonHelp_Click(object sender, RoutedEventArgs e)
@@ -172,28 +114,27 @@ namespace BelarusChess
         }
         private void Figure_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (isStarted == true)
+            if (isGameStarted == true)
                 FindMoves((Image)sender);
         }
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             ClearMoves();
             Image image = (Image)sender;
-            int row = (int)((image.Margin.Top - yMargin) / edge);
-            int column = (int)((image.Margin.Left - xMargin) / edge);
+            int row = (int)((image.Margin.Top - yMargin) / cellEdge);
+            int column = (int)((image.Margin.Left - xMargin) / cellEdge);
             MakeMove(row, column);
         }
         private void Image_MouseEnter(object sender, MouseEventArgs e)
         {
-            // Creates a temporary tile that shows a current position of a mouse on the board 
             Image image = (Image)sender;
-            int row = (int)((image.Margin.Top - yMargin) / edge);
-            int column = (int)((image.Margin.Left - xMargin) / edge);
-            tempTile = NewImage(choosedFigureUri, row, column, 1);
+            int row = (int)((image.Margin.Top - yMargin) / cellEdge);
+            int column = (int)((image.Margin.Left - xMargin) / cellEdge);
+            cellUnderCursor = NewImage(choosedFigureUri, row, column, 1);
         }
         private void Image_MouseLeave(object sender, MouseEventArgs e)
         {
-            grid.Children.Remove(tempTile);
+            grid.Children.Remove(cellUnderCursor);
         }
         private void ImageChessBoard_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

@@ -9,7 +9,7 @@
         Title="Білоруські шахи" WindowStartupLocation="CenterScreen" Width="815" Height="555" Closing="MainWindow_Closing" SizeToContent="WidthAndHeight" ResizeMode="NoResize" Icon="Resources/BelarusChess.png">
     <Grid x:Name="grid">
         <Image x:Name="imageChessBoard" HorizontalAlignment="Left" Margin="10,10,0,10" Width="495" Source="Resources/Chess board.png" Height="495" VerticalAlignment="Top" MouseLeftButtonDown="ImageChessBoard_MouseLeftButtonDown"/>
-        <Image x:Name="imageBlackRook1" HorizontalAlignment="Left" Height="55" Margin="12,10,0,0" VerticalAlignment="Top" Width="55" Source="Resources/Black rook.png" MouseLeftButtonDown="Figure_MouseLeftButtonDown" Panel.ZIndex="2"/>
+        <Image x:Name="imageBlackRook1" HorizontalAlignment="Left" Height="55" Margin="10,10,0,0" VerticalAlignment="Top" Width="55" Source="Resources/Black rook.png" MouseLeftButtonDown="Figure_MouseLeftButtonDown" Panel.ZIndex="2"/>
         <Image x:Name="imageBlackKnight1" HorizontalAlignment="Left" Height="55" Margin="65,10,0,0" VerticalAlignment="Top" Width="55" Source="Resources/Black knight.png" Panel.ZIndex="2" MouseLeftButtonDown="Figure_MouseLeftButtonDown"/>
         <Image x:Name="imageBlackBishopW" HorizontalAlignment="Left" Height="55" Margin="120,10,0,0" VerticalAlignment="Top" Width="55" Source="Resources/Black bishop.png" Panel.ZIndex="2" MouseLeftButtonDown="Figure_MouseLeftButtonDown"/>
         <Image x:Name="imageBlackQueen" HorizontalAlignment="Left" Height="55" Margin="175,10,0,0" VerticalAlignment="Top" Width="55" Source="Resources/Black queen.png" Panel.ZIndex="2" MouseLeftButtonDown="Figure_MouseLeftButtonDown"/>
