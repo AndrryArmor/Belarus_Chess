@@ -9,7 +9,7 @@ namespace BelarusChess
         private Figure[,] chessBoard;
         /// <summary> Describes the chess board which contains images of legal moves for some figure </summary>
         private Image[,] legalMovesBoard;
-        private Figure choosedFigure;
+        private Figure clickedFigure;
         private PlayerColor currentColor;
         /// <summary> The cell of legal move under the mouse cursor </summary>
         private Image cellUnderCursor;
@@ -88,184 +88,156 @@ namespace BelarusChess
         }
 
         /// <summary> Finds legal moves for clicked figure </summary>
-        private int FindMoves(Image imageFigure, bool isCheckmateCheck = false)
+        private void FindLegalMoves(Figure figure, bool isCheckmateCheck = false)
         {
-            /// Finds the figure which is represented by imageFigure
-            int rowClicked = (int)((Point)imageFigure.Tag).Y;
-            int columnClicked = (int)((Point)imageFigure.Tag).X;
-            Figure figure = chessBoard[rowClicked, columnClicked];
             /// If not turn of current figure
-            if (choosedFigure != null)
-                ClearMoves();
             if (currentColor != figure.Color)
-                return 0;
+                return;
 
-            choosedFigure = figure;
+            if (clickedFigure != null)
+                ClearMoves();
+            clickedFigure = figure;
+
             if (isCheckmateCheck == false)
-                legalMovesBoard[rowClicked, columnClicked] = NewImage(choosedFigureUri, rowClicked, columnClicked, 1);
+                legalMovesBoard[figure.Cell.Row, figure.Cell.Col] = NewImage(choosedFigureUri, figure.Cell, 1);
 
-            Move[,] moves = FigureMoves.GetFor(choosedFigure.Type, choosedFigure.Color);
+            Move[,] move = FigureMoves.GetFor(clickedFigure.Type, clickedFigure.Color);
             /// Special case for pawn
-            if (choosedFigure.Type == FigureType.Pawn)
+            if (clickedFigure.Type == FigureType.Pawn)
             {
-                PawnMoves(moves, rowClicked, columnClicked);
-                return 0;
+                PawnMoves(move, figure.Cell);
+                return;
             }
-            int accessableMoves = 0;
-            /// Finds accessable moves for figure
-            for (int i = 0; i < moves.GetLength(0); i++)
+            /// Finds legal moves for figure
+            for (int i = 0; i < move.GetLength(0); i++)
             {
-                for (int j = 0; j < moves.GetLength(1); j++)
+                for (int j = 0; j < move.GetLength(1); j++)
                 {
-                    int row = rowClicked + moves[i, j].Cols;
-                    int column = columnClicked + moves[i, j].Rows;
-                    if (row < 0 || row > 8 || column < 0 || column > 8)
+                    Cell newCell = new Cell(figure.Cell.Row + move[i, j].Rows, figure.Cell.Col + move[i, j].Cols);
+
+                    if (newCell.Row < 0 || newCell.Row > 8 || newCell.Col < 0 || newCell.Col > 8)
                         break;
-                    /// If not prince goes onto the throne cell
-                    if (figure.Type != FigureType.Prince && row == 4 && column == 4)    
-                    {
-                        if (chessBoard[row, column] == null)
-                        {
-                            /// If move causes check
-                            if (IsCheck(rowClicked, columnClicked, row, column) == MoveType.Check)
-                                break;
-                            if (isCheckmateCheck == false)
-                                legalMovesBoard[row, column] = NewImage(attackImageUri, row, column, 3);
-                            accessableMoves++;
-                        }
-                        else if (chessBoard[row, column].Color != currentColor)
-                        {
-                            /// If move causes check
-                            if (IsCheck(rowClicked, columnClicked, row, column) == MoveType.Check)
-                                break;
-                            if (isCheckmateCheck == false)
-                                legalMovesBoard[row, column] = NewImage(attackFigureImageUri, row, column, 3);
-                            accessableMoves++;
-                        }
+
+                    /// If cell contains friendly figure
+                    if (chessBoard[newCell.Row, newCell.Col] != null && chessBoard[newCell.Row, newCell.Col].Color == currentColor)
                         break;
-                    }
-                   
-                    /// If empty cell
-                    if (chessBoard[row, column] == null)
+                    else
                     {
                         /// If move causes check
-                        if (IsCheck(rowClicked, columnClicked, row, column) == MoveType.Check)
+                            /*if (IsCheck(clicked.Row, columnClicked, row, column) == MoveType.Check)
+                                break;*/
+                        ///if (isCheckmateCheck == false)
+                        string imageUri = (chessBoard[newCell.Row, newCell.Col] == null ? attackImageUri : attackFigureImageUri);
+                        legalMovesBoard[newCell.Row, newCell.Col] = NewImage(imageUri, newCell, 3);
+                        /// If cell contains opponents figure
+                        if (chessBoard[newCell.Row, newCell.Col] != null)
                             break;
-                        if (isCheckmateCheck == false)
-                            legalMovesBoard[row, column] = NewImage(attackImageUri, row, column, 3);
-                        accessableMoves++;
-                    }
-                    /// If cell contains opponent's figure
-                    else if (chessBoard[row, column].Color != currentColor)
-                    {
-                        /// If move causes check
-                        if (IsCheck(rowClicked, columnClicked, row, column) == MoveType.Check)
+                        /// If empty cell is a throne and it doesn't contain prince figure
+                        else if (newCell.Row == 4 && newCell.Col == 4 && chessBoard[newCell.Row, newCell.Col].Type != FigureType.Prince)
                             break;
-                        if (isCheckmateCheck == false)
-                            legalMovesBoard[row, column] = NewImage(attackFigureImageUri, row, column, 3);
-                        accessableMoves++;
-                        break;
                     }
-                    else break;
                 }
             }
-            return accessableMoves;
         }
 
         /// <summary> Sets legal moves for pawn </summary>
-        private void PawnMoves(Move[,] moves, int row, int column)
+        private void PawnMoves(Move[,] moves, Cell clicked)
         {
-            if (currentColor == PlayerColor.White && row > 0)
+            if (currentColor == PlayerColor.White && clicked.Row > 0)
             {
                 // Move up playing white figures
-                if (chessBoard[row - 1, column] == null)
+                Cell cellUp = new Cell(clicked.Row - 1, clicked.Col);
+                if (chessBoard[cellUp.Row, cellUp.Col] == null)
                 {
-                    if (IsCheck(row, column, row - 1, column) == MoveType.Regular)
-                    {
-                        legalMovesBoard[row - 1, column] = NewImage(attackImageUri, row - 1, column, 3);
+                    /*if (IsCheck(row, column, row - 1, column) == MoveType.Regular)
+                    {*/
+                        legalMovesBoard[cellUp.Row, cellUp.Col] = NewImage(attackImageUri, cellUp, 3);
                         // Double move
-                        if (row == 7 && chessBoard[row - 2, column] == null)
-                            legalMovesBoard[row - 2, column] = NewImage(attackImageUri, row - 2, column, 3);
-                    }
+                        Cell cellDoubleUp = new Cell(clicked.Row - 2, clicked.Col);
+                        if (clicked.Row == 7 && chessBoard[cellDoubleUp.Row, cellDoubleUp.Col] == null)
+                            legalMovesBoard[cellDoubleUp.Row, cellDoubleUp.Col] = NewImage(attackImageUri, cellDoubleUp, 3);
+                   // }
                 }
                 // Beat up-right
-                if (column < 8 && chessBoard[row - 1, column + 1] != null && chessBoard[row - 1, column + 1].Color != currentColor)
+                Cell cellUpRight = new Cell(clicked.Row - 1, clicked.Col + 1);
+                if (clicked.Col < 8 && chessBoard[cellUpRight.Row, cellUpRight.Col] != null && chessBoard[cellUpRight.Row, cellUpRight.Col].Color != currentColor)
                 {
-                    if (IsCheck(row, column, row - 1, column + 1) == MoveType.Regular)
-                    {
-                        legalMovesBoard[row - 1, column + 1] = NewImage(attackFigureImageUri, row - 1, column + 1, 3);
-                    }
+                    /*if (IsCheck(row, column, row - 1, column + 1) == MoveType.Regular)
+                    {*/
+                        legalMovesBoard[cellUpRight.Row, cellUpRight.Col] = NewImage(attackFigureImageUri, cellUpRight, 3);
+                    //}
                 }
                 // Beat up-left
-                if (column > 0 && chessBoard[row - 1, column - 1] != null && chessBoard[row - 1, column - 1].Color != currentColor)
+                Cell cellUpLeft = new Cell(clicked.Row - 1, clicked.Col - 1);
+                if (clicked.Col > 0 && chessBoard[cellUpLeft.Row, cellUpLeft.Col] != null && chessBoard[cellUpLeft.Row, cellUpLeft.Col].Color != currentColor)
                 {
-                    if (IsCheck(row, column, row - 1, column - 1) == MoveType.Regular)
-                    {
-                        legalMovesBoard[row - 1, column - 1] = NewImage(attackFigureImageUri, row - 1, column - 1, 3);
-                    }
+                    /*if (IsCheck(row, column, row - 1, column - 1) == MoveType.Regular)
+                    {*/
+                        legalMovesBoard[cellUpLeft.Row, cellUpLeft.Col] = NewImage(attackFigureImageUri, cellUpLeft, 3);
+                    //}
                 }
             }
-            else if (currentColor == PlayerColor.Black && row < 8)
+            else if (currentColor == PlayerColor.Black && clicked.Row < 8)
             {
                 // Move down playing white figures
-                if (chessBoard[row + 1, column] == null)
+                Cell cellDown = new Cell(clicked.Row + 1, clicked.Col);
+                if (chessBoard[cellDown.Row, cellDown.Col] == null)
                 {
-                    if (IsCheck(row, column, row + 1, column) == MoveType.Regular)
-                    {
-                        legalMovesBoard[row + 1, column] = NewImage(attackImageUri, row + 1, column, 3);
+                    /*if (IsCheck(row, column, row + 1, column) == MoveType.Regular)
+                    {*/
+                        legalMovesBoard[cellDown.Row, cellDown.Col] = NewImage(attackImageUri, cellDown, 3);
                         // Double move
-                        if (row == 1 && chessBoard[row + 2, column] == null)
-                            legalMovesBoard[row + 2, column] = NewImage(attackImageUri, row + 2, column, 3);
-                    }
+                        if (clicked.Row == 1 && chessBoard[cellDown.Row, cellDown.Col] == null)
+                            legalMovesBoard[cellDown.Row, cellDown.Col] = NewImage(attackImageUri, cellDown, 3);
+                    //}
                 }
                 // Beat down-right
-                if (column < 8 && chessBoard[row + 1, column + 1] != null && chessBoard[row + 1, column + 1].Color != currentColor)
+                Cell cellDownRight = new Cell(clicked.Row + 1, clicked.Col + 1);
+                if (clicked.Col < 8 && chessBoard[cellDownRight.Row, cellDownRight.Col] != null && chessBoard[cellDownRight.Row, cellDownRight.Col].Color != currentColor)
                 {
-                    if (IsCheck(row, column, row + 1, column + 1) == MoveType.Regular)
-                    {
-                        legalMovesBoard[row + 1, column + 1] = NewImage(attackFigureImageUri, row + 1, column + 1, 3);
-                    }
+                    /*if (IsCheck(row, column, row + 1, column + 1) == MoveType.Regular)
+                    {*/
+                        legalMovesBoard[cellDownRight.Row, cellDownRight.Col] = NewImage(attackFigureImageUri, cellDownRight, 3);
+                    //}
                 }
                 // Beat down-left
-                if (column > 0 && chessBoard[row + 1, column - 1] != null && chessBoard[row + 1, column - 1].Color != currentColor)
+                Cell cellDownLeft = new Cell(clicked.Row + 1, clicked.Col - 1);
+                if (clicked.Col > 0 && chessBoard[cellDownLeft.Row, cellDownLeft.Col] != null && chessBoard[cellDownLeft.Row, cellDownLeft.Col].Color != currentColor)
                 {
-                    if (IsCheck(row, column, row + 1, column - 1) == MoveType.Regular)
-                    {
-                        legalMovesBoard[row + 1, column - 1] = NewImage(attackFigureImageUri, row + 1, column - 1, 3);
-                    }
+                    /*if (IsCheck(row, column, row + 1, column - 1) == MoveType.Regular)
+                    {*/
+                        legalMovesBoard[cellDownLeft.Row, cellDownLeft.Col] = NewImage(attackFigureImageUri, cellDownLeft, 3);
+                    //}
                 }
             }
         }
 
         /// <summary> Make a move </summary>
-        private void MakeMove(int row, int column)
+        private void MakeMove(Cell cell)
         {
             // Deletes the old location of the figure
-            int oldRow = (int)((Point)choosedFigure.Image.Tag).Y;
-            int oldColumn = (int)((Point)choosedFigure.Image.Tag).X;
-            /*if (movesBoard[oldRow, oldColumn] != null)
+            /*if (movesBoard[choosedFigure.Cell.Row, choosedFigure.Cell.Col] != null)
             {
-                grid.Children.Remove(movesBoard[oldRow, oldColumn]);
-                movesBoard[oldRow, oldColumn] = null;
+                grid.Children.Remove(movesBoard[choosedFigure.Cell.Row, choosedFigure.Cell.Col]);
+                movesBoard[choosedFigure.Cell.Row, choosedFigure.Cell.Col] = null;
             }*/
-            chessBoard[oldRow, oldColumn] = null;
-            Figure oldFigure = chessBoard[row, column];
+            chessBoard[clickedFigure.Cell.Row, clickedFigure.Cell.Col] = null;
+            Figure oldFigure = chessBoard[cell.Row, cell.Col];
             // Moves the choosed figure
-            if (chessBoard[row, column] != null)
+            if (chessBoard[cell.Row, cell.Col] != null)
             {
-                if (chessBoard[row, column].Type == FigureType.King)
+                if (chessBoard[cell.Row, cell.Col].Type == FigureType.King)
                     movesSinceThroneOrRokash = 0;
-                chessBoard[row, column].Image.Visibility = Visibility.Hidden;
+                chessBoard[cell.Row, cell.Col].Image.Visibility = Visibility.Hidden;
             }
-            chessBoard[row, column] = choosedFigure;
-            chessBoard[row, column].Image.Tag = new Point(column, row);
-            chessBoard[row, column].Image.Margin = new Thickness(xMargin + column * cellEdge, yMargin + row * cellEdge, 0, 0);
+            chessBoard[cell.Row, cell.Col] = clickedFigure;
+            chessBoard[cell.Row, cell.Col].Cell = new Cell(cell.Col, cell.Row);
             currentColor = Next(currentColor);
-            CheckForSpecialCases(oldFigure);
+            //CheckForSpecialCases(oldFigure);
         }
 
         /// <summary> Checkes if there is special situations like check or checkmate </summary>
-        private void CheckForSpecialCases(Figure figure)
+        /*private void CheckForSpecialCases(Figure figure)
         {
             string messageBlack = "";
             string messageWhite = "";
@@ -473,7 +445,7 @@ namespace BelarusChess
             }
             else
                 return MoveType.Regular;
-        }
+        }*/
 
         private void ClearMoves()
         {

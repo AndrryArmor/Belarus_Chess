@@ -17,8 +17,8 @@ namespace BelarusChess
         private int time;
 
         // Static readonly objects
-        public static readonly double xMargin = 10;
-        public static readonly double yMargin = 10;
+        public static readonly double leftMargin = 10;
+        public static readonly double topMargin = 10;
         public static readonly double cellEdge = 55;
         // Image relative source paths
         private readonly string choosedFigureUri = "Resources\\Attack cell.png";
@@ -35,7 +35,7 @@ namespace BelarusChess
             legalMovesBoard = new Image[9, 9];
 
             // Set margin of a board Image equal to the start margin
-            imageChessBoard.Margin = new Thickness(xMargin, yMargin, 0, 0);
+            imageChessBoard.Margin = new Thickness(leftMargin, topMargin, 0, 0);
 
             // Set parameters of a timer
             oneSecond = new System.Timers.Timer {Interval = 1000};
@@ -43,12 +43,12 @@ namespace BelarusChess
         }
 
         /// <summary> Creates highlight images in the position chessBoard[row, column] </summary>
-        private Image NewImage(string imageUri, int row, int column, int zIndex)
+        private Image NewImage(string imageUri, Cell cell, int zIndex)
         {
             Image image = new Image
             {
                 Source = new BitmapImage(new Uri(imageUri, UriKind.Relative)),
-                Margin = new Thickness(xMargin + column * cellEdge, yMargin + row * cellEdge, 0, 0),
+                Margin = new Thickness(leftMargin + cell.Col * cellEdge, topMargin + cell.Row * cellEdge, 0, 0),
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Width = cellEdge,
@@ -115,22 +115,26 @@ namespace BelarusChess
         private void Figure_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (isGameStarted == true)
-                FindMoves((Image)sender);
+            {
+                // Image.Tag stores a Figure which contains this Image
+                Figure figure = (Figure)((Image)sender).Tag;
+                FindLegalMoves(figure);
+            }
         }
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             ClearMoves();
             Image image = (Image)sender;
-            int row = (int)((image.Margin.Top - yMargin) / cellEdge);
-            int column = (int)((image.Margin.Left - xMargin) / cellEdge);
-            MakeMove(row, column);
+            int row = (int)((image.Margin.Top - topMargin) / cellEdge);
+            int column = (int)((image.Margin.Left - leftMargin) / cellEdge);
+            MakeMove(new Cell(row, column));
         }
         private void Image_MouseEnter(object sender, MouseEventArgs e)
         {
             Image image = (Image)sender;
-            int row = (int)((image.Margin.Top - yMargin) / cellEdge);
-            int column = (int)((image.Margin.Left - xMargin) / cellEdge);
-            cellUnderCursor = NewImage(choosedFigureUri, row, column, 1);
+            int row = (int)((image.Margin.Top - topMargin) / cellEdge);
+            int column = (int)((image.Margin.Left - leftMargin) / cellEdge);
+            cellUnderCursor = NewImage(choosedFigureUri, new Cell(row, column), 1);
         }
         private void Image_MouseLeave(object sender, MouseEventArgs e)
         {
@@ -138,10 +142,10 @@ namespace BelarusChess
         }
         private void ImageChessBoard_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (choosedFigure != null)
+            if (clickedFigure != null)
             {
                 ClearMoves();
-                choosedFigure = null;
+                clickedFigure = null;
             }
         }
     }

@@ -5,17 +5,17 @@
     {
         public int Rows;
         public int Cols;
-        public Move(int rows, int cols)
+        public Move(int cols, int rows)
         {
             Rows = rows;
             Cols = cols;
         }
     }
 
-    /// <summary> Class that stores legal moves for all chess figures </summary>
+    /// <summary> Class that stores moves for all chess figures </summary>
     static class FigureMoves
     {
-        /// <summary> Returns legal moves for some chess figure </summary>
+        /// <summary> Returns moves for some chess figure </summary>
         public static Move[,] GetFor(FigureType type, PlayerColor color)
         {
             Move[,] legalMoves = null;
