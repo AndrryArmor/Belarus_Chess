@@ -8,6 +8,7 @@ namespace BelarusChess
     {
         public int Row;
         public int Col;
+
         public Cell(int row, int col)
         {
             Row = row;
@@ -18,17 +19,20 @@ namespace BelarusChess
     /// <summary> Describes the chess figure </summary>
     public class Figure
     {
+        private Cell _cell;
+
         public Image Image { get; }
         public PlayerColor Color { get; }
         public FigureType Type { get; }
+
         public Cell Cell
         {
-            get => Cell;
+            get => _cell;
             set
             {
-                Cell = value;
-                Image.Margin = new Thickness(MainWindow.leftMargin + Cell.Col * MainWindow.cellEdge,
-                                             MainWindow.topMargin + Cell.Row * MainWindow.cellEdge, 0, 0);
+                _cell = value;
+                Image.Margin = new Thickness(MainWindow.leftMargin + _cell.Col * MainWindow.cellEdge,
+                                             MainWindow.topMargin + _cell.Row * MainWindow.cellEdge, 0, 0);
             }
         }
         public Figure(Image image, PlayerColor color, FigureType type, Cell cell)
@@ -40,8 +44,6 @@ namespace BelarusChess
 
             image.Visibility = Visibility.Visible;
             image.Tag = this;
-            image.Margin = new Thickness(MainWindow.leftMargin + Cell.Col * MainWindow.cellEdge,
-                                         MainWindow.topMargin + Cell.Row * MainWindow.cellEdge, 0, 0);
         }
     }
 }

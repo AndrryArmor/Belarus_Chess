@@ -71,12 +71,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Chessboard.cs" />
     <Compile Include="EnterWindow.xaml.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Chess.cs" />
+    <Compile Include="MainWindow.xaml.partial.cs" />
     <Compile Include="Figure.cs" />
     <Compile Include="FigureMoves.cs" />
     <Compile Include="HelpWindow.xaml.cs">

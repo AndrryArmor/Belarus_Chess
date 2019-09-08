@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,29 +11,30 @@ namespace BelarusChess
     /// <summary> Логика взаимодействия для MainWindow.xaml </summary>
     public partial class MainWindow : Window
     {
+        // Static readonly objects
+        public static readonly double leftMargin = 10;
+        public static readonly double topMargin = 10;
+        public static readonly double cellEdge = 55;
+
+        // Image relative source paths
+        private readonly string clickedFigureUri = "Resources\\Attack cell.png";
+        private readonly string attackImageUri = "Resources\\Attack.png";
+        private readonly string attackFigureImageUri = "Resources\\Attack figure.png";
+        private readonly string checkImageUri = "Resources\\Check cell.png";
+
         /// <summary> Adds a second to the time </summary>
         private System.Timers.Timer oneSecond;
         private HelpWindow helpWindow;
         private bool isGameStarted = false;
         private int time;
 
-        // Static readonly objects
-        public static readonly double leftMargin = 10;
-        public static readonly double topMargin = 10;
-        public static readonly double cellEdge = 55;
-        // Image relative source paths
-        private readonly string choosedFigureUri = "Resources\\Attack cell.png";
-        private readonly string attackImageUri = "Resources\\Attack.png";
-        private readonly string attackFigureImageUri = "Resources\\Attack figure.png";
-        private readonly string checkImageUri = "Resources\\Check cell.png";
-
         public MainWindow()
         {
             InitializeComponent();
 
             // Initializing
-            chessBoard = new Figure[9, 9];
-            legalMovesBoard = new Image[9, 9];
+            chessboard = new Chessboard();
+            legalMoves = new List<Image>();
 
             // Set margin of a board Image equal to the start margin
             imageChessBoard.Margin = new Thickness(leftMargin, topMargin, 0, 0);
@@ -42,7 +44,7 @@ namespace BelarusChess
             oneSecond.Elapsed += OneSecond_Elapsed;
         }
 
-        /// <summary> Creates highlight images in the position chessBoard[row, column] </summary>
+        /// <summary> Creates highlight images in the necessary cell </summary>
         private Image NewImage(string imageUri, Cell cell, int zIndex)
         {
             Image image = new Image
@@ -79,7 +81,7 @@ namespace BelarusChess
         }
         private void ButtonNewGame_Click(object sender, RoutedEventArgs e)
         {
-            NewGame();
+            StartNewGame();
             labelTime.Content = "00:00";
             time = 0;
             isGameStarted = true;
@@ -93,11 +95,12 @@ namespace BelarusChess
             var result = MessageBox.Show("Справді завершити гру?", "Завершення гри", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
+                oneSecond.Stop();
+                ClearLegalMoves();
                 isGameStarted = false;
                 buttonFinishGame.IsEnabled = false;
                 buttonNewGame.IsEnabled = true;
                 labelBlackPlayer.Content = labelWhitePlayer.Content = "Гру завершено";
-                oneSecond.Stop();
             }
         }
         private void ButtonHelp_Click(object sender, RoutedEventArgs e)
@@ -123,7 +126,7 @@ namespace BelarusChess
         }
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ClearMoves();
+            ClearLegalMoves();
             Image image = (Image)sender;
             int row = (int)((image.Margin.Top - topMargin) / cellEdge);
             int column = (int)((image.Margin.Left - leftMargin) / cellEdge);
@@ -134,7 +137,7 @@ namespace BelarusChess
             Image image = (Image)sender;
             int row = (int)((image.Margin.Top - topMargin) / cellEdge);
             int column = (int)((image.Margin.Left - leftMargin) / cellEdge);
-            cellUnderCursor = NewImage(choosedFigureUri, new Cell(row, column), 1);
+            cellUnderCursor = NewImage(clickedFigureUri, new Cell(row, column), 1);
         }
         private void Image_MouseLeave(object sender, MouseEventArgs e)
         {
@@ -144,7 +147,7 @@ namespace BelarusChess
         {
             if (clickedFigure != null)
             {
-                ClearMoves();
+                ClearLegalMoves();
                 clickedFigure = null;
             }
         }
