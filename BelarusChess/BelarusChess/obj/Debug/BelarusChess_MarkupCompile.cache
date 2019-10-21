@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-F:\Андрій\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\obj\Debug\
+D:\Admin\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\obj\Debug\
 BelarusChess
 none
 false
 DEBUG;TRACE
-F:\Андрій\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\App.xaml
+D:\Admin\Git Repositories\Indi_Projects\BelarusChess\BelarusChess\App.xaml
 32095636224
 
-111792018559
+122055476341
 14434534373
 EnterWindow.xaml;HelpWindow.xaml;MainWindow.xaml;
 
-False
+True
 

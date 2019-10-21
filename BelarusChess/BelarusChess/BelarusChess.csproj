@@ -59,6 +59,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Figures\Bishop.cs" />
+    <Compile Include="Figures\BlackPawn.cs" />
+    <Compile Include="Figures\King.cs" />
+    <Compile Include="Figures\Knight.cs" />
+    <Compile Include="Figures\Prince.cs" />
+    <Compile Include="Figures\Queen.cs" />
+    <Compile Include="Figures\Rook.cs" />
     <Page Include="EnterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -71,15 +78,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Cell.cs" />
     <Compile Include="Chessboard.cs" />
     <Compile Include="EnterWindow.xaml.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.partial.cs" />
+    <Compile Include="Figures\WhitePawn.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="Figure.cs" />
-    <Compile Include="FigureMoves.cs" />
     <Compile Include="HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
@@ -89,6 +97,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Move.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

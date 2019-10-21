@@ -153,12 +153,7 @@ namespace BelarusChess
         }
     }
 
-    // Enumerators
-    /// <summary> Determines all possible types of figures </summary>
-    public enum FigureType
-    {
-        Rook, Bishop, Knight, Prince, Queen, King, Pawn
-    }
+    
     /// <summary> Determines all possible types of moves </summary>
     public enum MoveType
     {

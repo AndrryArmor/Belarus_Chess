@@ -12,16 +12,15 @@ namespace BelarusChess
             InitializeComponent();
         }
 
-        // Events
         private void ButtonGame_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
-            this.Close();
+            new MainWindow().Show();
+            Close();
         }
         private void ButtonHelp_Click(object sender, RoutedEventArgs e)
         {
-            helpWindow = new HelpWindow();
+            if (helpWindow == null)
+                helpWindow = new HelpWindow();
             helpWindow.Show();
         }
     }
