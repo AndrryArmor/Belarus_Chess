@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System;
 
 namespace BelarusChess
 {
@@ -29,6 +30,11 @@ namespace BelarusChess
             get => cell;
             set
             {
+                if (value == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
                 cell = value;
                 Image.Margin = new Thickness(MainWindow.leftMargin + cell.Col * MainWindow.cellEdge,
                                              MainWindow.topMargin + cell.Row * MainWindow.cellEdge, 0, 0);
@@ -43,11 +49,5 @@ namespace BelarusChess
             Type = type;
             Cell = cell;
         }
-    }
-
-    /// <summary> Determines all possible types of figures </summary>
-    public enum FigureType
-    {
-        Rook, Bishop, Knight, Prince, Queen, King, WhitePawn, BlackPawn
     }
 }

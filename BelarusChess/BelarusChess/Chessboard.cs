@@ -7,29 +7,45 @@ using System.Windows.Controls;
 
 namespace BelarusChess
 {
-    public class Chessboard
+    public class Chessboard : ICloneable
     {
-        private readonly Figure[,] chessBoard;
+        private readonly Figure[,] startBoard;
 
-        public Chessboard()
+        public Figure[,] Board { get; private set; }
+        public int Length { get => Board.GetLength(0); }
+
+        public Chessboard(Figure[,] chessboard)
         {
-            chessBoard = new Figure[9, 9];
+            startBoard = chessboard;
+            Reset();
         }
 
         public Figure this [Cell cell]
         {
             get
             {
-                if (cell.Row < 0 || cell.Row > 8 || cell.Col < 0 || cell.Col > 8)
-                    return null;
-                return chessBoard[cell.Row, cell.Col];
+                if (cell == null)
+                    throw new ArgumentNullException("Invalid cell coordinates");
+                return Board[cell.Row, cell.Col];
             }
             set
             {
-                if (cell.Row < 0 || cell.Row > 8 || cell.Col < 0 || cell.Col > 8)
-                    return;
-                chessBoard[cell.Row, cell.Col] = value;
+                if (cell == null)
+                    throw new ArgumentNullException("Invalid cell coordinates");
+                if (value != null)
+                    value.Cell = Cell.Create(cell.Row, cell.Col);
+                Board[cell.Row, cell.Col] = value;
             }
+        }
+
+        public void Reset()
+        {
+            Board = startBoard;
+        }
+
+        public object Clone()
+        {
+            return new Chessboard(Board);
         }
     }
 }

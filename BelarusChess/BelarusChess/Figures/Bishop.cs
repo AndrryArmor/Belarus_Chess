@@ -6,7 +6,7 @@ namespace BelarusChess
     {
         public override Move[,] Moves { get => BishopMoves(); }
 
-        public Bishop(Image image, PlayerColor color, FigureType type, Cell cell) : base(image, color, FigureType.Bishop, cell) { }
+        public Bishop(Image image, PlayerColor color, Cell cell) : base(image, color, FigureType.Bishop, cell) { }
 
         private static Move[,] BishopMoves()
         {

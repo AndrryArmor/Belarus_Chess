@@ -6,7 +6,7 @@ namespace BelarusChess
     {
         public override Move[,] Moves { get => KnightMoves(); }
 
-        public Knight(Image image, PlayerColor color, FigureType type, Cell cell) : base(image, color, FigureType.Knight, cell) { }
+        public Knight(Image image, PlayerColor color, Cell cell) : base(image, color, FigureType.Knight, cell) { }
 
         private static Move[,] KnightMoves()
         {

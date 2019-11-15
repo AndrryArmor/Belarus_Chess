@@ -64,6 +64,7 @@
     <Compile Include="Figures\King.cs" />
     <Compile Include="Figures\Knight.cs" />
     <Compile Include="Figures\Prince.cs" />
+    <Compile Include="PublicEnums.cs" />
     <Compile Include="Figures\Queen.cs" />
     <Compile Include="Figures\Rook.cs" />
     <Page Include="EnterWindow.xaml">
@@ -125,7 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Attack figure.png" />
-    <Resource Include="Resources\Attack.png" />
+    <Resource Include="Resources\Attack cell.png" />
     <Resource Include="Resources\Black bishop.png" />
     <Resource Include="Resources\Black king.png" />
     <Resource Include="Resources\Black knight.png" />
@@ -145,8 +146,8 @@
     <Resource Include="Resources\White rook.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Attack cell.png" />
-    <Resource Include="Resources\Move cell.png" />
+    <Resource Include="Resources\Choosed figure.png" />
+    <Resource Include="Resources\Mouse move cell.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Chess image.png" />
