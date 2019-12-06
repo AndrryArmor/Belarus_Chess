@@ -85,10 +85,6 @@ namespace BelarusChess
             Chessboard.Reset();
         }
 
-        private PlayerColor Next(PlayerColor color)
-        {
-            return (color == PlayerColor.White ? PlayerColor.Black : PlayerColor.White);
-        }
 
         public void FindLegalMoves(Figure figure)
         {
@@ -179,6 +175,12 @@ namespace BelarusChess
             oneSecond.Stop();
         }
 
+        private PlayerColor Next(PlayerColor color)
+        {
+            return (color == PlayerColor.White ? PlayerColor.Black : PlayerColor.White);
+        }
+
+        // Events
         private void OneSecond_Elapsed(object sender, ElapsedEventArgs e)
         {
             time++;
@@ -189,7 +191,5 @@ namespace BelarusChess
                 window.labelTime.Content = string.Format($"{minutes:00}:{seconds:00}");
             });
         }
-
-        
     }
 }

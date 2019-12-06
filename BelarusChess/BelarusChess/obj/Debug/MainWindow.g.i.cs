@@ -437,7 +437,7 @@ namespace BelarusChess {
             this.imageChessBoard = ((System.Windows.Controls.Image)(target));
             
             #line 11 "..\..\MainWindow.xaml"
-            this.imageChessBoard.MouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(this.ImageChessBoard_MouseLeftButtonDown);
+            this.imageChessBoard.MouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(this.ImageChessboard_MouseLeftButtonDown);
             
             #line default
             #line hidden

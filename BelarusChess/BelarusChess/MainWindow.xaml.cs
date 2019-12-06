@@ -80,6 +80,7 @@ namespace BelarusChess
             movesHighlight.Clear();
         }
 
+        // Events
         private void ButtonNewGame_Click(object sender, RoutedEventArgs e)
         {
             game.Start();
@@ -147,7 +148,7 @@ namespace BelarusChess
             grid.Children.Remove(mouseMoveHighlight);
         }
 
-        private void ImageChessBoard_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void ImageChessboard_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             ClearHighlightCells();
         }
