@@ -64,6 +64,7 @@
     <Compile Include="Figures\King.cs" />
     <Compile Include="Figures\Knight.cs" />
     <Compile Include="Figures\Prince.cs" />
+    <Compile Include="IChessView.cs" />
     <Compile Include="PublicEnums.cs" />
     <Compile Include="Figures\Queen.cs" />
     <Compile Include="Figures\Rook.cs" />
@@ -75,25 +76,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="ChessWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Cell.cs" />
     <Compile Include="Chessboard.cs" />
-    <Compile Include="EnterWindow.xaml.cs" />
+    <Compile Include="EnterWindow.xaml.cs">
+      <DependentUpon>EnterWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Figures\WhitePawn.cs" />
-    <Compile Include="Game.cs" />
+    <Compile Include="ChessGame.cs" />
     <Compile Include="Figure.cs" />
     <Compile Include="HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="ChessWindow.xaml.cs">
+      <DependentUpon>ChessWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -125,8 +128,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Attack figure.png" />
-    <Resource Include="Resources\Attack cell.png" />
+    <Resource Include="Resources\Highlight valid move on figure.png" />
+    <Resource Include="Resources\Highlight valid move.png" />
     <Resource Include="Resources\Black bishop.png" />
     <Resource Include="Resources\Black king.png" />
     <Resource Include="Resources\Black knight.png" />
@@ -134,7 +137,7 @@
     <Resource Include="Resources\Black prince.png" />
     <Resource Include="Resources\Black queen.png" />
     <Resource Include="Resources\Black rook.png" />
-    <Resource Include="Resources\Chess board.png" />
+    <Resource Include="Resources\Chessboard.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\White bishop.png" />
@@ -146,20 +149,17 @@
     <Resource Include="Resources\White rook.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Choosed figure.png" />
-    <Resource Include="Resources\Mouse move cell.png" />
+    <Resource Include="Resources\Highlight choosed figure.png" />
+    <Resource Include="Resources\Highlight mouse move cell.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Chess image.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Highlight check.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Resource Include="Resources\BelarusChess.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Check cell.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Шаховий інтерфейс.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -14,7 +14,7 @@ namespace BelarusChess
 
         private void ButtonGame_Click(object sender, RoutedEventArgs e)
         {
-            new MainWindow().Show();
+            new ChessWindow().Show();
             Close();
         }
         private void ButtonHelp_Click(object sender, RoutedEventArgs e)

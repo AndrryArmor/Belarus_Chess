@@ -9,24 +9,37 @@ namespace BelarusChess.Figures
 {
     public class WhitePawn : Figure
     {
-        public override Move[,] Moves { get => WhitePawnMoves(); }
+        public WhitePawn(Cell cell) : base(PlayerColor.White, FigureType.WhitePawn, cell) { }
 
-        public WhitePawn(Image image, Cell cell) : base(image, PlayerColor.White, FigureType.WhitePawn, cell) { }
-
-        private static Move[,] WhitePawnMoves()
+        public override List<Cell> ValidCells(Chessboard chessboard, PlayerColor playerColor)
         {
-            Move[,] legalMoves = new Move[3, 2];
+            var validCells = new List<Cell>();
 
-            // Up
-            legalMoves[0, 0] = new Move(-1, 0);
-            // Double up
-            legalMoves[0, 1] = new Move(-2, 0);
-            // Up-left
-            legalMoves[1, 0] = new Move(-1, -1);
-            // Up-right
-            legalMoves[2, 0] = new Move(-1, 1);
+            // Move up
+            Cell cellUp = Cell.Create(Cell.Row - 1, Cell.Col);
+            if (cellUp != null && chessboard[cellUp] == null)
+            {
+                validCells.Add(cellUp);
+                // Double move
+                if (Cell.Row == 7)
+                {
+                    Cell cellDoubleUp = Cell.Create(Cell.Row - 2, Cell.Col);
+                    if (cellDoubleUp != null && chessboard[cellDoubleUp] == null)
+                        validCells.Add(cellDoubleUp);
+                }
+            }
 
-            return legalMoves;
+            // Beat up-left
+            Cell cellUpLeft = Cell.Create(Cell.Row - 1, Cell.Col - 1);
+            if (cellUpLeft != null && chessboard[cellUpLeft] != null && chessboard[cellUpLeft].Color != playerColor)
+                validCells.Add(cellUpLeft);
+
+            // Beat up-right
+            Cell cellUpRight = Cell.Create(Cell.Row - 1, Cell.Col + 1);
+            if (cellUpRight != null && chessboard[cellUpRight] != null && chessboard[cellUpRight].Color != playerColor)
+                validCells.Add(cellUpRight);
+
+            return validCells;
         }
     }
 }

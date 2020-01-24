@@ -9,24 +9,37 @@ namespace BelarusChess.Figures
 {
     public class BlackPawn : Figure
     {
-        public override Move[,] Moves { get => BlackPawnMoves(); }
+        public BlackPawn(Cell cell) : base(PlayerColor.Black, FigureType.BlackPawn, cell) { }
 
-        public BlackPawn(Image image, Cell cell) : base(image, PlayerColor.Black, FigureType.BlackPawn, cell) { }
-
-        private static Move[,] BlackPawnMoves()
+        public override List<Cell> ValidCells(Chessboard chessboard, PlayerColor playerColor)
         {
-            Move[,] legalMoves = new Move[3, 2];
+            var validCells = new List<Cell>();
 
-            // Up
-            legalMoves[0, 0] = new Move(1, 0);
-            // Double up
-            legalMoves[0, 1] = new Move(2, 0);
-            // Up-left
-            legalMoves[1, 0] = new Move(1, -1);
-            // Up-right
-            legalMoves[2, 0] = new Move(1, 1);
+            // Move up
+            Cell cellUp = Cell.Create(Cell.Row + 1, Cell.Col);
+            if (cellUp != null && chessboard[cellUp] == null)
+            {
+                validCells.Add(cellUp);
+                // Double move
+                if (Cell.Row == 1)
+                {                    
+                    Cell cellDoubleUp = Cell.Create(Cell.Row + 2, Cell.Col);
+                    if (cellDoubleUp != null && chessboard[cellDoubleUp] == null)
+                        validCells.Add(cellDoubleUp);
+                }
+            }
 
-            return legalMoves;
+            // Beat down-left
+            Cell cellDownLeft = Cell.Create(Cell.Row + 1, Cell.Col + 1);
+            if (cellDownLeft != null && chessboard[cellDownLeft] != null && chessboard[cellDownLeft].Color != playerColor)
+                validCells.Add(cellDownLeft);
+
+            // Beat down-right
+            Cell cellDownRight = Cell.Create(Cell.Row + 1, Cell.Col - 1);
+            if (cellDownRight != null && chessboard[cellDownRight] != null && chessboard[cellDownRight].Color != playerColor)
+                validCells.Add(cellDownRight);
+
+            return validCells;
         }
     }
 }

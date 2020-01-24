@@ -1,28 +1,15 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System;
+using System.Collections.Generic;
 
 namespace BelarusChess
 {
     /// <summary> Describes the chess figure </summary>
     public abstract class Figure
-    {        
-        private Image image;
+    {
         private Cell cell;
-
-        public Image Image
-        {
-            get => image;
-            private set
-            {
-                if (value != null)
-                {
-                    image = value;
-                    image.Visibility = Visibility.Visible;
-                    image.Tag = this;
-                }
-            }
-        }
+        protected virtual Move[,] Moves { get; }
         public PlayerColor Color { get; }
         public FigureType Type { get; }
         public Cell Cell
@@ -31,23 +18,41 @@ namespace BelarusChess
             set
             {
                 if (value == null)
-                {
                     throw new ArgumentNullException();
-                }
-
                 cell = value;
-                Image.Margin = new Thickness(MainWindow.leftMargin + cell.Col * MainWindow.cellEdge,
-                                             MainWindow.topMargin + cell.Row * MainWindow.cellEdge, 0, 0);
             }
         }
-        public virtual Move[,] Moves { get; }
-
-        protected Figure(Image image, PlayerColor color, FigureType type, Cell cell)
+        
+        protected Figure(PlayerColor color, FigureType type, Cell cell)
         {
-            Image = image;
             Color = color;
             Type = type;
             Cell = cell;
+        }
+
+        public virtual List<Cell> ValidCells(Chessboard chessboard, PlayerColor playerColor)
+        {
+            var validCells = new List<Cell>();
+
+            /// Finds valid moves for figure
+            for (int i = 0; i < Moves.GetLength(0); i++)
+            {
+                for (int j = 0; j < Moves.GetLength(1); j++)
+                {
+                    Cell newCell = Cell.Create(Cell.Row + Moves[i, j].Rows, Cell.Col + Moves[i, j].Cols);
+
+                    /// If cell not valid or contains friendly figure
+                    if (newCell == null || (chessboard[newCell] != null && chessboard[newCell].Color == playerColor))
+                        break;
+
+                    validCells.Add(newCell);
+
+                    /// If cell contains opponents figure or it stays on throne (except prince)
+                    if (chessboard[newCell] != null || (newCell.Row == 4 && newCell.Col == 4 && Type != FigureType.Prince))
+                        break;
+                }
+            }
+            return validCells;
         }
     }
 }
