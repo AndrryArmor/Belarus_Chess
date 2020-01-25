@@ -29,6 +29,7 @@ namespace BelarusChess
         public void Start()
         {
             IsGameStarted = true;
+            Chessboard.Reset();
             time = TimeSpan.Zero;
             view.SetTime(time);
             oneSecond.Start();

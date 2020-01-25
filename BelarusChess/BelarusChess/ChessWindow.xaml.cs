@@ -37,7 +37,7 @@ namespace BelarusChess
             imageSetChessboard = new ImageSetChessboard(this);
             cellsHighlights = new List<Image>();
 
-            // Set margin of a board Image equal to the start margin
+            // Sets margin of a board Image equal to the start margin
             imageChessboard.Margin = new Thickness(leftMargin, topMargin, 0, 0);
         }
 
@@ -128,6 +128,7 @@ namespace BelarusChess
         // Events
         private void ButtonNewGame_Click(object sender, RoutedEventArgs e)
         {
+            imageSetChessboard.Reset();
             game.Start();
             buttonNewGame.IsEnabled = false;
             buttonFinishGame.IsEnabled = true;
@@ -196,58 +197,58 @@ namespace BelarusChess
 
         private class ImageSetChessboard
         {
+            private readonly Image[,] startBoard;
+
             public Image[,] Board { get; private set; }
             public int Length { get => Board.GetLength(0); }
 
             public ImageSetChessboard(ChessWindow window)
             {
-                Board = new Image[9, 9];
+                startBoard = new Image[9, 9];
+
                 // Black figures
-                Board[0, 0] = window.imageBlackRook1;
-                Board[0, 1] = window.imageBlackKnight1;
-                Board[0, 2] = window.imageBlackBishopW;
-                Board[0, 3] = window.imageBlackQueen;
-                Board[0, 4] = window.imageBlackKing;
-                Board[0, 5] = window.imageBlackPrince;
-                Board[0, 6] = window.imageBlackKnight2;
-                Board[0, 7] = window.imageBlackBishopB;
-                Board[0, 8] = window.imageBlackRook2;
+                startBoard[0, 0] = window.imageBlackRook1;
+                startBoard[0, 1] = window.imageBlackKnight1;
+                startBoard[0, 2] = window.imageBlackBishopW;
+                startBoard[0, 3] = window.imageBlackQueen;
+                startBoard[0, 4] = window.imageBlackKing;
+                startBoard[0, 5] = window.imageBlackPrince;
+                startBoard[0, 6] = window.imageBlackKnight2;
+                startBoard[0, 7] = window.imageBlackBishopB;
+                startBoard[0, 8] = window.imageBlackRook2;
 
-                Board[1, 0] = window.imageBlackPawnA;
-                Board[1, 1] = window.imageBlackPawnB;
-                Board[1, 2] = window.imageBlackPawnC;
-                Board[1, 3] = window.imageBlackPawnD;
-                Board[1, 4] = window.imageBlackPawnE;
-                Board[1, 5] = window.imageBlackPawnF;
-                Board[1, 6] = window.imageBlackPawnG;
-                Board[1, 7] = window.imageBlackPawnH;
-                Board[1, 8] = window.imageBlackPawnI;
-
-                // Fills middle part of the chessboard
-                for (int i = 2; i < 7; i++)
-                    for (int j = 0; j < 9; j++)
-                        Board[i, j] = null;
+                startBoard[1, 0] = window.imageBlackPawnA;
+                startBoard[1, 1] = window.imageBlackPawnB;
+                startBoard[1, 2] = window.imageBlackPawnC;
+                startBoard[1, 3] = window.imageBlackPawnD;
+                startBoard[1, 4] = window.imageBlackPawnE;
+                startBoard[1, 5] = window.imageBlackPawnF;
+                startBoard[1, 6] = window.imageBlackPawnG;
+                startBoard[1, 7] = window.imageBlackPawnH;
+                startBoard[1, 8] = window.imageBlackPawnI;
 
                 // White figures
-                Board[7, 0] = window.imageWhitePawnA;
-                Board[7, 1] = window.imageWhitePawnB;
-                Board[7, 2] = window.imageWhitePawnC;
-                Board[7, 3] = window.imageWhitePawnD;
-                Board[7, 4] = window.imageWhitePawnE;
-                Board[7, 5] = window.imageWhitePawnF;
-                Board[7, 6] = window.imageWhitePawnG;
-                Board[7, 7] = window.imageWhitePawnH;
-                Board[7, 8] = window.imageWhitePawnI;
+                startBoard[7, 0] = window.imageWhitePawnA;
+                startBoard[7, 1] = window.imageWhitePawnB;
+                startBoard[7, 2] = window.imageWhitePawnC;
+                startBoard[7, 3] = window.imageWhitePawnD;
+                startBoard[7, 4] = window.imageWhitePawnE;
+                startBoard[7, 5] = window.imageWhitePawnF;
+                startBoard[7, 6] = window.imageWhitePawnG;
+                startBoard[7, 7] = window.imageWhitePawnH;
+                startBoard[7, 8] = window.imageWhitePawnI;
 
-                Board[8, 0] = window.imageWhiteRook1;
-                Board[8, 1] = window.imageWhiteBishopB;
-                Board[8, 2] = window.imageWhiteKnight1;
-                Board[8, 3] = window.imageWhitePrince;
-                Board[8, 4] = window.imageWhiteKing;
-                Board[8, 5] = window.imageWhiteQueen;
-                Board[8, 6] = window.imageWhiteBishopW;
-                Board[8, 7] = window.imageWhiteKnight2;
-                Board[8, 8] = window.imageWhiteRook2;
+                startBoard[8, 0] = window.imageWhiteRook1;
+                startBoard[8, 1] = window.imageWhiteBishopB;
+                startBoard[8, 2] = window.imageWhiteKnight1;
+                startBoard[8, 3] = window.imageWhitePrince;
+                startBoard[8, 4] = window.imageWhiteKing;
+                startBoard[8, 5] = window.imageWhiteQueen;
+                startBoard[8, 6] = window.imageWhiteBishopW;
+                startBoard[8, 7] = window.imageWhiteKnight2;
+                startBoard[8, 8] = window.imageWhiteRook2;
+
+                Reset();
             }
             public Image this[Cell cell]
             {
@@ -257,6 +258,23 @@ namespace BelarusChess
                     if (cell == null)
                         return;
                     Board[cell.Row, cell.Col] = value;
+                }
+            }
+
+            public void Reset()
+            {
+                Board = (Image[,])startBoard.Clone();
+                // Resets Images location
+                for (int i = 0; i < Length; i++)
+                {
+                    for (int j = 0; j < Length; j++)
+                    {
+                        if (Board[i, j] != null)
+                        {
+                            Board[i, j].Margin = new Thickness(leftMargin + j * cellEdge, topMargin + i * cellEdge, 0, 0);
+                            Board[i, j].Visibility = Visibility.Visible;
+                        }
+                    }
                 }
             }
         }
