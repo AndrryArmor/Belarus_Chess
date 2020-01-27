@@ -59,43 +59,43 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Figures\Bishop.cs" />
-    <Compile Include="Figures\BlackPawn.cs" />
-    <Compile Include="Figures\King.cs" />
-    <Compile Include="Figures\Knight.cs" />
-    <Compile Include="Figures\Prince.cs" />
+    <Compile Include="Pieces\Bishop.cs" />
+    <Compile Include="Pieces\BlackPawn.cs" />
+    <Compile Include="Pieces\King.cs" />
+    <Compile Include="Pieces\Knight.cs" />
+    <Compile Include="Pieces\Prince.cs" />
     <Compile Include="IChessView.cs" />
     <Compile Include="PublicEnums.cs" />
-    <Compile Include="Figures\Queen.cs" />
-    <Compile Include="Figures\Rook.cs" />
-    <Page Include="EnterWindow.xaml">
+    <Compile Include="Pieces\Queen.cs" />
+    <Compile Include="Pieces\Rook.cs" />
+    <Page Include="Views\EnterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="HelpWindow.xaml">
+    <Page Include="Views\HelpWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ChessWindow.xaml">
+    <Page Include="Views\ChessWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Cell.cs" />
     <Compile Include="Chessboard.cs" />
-    <Compile Include="EnterWindow.xaml.cs">
+    <Compile Include="Views\EnterWindow.xaml.cs">
       <DependentUpon>EnterWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Figures\WhitePawn.cs" />
-    <Compile Include="ChessGame.cs" />
-    <Compile Include="Figure.cs" />
-    <Compile Include="HelpWindow.xaml.cs">
+    <Compile Include="Pieces\WhitePawn.cs" />
+    <Compile Include="ChessEngine.cs" />
+    <Compile Include="Piece.cs" />
+    <Compile Include="Views\HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ChessWindow.xaml.cs">
+    <Compile Include="Views\ChessWindow.xaml.cs">
       <DependentUpon>ChessWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -130,23 +130,23 @@
   <ItemGroup>
     <Resource Include="Resources\Highlight valid move on figure.png" />
     <Resource Include="Resources\Highlight valid move.png" />
-    <Resource Include="Resources\Black bishop.png" />
-    <Resource Include="Resources\Black king.png" />
-    <Resource Include="Resources\Black knight.png" />
-    <Resource Include="Resources\Black pawn.png" />
-    <Resource Include="Resources\Black prince.png" />
-    <Resource Include="Resources\Black queen.png" />
-    <Resource Include="Resources\Black rook.png" />
+    <Resource Include="Resources\PiecesSprites\Black bishop.png" />
+    <Resource Include="Resources\PiecesSprites\Black king.png" />
+    <Resource Include="Resources\PiecesSprites\Black knight.png" />
+    <Resource Include="Resources\PiecesSprites\Black pawn.png" />
+    <Resource Include="Resources\PiecesSprites\Black prince.png" />
+    <Resource Include="Resources\PiecesSprites\Black queen.png" />
+    <Resource Include="Resources\PiecesSprites\Black rook.png" />
     <Resource Include="Resources\Chessboard.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\White bishop.png" />
-    <Resource Include="Resources\White king.png" />
-    <Resource Include="Resources\White knight.png" />
-    <Resource Include="Resources\White pawn.png" />
-    <Resource Include="Resources\White prince.png" />
-    <Resource Include="Resources\White queen.png" />
-    <Resource Include="Resources\White rook.png" />
+    <Resource Include="Resources\PiecesSprites\White bishop.png" />
+    <Resource Include="Resources\PiecesSprites\White king.png" />
+    <Resource Include="Resources\PiecesSprites\White knight.png" />
+    <Resource Include="Resources\PiecesSprites\White pawn.png" />
+    <Resource Include="Resources\PiecesSprites\White prince.png" />
+    <Resource Include="Resources\PiecesSprites\White queen.png" />
+    <Resource Include="Resources\PiecesSprites\White rook.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Highlight choosed figure.png" />
@@ -161,5 +161,6 @@
   <ItemGroup>
     <Resource Include="Resources\BelarusChess.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

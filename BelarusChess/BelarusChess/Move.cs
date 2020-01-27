@@ -1,6 +1,6 @@
 ﻿namespace BelarusChess
 {
-    /// <summary> Describes the legal move of a chess figure as an offset of rows and columns </summary>
+    /// <summary> Describes the valid move of a piece as an offset of rows and columns </summary>
     public struct Move
     {
         public int Rows { get; }

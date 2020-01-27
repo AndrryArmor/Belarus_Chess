@@ -1,12 +1,12 @@
 ﻿using System.Windows.Controls;
 
-namespace BelarusChess.Figures
+namespace BelarusChess.Pieces
 {
-    public class King : Figure
+    public class King : Piece
     {
         protected override Move[,] Moves { get => KingMoves(); }
 
-        public King(PlayerColor color, Cell cell) : base(color, FigureType.King, cell) { }
+        public King(PlayerColor color, Cell cell) : base(color, PieceType.King, cell) { }
 
         private static Move[,] KingMoves()
         {

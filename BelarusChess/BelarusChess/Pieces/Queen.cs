@@ -1,17 +1,17 @@
 ﻿using System.Windows.Controls;
 
-namespace BelarusChess.Figures
+namespace BelarusChess.Pieces
 {
-    public class Prince : Figure
+    public class Queen : Piece
     {
-        protected override Move[,] Moves { get => PrinceMoves(); }
+        protected override Move[,] Moves { get => QueenMoves(); }
 
-        public Prince(PlayerColor color, Cell cell) : base(color, FigureType.Prince, cell) { }
+        public Queen(PlayerColor color, Cell cell) : base(color, PieceType.Queen, cell) { }
 
-        private static Move[,] PrinceMoves()
+        private static Move[,] QueenMoves()
         {
-            Move[,] validMoves = new Move[8, 2];
-            for (int i = 0; i < 2; i++)
+            Move[,] validMoves = new Move[8, 8];
+            for (int i = 0; i < 8; i++)
             {
                 // Up
                 validMoves[0, i] = new Move(-(i + 1), 0);

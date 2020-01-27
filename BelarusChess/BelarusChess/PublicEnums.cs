@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace BelarusChess
 {
-    public enum FigureType
+    public enum PieceType
     {
         Rook, Bishop, Knight, Prince, Queen, King, WhitePawn, BlackPawn
     }
+
     public enum PlayerColor
     {
         White, Black

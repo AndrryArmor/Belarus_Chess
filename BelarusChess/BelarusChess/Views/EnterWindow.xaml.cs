@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace BelarusChess
+namespace BelarusChess.Views
 {
     /// <summary> Логика взаимодействия для EnterWindow.xaml </summary>
     public partial class EnterWindow : Window

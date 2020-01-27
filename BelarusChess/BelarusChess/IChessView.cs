@@ -7,7 +7,7 @@ namespace BelarusChess
     {
         void SetTime(TimeSpan time);
         void SetValidCells(List<Cell> validCells);
-        void SetFigureNewCell(Cell oldCell, Cell newCell);
+        void SetPieceNewCell(Cell oldCell, Cell newCell);
         void SetMessageWhite(string message);
         void SetMessageBlack(string message);
         void SetCheck();

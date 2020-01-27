@@ -1,45 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
-namespace BelarusChess
+namespace BelarusChess.Views
 {
     /// <summary> Логика взаимодействия для MainWindow.xaml </summary>
     public partial class ChessWindow : Window, IChessView
     {
-        // Static readonly objects
+        #region Static readonly objects
+
         public static int leftMargin = 10;
         public static int topMargin = 10;
         public static int cellEdge = 55;
 
-        // Image relative source paths
-        public readonly string highlightChoosedFigureUri = "Resources\\Highlight choosed figure.png";
-        public readonly string highlightValidMoveUri = "Resources\\Highlight valid move.png";
-        public readonly string highlightValidMoveOnFigureUri = "Resources\\Highlight valid move on figure.png";
-        public readonly string highlightMouseMoveCellUri = "Resources\\Highlight choosed figure.png";
-        public readonly string highlightCheckUri = "Resources\\Highlight check.png";
+        #endregion
+
+        #region Image sources relative paths
+
+        public readonly string highlightChoosedPieceUri = "\\BelarusChess;component\\Resources\\Highlight choosed piece.png";
+        public readonly string highlightValidMoveUri = "\\BelarusChess;component\\Resources\\Highlight valid move.png";
+        public readonly string highlightValidMoveOnPieceUri = "\\BelarusChess;component\\Resources\\Highlight valid move on piece.png";
+        public readonly string highlightMouseMoveCellUri = "\\BelarusChess;component\\Resources\\Highlight choosed piece.png";
+        public readonly string highlightCheckUri = "\\BelarusChess;component\\Resources\\Highlight check.png";
+        
+        #endregion
+
+        #region Private fields
 
         private HelpWindow helpWindow;
-        private ChessGame game;
-        private ImageSetChessboard imageSetChessboard;
-        private List<Image> cellsHighlights;
-        private Image choosedFigureHighlight;
+        private readonly ChessEngine game;
+        private readonly ImageSetChessboard imageSetChessboard;
+        private readonly List<Image> cellsHighlights;
+        private Image choosedPieceHighlight;
         private Image mouseMoveHighlight;
+
+        #endregion
 
         public ChessWindow()
         {
             InitializeComponent();
-            game = new ChessGame(this);
+            game = new ChessEngine(this);
             imageSetChessboard = new ImageSetChessboard(this);
             cellsHighlights = new List<Image>();
 
             // Sets margin of a board Image equal to the start margin
             imageChessboard.Margin = new Thickness(leftMargin, topMargin, 0, 0);
         }
+
+        #region IChessView implementation
 
         public void SetTime(TimeSpan time)
         {
@@ -53,13 +64,13 @@ namespace BelarusChess
         {
             foreach (var cell in validCells)
             {
-                string highlightUri = (imageSetChessboard[cell] == null ? highlightValidMoveUri : highlightValidMoveOnFigureUri);
+                string highlightUri = (imageSetChessboard[cell] == null ? highlightValidMoveUri : highlightValidMoveOnPieceUri);
                 Image highlight = CreateHighlightImage(highlightUri, cell);
                 cellsHighlights.Add(highlight);
             }
         }
 
-        public void SetFigureNewCell(Cell oldCell, Cell newCell)
+        public void SetPieceNewCell(Cell oldCell, Cell newCell)
         {
             if (imageSetChessboard[newCell] != null)
                 imageSetChessboard[newCell].Visibility = Visibility.Hidden;
@@ -84,6 +95,8 @@ namespace BelarusChess
             throw new NotImplementedException();
         }
 
+        #endregion
+
         private Cell ImageToCell(Image image)
         {
             int rows = (int)(image.Margin.Top - topMargin) / cellEdge;
@@ -104,7 +117,7 @@ namespace BelarusChess
             };
 
             int zIndex = 1;
-            if (imageUri == highlightValidMoveUri || imageUri == highlightValidMoveOnFigureUri)
+            if (imageUri == highlightValidMoveUri || imageUri == highlightValidMoveOnPieceUri)
             {
                 image.MouseLeftButtonDown += new MouseButtonEventHandler(ValidMoveImage_MouseLeftButtonDown);
                 image.MouseEnter += new MouseEventHandler(ValidMoveImage_MouseEnter);
@@ -118,14 +131,15 @@ namespace BelarusChess
 
         public void ClearHighlights()
         {
-            grid.Children.Remove(choosedFigureHighlight);
+            grid.Children.Remove(choosedPieceHighlight);
             grid.Children.Remove(mouseMoveHighlight);
             for (int i = 0; i < cellsHighlights.Count; i++)
                 grid.Children.Remove(cellsHighlights[i]);
             cellsHighlights.Clear();
         }
 
-        // Events
+        #region Events
+
         private void ButtonNewGame_Click(object sender, RoutedEventArgs e)
         {
             imageSetChessboard.Reset();
@@ -161,15 +175,15 @@ namespace BelarusChess
                 e.Cancel = true;
         }
 
-        private void FigureImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void PieceImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (game.IsGameStarted == false)
                 return;
 
             ClearHighlights();
-            Cell figureCell = ImageToCell((Image)sender);
-            choosedFigureHighlight = CreateHighlightImage(highlightChoosedFigureUri, figureCell);
-            game.FindFigureValidMoves(figureCell);
+            Cell pieceCell = ImageToCell((Image)sender);
+            choosedPieceHighlight = CreateHighlightImage(highlightChoosedPieceUri, pieceCell);
+            game.FindPieceValidMoves(pieceCell);
         }
 
         private void ValidMoveImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -195,6 +209,8 @@ namespace BelarusChess
             ClearHighlights();
         }
 
+        #endregion
+
         private class ImageSetChessboard
         {
             private readonly Image[,] startBoard;
@@ -206,7 +222,7 @@ namespace BelarusChess
             {
                 startBoard = new Image[9, 9];
 
-                // Black figures
+                #region Black pieces initialisation
                 startBoard[0, 0] = window.imageBlackRook1;
                 startBoard[0, 1] = window.imageBlackKnight1;
                 startBoard[0, 2] = window.imageBlackBishopW;
@@ -226,8 +242,9 @@ namespace BelarusChess
                 startBoard[1, 6] = window.imageBlackPawnG;
                 startBoard[1, 7] = window.imageBlackPawnH;
                 startBoard[1, 8] = window.imageBlackPawnI;
+                #endregion
 
-                // White figures
+                #region White pieces initialisation
                 startBoard[7, 0] = window.imageWhitePawnA;
                 startBoard[7, 1] = window.imageWhitePawnB;
                 startBoard[7, 2] = window.imageWhitePawnC;
@@ -247,6 +264,7 @@ namespace BelarusChess
                 startBoard[8, 6] = window.imageWhiteBishopW;
                 startBoard[8, 7] = window.imageWhiteKnight2;
                 startBoard[8, 8] = window.imageWhiteRook2;
+                #endregion
 
                 Reset();
             }

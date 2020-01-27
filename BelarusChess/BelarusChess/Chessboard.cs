@@ -1,4 +1,4 @@
-﻿using BelarusChess.Figures;
+﻿using BelarusChess.Pieces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +10,17 @@ namespace BelarusChess
 {
     public class Chessboard
     {
-        private readonly Figure[,] startBoard;
+        private readonly Piece[,] startBoard;
 
-        public Figure[,] Board { get; private set; }
+        public Piece[,] Board { get; private set; }
         public int Length { get => Board.GetLength(0); }
 
         public Chessboard()
         {
-            startBoard = new Figure[9, 9];
+            startBoard = new Piece[9, 9];
 
-            // Black figures
+            #region Black pieces initialisation
+
             startBoard[0, 0] = new Rook(PlayerColor.Black, Cell.Create(0, 0));
             startBoard[0, 1] = new Knight(PlayerColor.Black, Cell.Create(0, 1));
             startBoard[0, 2] = new Bishop(PlayerColor.Black, Cell.Create(0, 2));
@@ -40,7 +41,10 @@ namespace BelarusChess
             startBoard[1, 7] = new BlackPawn(Cell.Create(1, 7));
             startBoard[1, 8] = new BlackPawn(Cell.Create(1, 8));
 
-            // White figures
+            #endregion
+
+            #region White pieces initialisation
+
             startBoard[7, 0] = new WhitePawn(Cell.Create(7, 0));
             startBoard[7, 1] = new WhitePawn(Cell.Create(7, 1));
             startBoard[7, 2] = new WhitePawn(Cell.Create(7, 2));
@@ -61,9 +65,11 @@ namespace BelarusChess
             startBoard[8, 7] = new Knight(PlayerColor.White, Cell.Create(8, 7));
             startBoard[8, 8] = new Rook(PlayerColor.White, Cell.Create(8, 8));
 
+            #endregion
+
             Reset();
         }
-        public Figure this [Cell cell]
+        public Piece this [Cell cell]
         {
             get => (cell == null ? null : Board[cell.Row, cell.Col]);
             set
@@ -78,8 +84,8 @@ namespace BelarusChess
 
         public void Reset()
         {
-            Board = (Figure[,])startBoard.Clone();
-            // Resets Figures location
+            Board = (Piece[,])startBoard.Clone();
+            // Resets pieces location
             for (int i = 0; i < Length; i++)
             {
                 for (int j = 0; j < Length; j++)

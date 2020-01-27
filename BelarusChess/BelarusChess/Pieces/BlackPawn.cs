@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace BelarusChess.Figures
+namespace BelarusChess.Pieces
 {
-    public class BlackPawn : Figure
+    public class BlackPawn : Piece
     {
-        public BlackPawn(Cell cell) : base(PlayerColor.Black, FigureType.BlackPawn, cell) { }
+        public BlackPawn(Cell cell) : base(PlayerColor.Black, PieceType.BlackPawn, cell) { }
 
         public override List<Cell> ValidCells(Chessboard chessboard, PlayerColor playerColor)
         {
