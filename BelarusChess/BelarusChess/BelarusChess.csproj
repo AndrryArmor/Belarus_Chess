@@ -128,7 +128,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Highlight valid move on figure.png" />
+    <Resource Include="Resources\Highlight valid move on piece.png" />
     <Resource Include="Resources\Highlight valid move.png" />
     <Resource Include="Resources\PiecesSprites\Black bishop.png" />
     <Resource Include="Resources\PiecesSprites\Black king.png" />
@@ -149,7 +149,7 @@
     <Resource Include="Resources\PiecesSprites\White rook.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Highlight choosed figure.png" />
+    <Resource Include="Resources\Highlight choosed piece.png" />
     <Resource Include="Resources\Highlight mouse move cell.png" />
   </ItemGroup>
   <ItemGroup>

@@ -20,12 +20,12 @@ namespace BelarusChess.Views
 
         #region Image sources relative paths
 
-        public readonly string highlightChoosedPieceUri = "\\BelarusChess;component\\Resources\\Highlight choosed piece.png";
-        public readonly string highlightValidMoveUri = "\\BelarusChess;component\\Resources\\Highlight valid move.png";
-        public readonly string highlightValidMoveOnPieceUri = "\\BelarusChess;component\\Resources\\Highlight valid move on piece.png";
-        public readonly string highlightMouseMoveCellUri = "\\BelarusChess;component\\Resources\\Highlight choosed piece.png";
-        public readonly string highlightCheckUri = "\\BelarusChess;component\\Resources\\Highlight check.png";
-        
+        public readonly string highlightChoosedPieceUri = "..\\Resources\\Highlight choosed piece.png";
+        public readonly string highlightValidMoveUri = "..\\Resources\\Highlight valid move.png";
+        public readonly string highlightValidMoveOnPieceUri = "..\\Resources\\Highlight valid move on piece.png";
+        public readonly string highlightMouseMoveCellUri = "..\\Resources\\Highlight choosed piece.png";
+        public readonly string highlightCheckUri = "..\\Resources\\Highlight check.png";
+
         #endregion
 
         #region Private fields

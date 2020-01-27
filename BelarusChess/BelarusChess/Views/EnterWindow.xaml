@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BelarusChess.Views"
         mc:Ignorable="d"
-        Title="Білоруські шахи" Height="415" Width="505" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="/BelarusChess;component/Resources/BelarusChess.png">
+        Title="Білоруські шахи" Height="415" Width="505" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="../Resources/BelarusChess.png">
     <Window.Background>
-        <ImageBrush ImageSource="/BelarusChess;component/Resources/Chess image.png" Stretch="UniformToFill"/>
+        <ImageBrush ImageSource="../Resources/Chess image.png" Stretch="UniformToFill"/>
     </Window.Background>
     <Grid HorizontalAlignment="Left" Width="495" Height="384" VerticalAlignment="Top">
         <Grid.Background>
