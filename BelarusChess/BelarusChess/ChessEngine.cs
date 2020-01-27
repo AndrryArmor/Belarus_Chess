@@ -7,6 +7,9 @@ using System.Windows.Controls;
 
 namespace BelarusChess
 {
+    /// <summary>
+    /// Class that provides chess game
+    /// </summary>
     public class ChessEngine
     {
         #region Private fields
@@ -14,7 +17,7 @@ namespace BelarusChess
         private readonly IChessView view;
         private readonly Timer oneSecond;
         private TimeSpan time;
-        private Chessboard Chessboard;
+        private readonly Chessboard Chessboard;
         private Piece choosedPiece;
 
         #endregion
@@ -22,7 +25,8 @@ namespace BelarusChess
         #region Public properties
 
         public PlayerColor CurrentColor { get; private set; }
-        public bool IsGameStarted { get; set; } = false;
+        public GameState GameState { get; private set; }
+        public bool IsGameStarted { get; set; }
 
         #endregion
 
@@ -49,9 +53,12 @@ namespace BelarusChess
             choosedPiece = Chessboard[pieceCell];
             // If piece does not exist or there is not turn of current player
             if (choosedPiece == null || choosedPiece.Color != CurrentColor)
-                return;            
+                return;
 
-            view.SetValidCells(choosedPiece.ValidCells(Chessboard, CurrentColor));
+            List<Cell> validCells = choosedPiece.ValidCells(Chessboard, CurrentColor);
+
+
+            view.SetValidCells();
         }
 
         public void MakeMoveTo(Cell cell)
@@ -60,10 +67,18 @@ namespace BelarusChess
             Chessboard[choosedPiece.Cell] = null;
             Chessboard[cell] = choosedPiece;
             CurrentColor = CurrentColor.Next();
+
+            CheckGameState();
         }
 
-        private bool IsCheck(Chessboard chessboard)
+        private void CheckGameState()
         {
+
+        }
+
+        private bool IsCheck(PlayerColor playerColor, Chessboard chessboard)
+        {
+            
             return false;
         }
 

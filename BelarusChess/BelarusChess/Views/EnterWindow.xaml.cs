@@ -2,7 +2,7 @@
 
 namespace BelarusChess.Views
 {
-    /// <summary> Логика взаимодействия для EnterWindow.xaml </summary>
+    /// <summary> Interaction logic for EnterWindow.xaml </summary>
     public partial class EnterWindow : Window
     {
         HelpWindow helpWindow;

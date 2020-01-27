@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace BelarusChess
 {
-    /// <summary> Describes the chess piece</summary>
+    /// <summary> Describes the chess piece </summary>
     public abstract class Piece
     {
         private Cell cell;

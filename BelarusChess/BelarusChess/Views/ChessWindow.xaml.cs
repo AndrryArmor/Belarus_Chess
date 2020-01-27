@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 
 namespace BelarusChess.Views
 {
-    /// <summary> Логика взаимодействия для MainWindow.xaml </summary>
+    /// <summary> Interaction logic for MainWindow.xaml </summary>
     public partial class ChessWindow : Window, IChessView
     {
         #region Static readonly objects

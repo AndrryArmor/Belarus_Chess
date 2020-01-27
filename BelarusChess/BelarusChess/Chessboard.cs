@@ -8,10 +8,17 @@ using System.Windows.Controls;
 
 namespace BelarusChess
 {
+    /// <summary>
+    /// Represents a 2-dimensional chessboard with <see cref="Piece"/>s.
+    /// </summary>
     public class Chessboard
     {
         private readonly Piece[,] startBoard;
 
+        public Piece WhiteKing { get; private set; }
+        public Piece BlackKing { get; private set; }
+        public Piece WhitePrince { get; private set; }
+        public Piece BlackPrince { get; private set; }
         public Piece[,] Board { get; private set; }
         public int Length { get => Board.GetLength(0); }
 
@@ -66,6 +73,11 @@ namespace BelarusChess
             startBoard[8, 8] = new Rook(PlayerColor.White, Cell.Create(8, 8));
 
             #endregion
+
+            WhiteKing = startBoard[8, 4];
+            BlackKing = startBoard[0, 4];
+            WhitePrince = startBoard[8, 3];
+            BlackPrince = startBoard[0, 5];
 
             Reset();
         }

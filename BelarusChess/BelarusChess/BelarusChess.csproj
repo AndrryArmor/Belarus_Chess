@@ -59,6 +59,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Engine\Rules\IRule.cs" />
+    <Compile Include="Engine\Rules\RookMovementRule.cs" />
     <Compile Include="Pieces\Bishop.cs" />
     <Compile Include="Pieces\BlackPawn.cs" />
     <Compile Include="Pieces\King.cs" />

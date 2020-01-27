@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace BelarusChess
 {
+    /// <summary>
+    /// Interface for manipulating the visual elements in the window by <see cref="ChessEngine"/> class
+    /// </summary>
     public interface IChessView
     {
         void SetTime(TimeSpan time);

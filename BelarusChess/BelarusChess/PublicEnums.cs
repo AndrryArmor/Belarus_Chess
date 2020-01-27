@@ -17,15 +17,15 @@ namespace BelarusChess
     }
     public static class PlayerColorExtension
     {
-        /// <summary>Provides the right of move to the next player</summary>
+        /// <summary> Provides the right of move to the next player </summary>
         public static PlayerColor Next(this PlayerColor color)
         {
             return (color == PlayerColor.White ? PlayerColor.Black : PlayerColor.White);
         }
     }
 
-    public enum MoveType
+    public enum GameState
     {
-        Regular, Check, Checkmate, Inauguration, Throne, ThroneMine
+        Regular, Check, Checkmate, Stalemate, Inauguration, Throne, ThroneMine
     }
 }
