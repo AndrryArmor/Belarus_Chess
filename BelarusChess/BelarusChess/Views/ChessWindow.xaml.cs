@@ -56,7 +56,7 @@ namespace BelarusChess.Views
         {
             Dispatcher.Invoke(() =>
             {
-                labelTime.Content = time.Seconds;
+                labelTime.Content = time.ToString("c");
             });
         }
 

@@ -36,8 +36,9 @@ namespace BelarusChess
 
         public void Start()
         {
-            IsGameStarted = true;
             Chessboard.Reset();
+            CurrentColor = PlayerColor.White;
+            IsGameStarted = true;
             time = TimeSpan.Zero;
             view.SetTime(time);
             oneSecond.Start();
@@ -77,7 +78,7 @@ namespace BelarusChess
         private void OneSecond_Elapsed(object sender, ElapsedEventArgs e)
         {
             long second = TimeSpan.TicksPerSecond;
-            time.Add(new TimeSpan(second));
+            time = time + new TimeSpan(second);
             view.SetTime(time);
         }
 
