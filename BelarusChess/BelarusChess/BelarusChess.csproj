@@ -59,7 +59,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Engine\Rules\PawnMovementRule.cs" />
+    <Compile Include="Engine\Rules\KnightMovementRule.cs" />
+    <Compile Include="Engine\Rules\PrinceMovementRule.cs" />
+    <Compile Include="Engine\Rules\KingMovementRule.cs" />
+    <Compile Include="Engine\Rules\QueenMovementRule.cs" />
     <Compile Include="Engine\Rules\IRule.cs" />
+    <Compile Include="Engine\Rules\BishopMovementRule.cs" />
     <Compile Include="Engine\Rules\RookMovementRule.cs" />
     <Compile Include="Pieces\Bishop.cs" />
     <Compile Include="Pieces\BlackPawn.cs" />
