@@ -59,6 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Engine\Rules\CheckAvoidanceRule.cs" />
     <Compile Include="Engine\Rules\PawnMovementRule.cs" />
     <Compile Include="Engine\Rules\KnightMovementRule.cs" />
     <Compile Include="Engine\Rules\PrinceMovementRule.cs" />

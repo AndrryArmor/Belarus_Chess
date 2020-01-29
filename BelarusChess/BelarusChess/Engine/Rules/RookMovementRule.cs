@@ -9,7 +9,7 @@ namespace BelarusChess.Engine.Rules
     /// <summary> Movement rule for <see cref="Pieces.Rook"/> </summary>
     public class RookMovementRule : IRule
     {
-        // Private fields to use by ValidCells() and RecursivelyFindNextValidCell() methods
+        // Private fields to use by RecursivelyFindNextValidCell() method
         private readonly List<Cell> validCells;
         private Piece piece;
         private Chessboard chessboard;
@@ -38,7 +38,7 @@ namespace BelarusChess.Engine.Rules
 
         private void RecursivelyFindNextValidCell(RookDirection direction, Cell currentCell)
         {
-            #region Exit statements
+            #region Exit conditions
 
             // If cell is not valid (outside of the chessboard)
             if (currentCell == null)

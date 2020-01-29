@@ -17,9 +17,7 @@ namespace BelarusChess.Engine.Rules
                 throw new ArgumentException("Piece must belong to the board");
 
             var validCells = new List<Cell>();
-            var queenMovementRule = new QueenMovementRule();
-
-            validCells.AddRange(queenMovementRule.ValidCells(piece, chessboard));
+            validCells.AddRange(new QueenMovementRule().ValidCells(piece, chessboard));
             validCells.RemoveAll(cell =>
             {
                 int rowDifference = Math.Abs(cell.Row - piece.Cell.Row);

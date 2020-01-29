@@ -17,11 +17,9 @@ namespace BelarusChess.Engine.Rules
                 throw new ArgumentException("Piece must belong to the board");
 
             var validCells = new List<Cell>();
-            var rookMovementRule = new RookMovementRule();
-            var bishopMovementRule = new BishopMovementRule();
 
-            validCells.AddRange(rookMovementRule.ValidCells(piece, chessboard));
-            validCells.AddRange(bishopMovementRule.ValidCells(piece, chessboard));
+            validCells.AddRange(new RookMovementRule().ValidCells(piece, chessboard));
+            validCells.AddRange(new BishopMovementRule().ValidCells(piece, chessboard));
 
             return validCells;
         }
