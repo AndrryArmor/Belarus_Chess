@@ -119,12 +119,6 @@ namespace BelarusChess.Engine
                 case PieceType.Pawn:
                     movementRule = new PawnMovementRule();
                     break;
-                case PieceType.WhitePawn:
-                    movementRule = new PawnMovementRule();
-                    break;
-                case PieceType.BlackPawn:
-                    movementRule = new PawnMovementRule();
-                    break;
             }
 
             return movementRule;

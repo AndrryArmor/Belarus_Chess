@@ -8,7 +8,7 @@ namespace BelarusChess
 {
     public enum PieceType
     {
-        Rook, Bishop, Knight, Prince, Queen, King, WhitePawn, BlackPawn, Pawn
+        Rook, Bishop, Knight, Prince, Queen, King, Pawn
     }
 
     public enum PlayerColor

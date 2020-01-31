@@ -42,29 +42,29 @@ namespace BelarusChess
             startBoard[0, 7] = new Bishop(PlayerColor.Black, Cell.Create(0, 7));
             startBoard[0, 8] = new Rook(PlayerColor.Black, Cell.Create(0, 8));
 
-            startBoard[1, 0] = new BlackPawn(Cell.Create(1, 0));
-            startBoard[1, 1] = new BlackPawn(Cell.Create(1, 1));
-            startBoard[1, 2] = new BlackPawn(Cell.Create(1, 2));
-            startBoard[1, 3] = new BlackPawn(Cell.Create(1, 3));
-            startBoard[1, 4] = new BlackPawn(Cell.Create(1, 4));
-            startBoard[1, 5] = new BlackPawn(Cell.Create(1, 5));
-            startBoard[1, 6] = new BlackPawn(Cell.Create(1, 6));
-            startBoard[1, 7] = new BlackPawn(Cell.Create(1, 7));
-            startBoard[1, 8] = new BlackPawn(Cell.Create(1, 8));
+            startBoard[1, 0] = new Pawn(PlayerColor.Black, Cell.Create(1, 0));
+            startBoard[1, 1] = new Pawn(PlayerColor.Black, Cell.Create(1, 1));
+            startBoard[1, 2] = new Pawn(PlayerColor.Black, Cell.Create(1, 2));
+            startBoard[1, 3] = new Pawn(PlayerColor.Black, Cell.Create(1, 3));
+            startBoard[1, 4] = new Pawn(PlayerColor.Black, Cell.Create(1, 4));
+            startBoard[1, 5] = new Pawn(PlayerColor.Black, Cell.Create(1, 5));
+            startBoard[1, 6] = new Pawn(PlayerColor.Black, Cell.Create(1, 6));
+            startBoard[1, 7] = new Pawn(PlayerColor.Black, Cell.Create(1, 7));
+            startBoard[1, 8] = new Pawn(PlayerColor.Black, Cell.Create(1, 8));
 
             #endregion
 
             #region White pieces initialisation
 
-            startBoard[7, 0] = new WhitePawn(Cell.Create(7, 0));
-            startBoard[7, 1] = new WhitePawn(Cell.Create(7, 1));
-            startBoard[7, 2] = new WhitePawn(Cell.Create(7, 2));
-            startBoard[7, 3] = new WhitePawn(Cell.Create(7, 3));
-            startBoard[7, 4] = new WhitePawn(Cell.Create(7, 4));
-            startBoard[7, 5] = new WhitePawn(Cell.Create(7, 5));
-            startBoard[7, 6] = new WhitePawn(Cell.Create(7, 6));
-            startBoard[7, 7] = new WhitePawn(Cell.Create(7, 7));
-            startBoard[7, 8] = new WhitePawn(Cell.Create(7, 8));
+            startBoard[7, 0] = new Pawn(PlayerColor.White, Cell.Create(7, 0));
+            startBoard[7, 1] = new Pawn(PlayerColor.White, Cell.Create(7, 1));
+            startBoard[7, 2] = new Pawn(PlayerColor.White, Cell.Create(7, 2));
+            startBoard[7, 3] = new Pawn(PlayerColor.White, Cell.Create(7, 3));
+            startBoard[7, 4] = new Pawn(PlayerColor.White, Cell.Create(7, 4));
+            startBoard[7, 5] = new Pawn(PlayerColor.White, Cell.Create(7, 5));
+            startBoard[7, 6] = new Pawn(PlayerColor.White, Cell.Create(7, 6));
+            startBoard[7, 7] = new Pawn(PlayerColor.White, Cell.Create(7, 7));
+            startBoard[7, 8] = new Pawn(PlayerColor.White, Cell.Create(7, 8));
 
             startBoard[8, 0] = new Rook(PlayerColor.White, Cell.Create(8, 0));
             startBoard[8, 1] = new Bishop(PlayerColor.White, Cell.Create(8, 1));

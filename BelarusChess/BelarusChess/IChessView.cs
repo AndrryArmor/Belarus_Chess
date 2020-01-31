@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace BelarusChess
 {
     /// <summary>
-    /// Interface for manipulating the visual elements in the window by <see cref="ChessGame"/> class
+    /// Interface for manipulating the visual elements in the window by <see cref="GameController"/>
     /// </summary>
     public interface IChessView
     {

@@ -64,7 +64,6 @@ namespace BelarusChess
 
             SwitchPlayer();
         }
-
             private string GetMessageForState(GameState gameState)
             {
                 string message = "";
@@ -95,19 +94,18 @@ namespace BelarusChess
 
                 return message;
             }
-
-        private void SwitchPlayer()
-        {
-            switch (CurrentColor)
+            private void SwitchPlayer()
             {
-                case PlayerColor.White:
-                    CurrentColor = PlayerColor.Black;
-                    break;
-                case PlayerColor.Black:
-                    CurrentColor = PlayerColor.White;
-                    break;
+                switch (CurrentColor)
+                {
+                    case PlayerColor.White:
+                        CurrentColor = PlayerColor.Black;
+                        break;
+                    case PlayerColor.Black:
+                        CurrentColor = PlayerColor.White;
+                        break;
+                }
             }
-        }
 
         public void Finish() 
         {
