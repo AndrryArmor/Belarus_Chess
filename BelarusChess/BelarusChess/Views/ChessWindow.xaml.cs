@@ -31,7 +31,7 @@ namespace BelarusChess.Views
         #region Private fields
 
         private HelpWindow helpWindow;
-        private readonly ChessEngine game;
+        private readonly GameController game;
         private readonly ImageSetChessboard imageSetChessboard;
         private readonly List<Image> cellsHighlights;
         private Image choosedPieceHighlight;
@@ -42,7 +42,7 @@ namespace BelarusChess.Views
         public ChessWindow()
         {
             InitializeComponent();
-            game = new ChessEngine(this);
+            game = new GameController(this);
             imageSetChessboard = new ImageSetChessboard(this);
             cellsHighlights = new List<Image>();
 
@@ -70,16 +70,6 @@ namespace BelarusChess.Views
             }
         }
 
-        public void SetPieceNewCell(Cell oldCell, Cell newCell)
-        {
-            if (imageSetChessboard[newCell] != null)
-                imageSetChessboard[newCell].Visibility = Visibility.Hidden;
-
-            imageSetChessboard[newCell] = imageSetChessboard[oldCell];
-            imageSetChessboard[newCell].Margin = new Thickness(leftMargin + newCell.Col * cellEdge, topMargin + newCell.Row * cellEdge, 0, 0);
-            imageSetChessboard[oldCell] = null;
-        }
-
         public void SetMessageWhite(string message)
         {
             labelWhitePlayer.Content = message;
@@ -90,12 +80,29 @@ namespace BelarusChess.Views
             labelBlackPlayer.Content = message;
         }
 
-        public void SetCheck()
+        public void SetCheck(Cell kingCell)
         {
-            throw new NotImplementedException();
+            string highlightUri = highlightCheckUri;
+            Image highlight = CreateHighlightImage(highlightUri, kingCell);
+            cellsHighlights.Add(highlight);
+        }
+
+        public void Chessboard_ChessboardPieceMoved(object sender, ChessboardPieceMovedEventArgs e)
+        {
+            if (imageSetChessboard[e.NewCell] != null)
+                imageSetChessboard[e.NewCell].Visibility = Visibility.Hidden;
+
+            imageSetChessboard[e.NewCell] = imageSetChessboard[e.OldCell];
+
+            if (imageSetChessboard[e.NewCell] != null)
+                imageSetChessboard[e.NewCell].Margin = new Thickness(leftMargin + e.NewCell.Col * cellEdge,
+                                                                     topMargin + e.NewCell.Row * cellEdge, 0, 0);
+            imageSetChessboard[e.OldCell] = null;        
         }
 
         #endregion
+
+        #region Utils
 
         private Cell ImageToCell(Image image)
         {
@@ -137,6 +144,8 @@ namespace BelarusChess.Views
                 grid.Children.Remove(cellsHighlights[i]);
             cellsHighlights.Clear();
         }
+
+        #endregion
 
         #region Events
 

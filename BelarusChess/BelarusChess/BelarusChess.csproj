@@ -59,6 +59,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BoardChangeEventHandler.cs" />
+    <Compile Include="GameController.cs" />
+    <Compile Include="Engine\ChessEngine.cs" />
     <Compile Include="Engine\Rules\CheckAvoidanceRule.cs" />
     <Compile Include="Engine\Rules\PawnMovementRule.cs" />
     <Compile Include="Engine\Rules\KnightMovementRule.cs" />
@@ -91,6 +94,7 @@
     </Page>
     <Compile Include="Cell.cs" />
     <Compile Include="Chessboard.cs" />
+    <Compile Include="ChessboardPieceMovedEventArgs.cs" />
     <Compile Include="Views\EnterWindow.xaml.cs">
       <DependentUpon>EnterWindow.xaml</DependentUpon>
     </Compile>
@@ -99,7 +103,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Pieces\WhitePawn.cs" />
-    <Compile Include="ChessEngine.cs" />
+    <Compile Include="ChessGame.cs" />
     <Compile Include="Piece.cs" />
     <Compile Include="Views\HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
