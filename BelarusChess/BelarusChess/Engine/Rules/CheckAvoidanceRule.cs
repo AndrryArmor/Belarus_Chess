@@ -28,7 +28,6 @@ namespace BelarusChess.Engine.Rules
 
                 // Moves piece to the cell
                 chessboard[validCell] = piece;
-                piece.Cell = validCell;
                 chessboard[pieceStartCell] = null;
 
                 if (IsCheck(piece.Color, chessboard) == false)
@@ -36,7 +35,6 @@ namespace BelarusChess.Engine.Rules
 
                 // Undo the move
                 chessboard[pieceStartCell] = piece;
-                piece.Cell = pieceStartCell;
                 chessboard[validCell] = beatenPiece;
             }
 
