@@ -14,6 +14,7 @@ namespace BelarusChess
     public class Chessboard
     {
         private readonly Piece[,] startBoard;
+        private event EventHandler<ChessboardPieceMovedEventArgs> ChessboardPieceMoved;
 
         public Piece WhiteKing { get; private set; }
         public Piece BlackKing { get; private set; }
@@ -22,8 +23,11 @@ namespace BelarusChess
         public Piece[,] Board { get; private set; }
         public int Length { get => Board.GetLength(0); }
 
-        public Chessboard()
+
+        public Chessboard(EventHandler<ChessboardPieceMovedEventArgs> eventHandler)
         {
+            ChessboardPieceMoved += eventHandler;
+
             startBoard = new Piece[9, 9];
 
             #region Black pieces initialisation
@@ -81,6 +85,7 @@ namespace BelarusChess
 
             Reset();
         }
+
         public Piece this [Cell cell]
         {
             get => (cell == null ? null : Board[cell.Row, cell.Col]);
@@ -88,9 +93,37 @@ namespace BelarusChess
             {
                 if (cell == null)
                     return;
-                if (value != null)
-                    value.Cell = Cell.Create(cell.Row, cell.Col);
+
+                #region Princes syncronisation
+
+                if (Board[cell.Row, cell.Col]?.Type == PieceType.Prince)
+                {
+                    if (Board[cell.Row, cell.Col].Color == PlayerColor.White)
+                        WhitePrince = null;
+                    else
+                        BlackPrince = null;
+                }
+                else if (value?.Type == PieceType.Prince)
+                {
+                    if (value.Color == PlayerColor.White && WhitePrince == null)
+                        WhitePrince = value;
+                    else if (value.Color == PlayerColor.Black && BlackPrince == null)
+                        BlackPrince = value;
+                }
+
+                #endregion
+
+                ChessboardPieceMovedEventArgs args = new ChessboardPieceMovedEventArgs()
+                {
+                    OldCell = value?.Cell,
+                    NewCell = cell
+                };
+
                 Board[cell.Row, cell.Col] = value;
+                if (value != null)
+                    value.Cell = cell;
+
+                OnChessboardPieceMoved(args);
             }
         }
 
@@ -106,6 +139,11 @@ namespace BelarusChess
                         Board[i, j].Cell = Cell.Create(i, j);
                 }
             }
+        }
+
+        private void OnChessboardPieceMoved(ChessboardPieceMovedEventArgs e)
+        {
+            ChessboardPieceMoved?.Invoke(this, e);
         }
     }
 }
