@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace BelarusChess
 {
     /// <summary> Describes the chess piece </summary>
-    public abstract class Piece
+    public class Piece
     {
         private Cell cell;
         protected virtual Move[,] Moves { get; }
@@ -23,7 +23,7 @@ namespace BelarusChess
             }
         }
         
-        protected Piece(PlayerColor color, PieceType type, Cell cell)
+        public Piece(PlayerColor color, PieceType type, Cell cell)
         {
             Color = color;
             Type = type;

@@ -1,5 +1,4 @@
-﻿using BelarusChess.Pieces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,49 +31,49 @@ namespace BelarusChess
 
             #region Black pieces initialisation
 
-            startBoard[0, 0] = new Rook(PlayerColor.Black, Cell.Create(0, 0));
-            startBoard[0, 1] = new Knight(PlayerColor.Black, Cell.Create(0, 1));
-            startBoard[0, 2] = new Bishop(PlayerColor.Black, Cell.Create(0, 2));
-            startBoard[0, 3] = new Queen(PlayerColor.Black, Cell.Create(0, 3));
-            startBoard[0, 4] = new King(PlayerColor.Black, Cell.Create(0, 4));
-            startBoard[0, 5] = new Prince(PlayerColor.Black, Cell.Create(0, 5));
-            startBoard[0, 6] = new Knight(PlayerColor.Black, Cell.Create(0, 6));
-            startBoard[0, 7] = new Bishop(PlayerColor.Black, Cell.Create(0, 7));
-            startBoard[0, 8] = new Rook(PlayerColor.Black, Cell.Create(0, 8));
+            startBoard[0, 0] = new Piece(PlayerColor.Black, PieceType.Rook, Cell.Create(0, 0));
+            startBoard[0, 1] = new Piece(PlayerColor.Black, PieceType.Knight, Cell.Create(0, 1));
+            startBoard[0, 2] = new Piece(PlayerColor.Black, PieceType.Bishop, Cell.Create(0, 2));
+            startBoard[0, 3] = new Piece(PlayerColor.Black, PieceType.Queen, Cell.Create(0, 3));
+            startBoard[0, 4] = new Piece(PlayerColor.Black, PieceType.King, Cell.Create(0, 4));
+            startBoard[0, 5] = new Piece(PlayerColor.Black, PieceType.Prince, Cell.Create(0, 5));
+            startBoard[0, 6] = new Piece(PlayerColor.Black, PieceType.Knight, Cell.Create(0, 6));
+            startBoard[0, 7] = new Piece(PlayerColor.Black, PieceType.Bishop, Cell.Create(0, 7));
+            startBoard[0, 8] = new Piece(PlayerColor.Black, PieceType.Rook, Cell.Create(0, 8));
 
-            startBoard[1, 0] = new Pawn(PlayerColor.Black, Cell.Create(1, 0));
-            startBoard[1, 1] = new Pawn(PlayerColor.Black, Cell.Create(1, 1));
-            startBoard[1, 2] = new Pawn(PlayerColor.Black, Cell.Create(1, 2));
-            startBoard[1, 3] = new Pawn(PlayerColor.Black, Cell.Create(1, 3));
-            startBoard[1, 4] = new Pawn(PlayerColor.Black, Cell.Create(1, 4));
-            startBoard[1, 5] = new Pawn(PlayerColor.Black, Cell.Create(1, 5));
-            startBoard[1, 6] = new Pawn(PlayerColor.Black, Cell.Create(1, 6));
-            startBoard[1, 7] = new Pawn(PlayerColor.Black, Cell.Create(1, 7));
-            startBoard[1, 8] = new Pawn(PlayerColor.Black, Cell.Create(1, 8));
+            startBoard[1, 0] = new Piece(PlayerColor.Black, PieceType.Pawn, Cell.Create(1, 0));
+            startBoard[1, 1] = new Piece(PlayerColor.Black, PieceType.Pawn, Cell.Create(1, 1));
+            startBoard[1, 2] = new Piece(PlayerColor.Black, PieceType.Pawn, Cell.Create(1, 2));
+            startBoard[1, 3] = new Piece(PlayerColor.Black, PieceType.Pawn, Cell.Create(1, 3));
+            startBoard[1, 4] = new Piece(PlayerColor.Black, PieceType.Pawn, Cell.Create(1, 4));
+            startBoard[1, 5] = new Piece(PlayerColor.Black, PieceType.Pawn, Cell.Create(1, 5));
+            startBoard[1, 6] = new Piece(PlayerColor.Black, PieceType.Pawn, Cell.Create(1, 6));
+            startBoard[1, 7] = new Piece(PlayerColor.Black, PieceType.Pawn, Cell.Create(1, 7));
+            startBoard[1, 8] = new Piece(PlayerColor.Black, PieceType.Pawn, Cell.Create(1, 8));
 
             #endregion
 
             #region White pieces initialisation
 
-            startBoard[7, 0] = new Pawn(PlayerColor.White, Cell.Create(7, 0));
-            startBoard[7, 1] = new Pawn(PlayerColor.White, Cell.Create(7, 1));
-            startBoard[7, 2] = new Pawn(PlayerColor.White, Cell.Create(7, 2));
-            startBoard[7, 3] = new Pawn(PlayerColor.White, Cell.Create(7, 3));
-            startBoard[7, 4] = new Pawn(PlayerColor.White, Cell.Create(7, 4));
-            startBoard[7, 5] = new Pawn(PlayerColor.White, Cell.Create(7, 5));
-            startBoard[7, 6] = new Pawn(PlayerColor.White, Cell.Create(7, 6));
-            startBoard[7, 7] = new Pawn(PlayerColor.White, Cell.Create(7, 7));
-            startBoard[7, 8] = new Pawn(PlayerColor.White, Cell.Create(7, 8));
+            startBoard[7, 0] = new Piece(PlayerColor.White, PieceType.Pawn, Cell.Create(7, 0));
+            startBoard[7, 1] = new Piece(PlayerColor.White, PieceType.Pawn, Cell.Create(7, 1));
+            startBoard[7, 2] = new Piece(PlayerColor.White, PieceType.Pawn, Cell.Create(7, 2));
+            startBoard[7, 3] = new Piece(PlayerColor.White, PieceType.Pawn, Cell.Create(7, 3));
+            startBoard[7, 4] = new Piece(PlayerColor.White, PieceType.Pawn, Cell.Create(7, 4));
+            startBoard[7, 5] = new Piece(PlayerColor.White, PieceType.Pawn, Cell.Create(7, 5));
+            startBoard[7, 6] = new Piece(PlayerColor.White, PieceType.Pawn, Cell.Create(7, 6));
+            startBoard[7, 7] = new Piece(PlayerColor.White, PieceType.Pawn, Cell.Create(7, 7));
+            startBoard[7, 8] = new Piece(PlayerColor.White, PieceType.Pawn, Cell.Create(7, 8));
 
-            startBoard[8, 0] = new Rook(PlayerColor.White, Cell.Create(8, 0));
-            startBoard[8, 1] = new Bishop(PlayerColor.White, Cell.Create(8, 1));
-            startBoard[8, 2] = new Knight(PlayerColor.White, Cell.Create(8, 2));
-            startBoard[8, 3] = new Prince(PlayerColor.White, Cell.Create(8, 3));
-            startBoard[8, 4] = new King(PlayerColor.White, Cell.Create(8, 4));
-            startBoard[8, 5] = new Queen(PlayerColor.White, Cell.Create(8, 5));
-            startBoard[8, 6] = new Bishop(PlayerColor.White, Cell.Create(8, 6));
-            startBoard[8, 7] = new Knight(PlayerColor.White, Cell.Create(8, 7));
-            startBoard[8, 8] = new Rook(PlayerColor.White, Cell.Create(8, 8));
+            startBoard[8, 0] = new Piece(PlayerColor.White, PieceType.Rook, Cell.Create(8, 0));
+            startBoard[8, 1] = new Piece(PlayerColor.White, PieceType.Bishop, Cell.Create(8, 1));
+            startBoard[8, 2] = new Piece(PlayerColor.White, PieceType.Knight, Cell.Create(8, 2));
+            startBoard[8, 3] = new Piece(PlayerColor.White, PieceType.Prince, Cell.Create(8, 3));
+            startBoard[8, 4] = new Piece(PlayerColor.White, PieceType.King, Cell.Create(8, 4));
+            startBoard[8, 5] = new Piece(PlayerColor.White, PieceType.Queen, Cell.Create(8, 5));
+            startBoard[8, 6] = new Piece(PlayerColor.White, PieceType.Bishop, Cell.Create(8, 6));
+            startBoard[8, 7] = new Piece(PlayerColor.White, PieceType.Knight, Cell.Create(8, 7));
+            startBoard[8, 8] = new Piece(PlayerColor.White, PieceType.Rook, Cell.Create(8, 8));
 
             #endregion
 

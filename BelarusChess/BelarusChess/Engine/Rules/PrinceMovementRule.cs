@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace BelarusChess.Engine.Rules
 {
-    /// <summary> Movement rule for <see cref="Pieces.Prince"/> </summary>
     public class PrinceMovementRule : IRule
     {
         public PrinceMovementRule() { }

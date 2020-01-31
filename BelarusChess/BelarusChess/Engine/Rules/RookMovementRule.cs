@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace BelarusChess.Engine.Rules
 {
-    /// <summary> Movement rule for <see cref="Pieces.Rook"/> </summary>
     public class RookMovementRule : IRule
     {
         // Private fields to use by RecursivelyFindNextValidCell() method

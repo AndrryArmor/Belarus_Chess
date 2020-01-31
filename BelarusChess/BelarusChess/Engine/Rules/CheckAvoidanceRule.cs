@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BelarusChess.Engine.Rules
 {
-    /// <summary> Rule for avoiding check for friendly <see cref="Pieces.King"/> </summary>
+    /// <summary> Rule for avoiding check for friendly king </summary>
     public class CheckAvoidanceRule : IRule
     {
         public CheckAvoidanceRule() { }

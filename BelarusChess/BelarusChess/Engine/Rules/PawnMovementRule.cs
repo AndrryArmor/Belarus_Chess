@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace BelarusChess.Engine.Rules
 {
-    /// <summary> Movement rule for <see cref="Pieces.Pawn"/> </summary>
     public class PawnMovementRule : IRule
     {
         public PawnMovementRule() { }
