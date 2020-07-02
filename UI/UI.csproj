@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8471C64E-DDBB-43B8-B323-94609CDE614B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>UI</RootNamespace>
+    <AssemblyName>UI</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Views\ChessWindow.xaml.cs">
+      <DependentUpon>ChessWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EnterWindow.xaml.cs">
+      <DependentUpon>EnterWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HelpWindow.xaml.cs">
+      <DependentUpon>HelpWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Views\ChessWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EnterWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\HelpWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\BelarusChess.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Chess image.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Chessboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Highlight check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Highlight choosed piece.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Highlight mouse move cell.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Highlight valid move on piece.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Highlight valid move.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\PiecesSprites\Black bishop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\PiecesSprites\Black king.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\PiecesSprites\Black knight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\PiecesSprites\Black pawn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\PiecesSprites\Black prince.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\PiecesSprites\Black queen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\PiecesSprites\Black rook.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\PiecesSprites\White bishop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\PiecesSprites\White king.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\PiecesSprites\White knight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\PiecesSprites\White pawn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\PiecesSprites\White prince.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\PiecesSprites\White queen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\PiecesSprites\White rook.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
