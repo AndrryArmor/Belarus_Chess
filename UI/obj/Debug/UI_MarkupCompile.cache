@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 D:\Admin\Git Repositories\Belarus_Chess\UI\App.xaml
-11151548125
+4565062739
 
-5-2017746502
+8-1573275050
 13-1505183044
-MainWindow.xaml;
+MainWindow.xaml;Views\ChessWindow.xaml;Views\EnterWindow.xaml;Views\HelpWindow.xaml;
 
 True
 
