@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Entities.Pieces
+namespace BelarusChess.Core.Entities.Pieces
 {
     public class Bishop : Piece
     {

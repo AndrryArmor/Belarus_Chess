@@ -5,16 +5,16 @@ winexe
 C#
 .cs
 D:\Admin\Git Repositories\Belarus_Chess\UI\obj\Debug\
-UI
+BelarusChess.UI
 none
 false
 DEBUG;TRACE
 D:\Admin\Git Repositories\Belarus_Chess\UI\App.xaml
-4565062739
+3-987882250
 
-8-1573275050
-13-1505183044
-MainWindow.xaml;Views\ChessWindow.xaml;Views\EnterWindow.xaml;Views\HelpWindow.xaml;
+16-377814122
+16267084510
+Views\GameWindow.xaml;Views\EnterWindow.xaml;Views\HelpWindow.xaml;
 
-True
+False
 

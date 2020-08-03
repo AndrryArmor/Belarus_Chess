@@ -1,4 +1,4 @@
-﻿namespace Core.Entities
+﻿namespace BelarusChess.Core.Entities
 {
     public enum PlayerColor
     {

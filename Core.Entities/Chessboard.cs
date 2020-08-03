@@ -1,17 +1,22 @@
-﻿using Core.Entities.Pieces;
+﻿using BelarusChess.Core.Entities.Pieces;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Core.Entities
+namespace BelarusChess.Core.Entities
 {
     public class Chessboard
     {
+        public static readonly int Length = 9;
+
+        private Piece _whiteKing;
+        private Piece _blackKing;
+        private Piece _whitePrince;
+        private Piece _blackPrince;
+        
         public Chessboard()
         {
-            StartBoard = new Piece[9, 9];
-            Board = new Piece[9, 9];
-
             #region Black pieces initialisation
 
             StartBoard[0, 0] = new Rook(PlayerColor.Black, new Cell(0, 0), this);
@@ -60,29 +65,84 @@ namespace Core.Entities
 
             #endregion
 
-            WhiteKing = StartBoard[8, 4];
-            BlackKing = StartBoard[0, 4];
-            WhitePrince = StartBoard[8, 3];
-            BlackPrince = StartBoard[0, 5];
+            _whiteKing = StartBoard[8, 4];
+            _blackKing = StartBoard[0, 4];
+            _whitePrince = StartBoard[8, 3];
+            _blackPrince = StartBoard[0, 5];
 
             Reset();
         }
 
-        private const int length = 9;
-        
-        public int Length => length;
-        public Piece[,] StartBoard { get; }
-        public Piece[,] Board { get; }
-        public Piece WhiteKing { get; set; }
-        public Piece BlackKing { get; set; }
-        public Piece WhitePrince { get; set; }
-        public Piece BlackPrince { get; set; }
+        public event EventHandler<PlayerColor> OnInauguration;
+
+        public Piece[,] StartBoard { get; } = new Piece[Length, Length];
+        public Piece[,] Board { get; } = new Piece[Length, Length];
 
         public Piece this[Cell cell]
         {
             get => cell.IsValid
                 ? Board[cell.Row, cell.Col]
                 : null;
+            set
+            {
+                Board[cell.Row, cell.Col] = value;
+                if (value != null)
+                    value.Cell = cell;
+            }
+        }
+
+        public Piece GetKing(PlayerColor color)
+        {
+            Piece king = null;
+            switch (color)
+            {
+                case PlayerColor.White:
+                    king = _whiteKing;
+                    break;
+                case PlayerColor.Black:
+                    king = _blackKing;
+                    break;
+            }
+            return king;
+        }
+
+        public Piece GetPrince(PlayerColor color)
+        {
+            Piece prince = null;
+            switch (color)
+            {
+                case PlayerColor.White:
+                    prince = _whitePrince;
+                    break;
+                case PlayerColor.Black:
+                    prince = _blackPrince;
+                    break;
+            }
+            return prince;
+        }
+
+        public bool IsKingAlone(PlayerColor color)
+        {
+            Piece prince = GetPrince(color);
+            return prince.Cell == null;
+        }
+
+        public void MakeMove(Piece piece, Cell cell)
+        {
+            Piece beatenPiece = this[cell];
+
+            if (beatenPiece != null)
+            {
+                beatenPiece.Cell = null;
+
+                if (beatenPiece.Type == PieceType.King && !IsKingAlone(beatenPiece.Color) && 
+                    beatenPiece.HasToRaiseOnCellChangeEvent)
+                {
+                    DoInauguration(beatenPiece.Color);
+                }
+            }
+
+            this[cell] = piece;
         }
 
         public void Reset()
@@ -90,13 +150,19 @@ namespace Core.Entities
             for (int i = 0; i < Length; i++)
             {
                 for (int j = 0; j < Length; j++)
-                {
-                    Board[i, j] = StartBoard[i, j];
-
-                    if (Board[i, j] != null)
-                        Board[i, j].Cell = new Cell(i, j);
-                }
+                    this[new Cell(i, j)] = StartBoard[i, j];
             }
+        }
+
+        private void DoInauguration(PlayerColor player)
+        {
+            Piece prince = GetPrince(player);
+            Piece king = GetKing(player);
+
+            this[prince.Cell] = king;
+            prince.Cell = null;
+
+            OnInauguration?.Invoke(this, player);
         }
     }
 }

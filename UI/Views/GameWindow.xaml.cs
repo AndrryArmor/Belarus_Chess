@@ -1,16 +1,19 @@
-﻿using System;
+﻿using BelarusChess.Core.Entities;
+using BelarusChess.Core.Logic;
+using BelarusChess.UI.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
-namespace BelarusChess.Views
+namespace BelarusChess.UI.Views
 {
     /// <summary> Interaction logic for MainWindow.xaml </summary>
-    public partial class ChessWindow : Window, IChessView
+    public partial class GameWindow : Window/*, IChessView*/
     {
-        #region Static readonly objects
+        /*#region Static readonly objects
 
         public static int leftMargin = 10;
         public static int topMargin = 10;
@@ -37,20 +40,20 @@ namespace BelarusChess.Views
         private Image choosedPieceHighlight;
         private Image mouseMoveHighlight;
 
-        #endregion
+        #endregion*/
 
-        public ChessWindow()
+        public GameWindow()
         {
             InitializeComponent();
-            game = new GameController(this);
+            /*game = new GameController(new ChessEngine(new Chessboard()));
             imageSetChessboard = new ImageSetChessboard(this);
             cellsHighlights = new List<Image>();
 
             // Sets margin of a chessboard Image equal to the start margin
-            imageChessboard.Margin = new Thickness(leftMargin, topMargin, 0, 0);
+            imageChessboard.Margin = new Thickness(leftMargin, topMargin, 0, 0);*/
         }
 
-        #region IChessView implementation
+        /*#region IChessView implementation
 
         public void SetTime(TimeSpan time)
         {
@@ -148,7 +151,7 @@ namespace BelarusChess.Views
         {
             int rows = (int)(image.Margin.Top - topMargin) / cellEdge;
             int cols = (int)(image.Margin.Left - leftMargin) / cellEdge;
-            return Cell.Create(rows, cols);
+            return new Cell(rows, cols);
         }
 
         private Image CreateHighlightImage(string imageUri, Cell cell)
@@ -344,6 +347,6 @@ namespace BelarusChess.Views
                     }
                 }
             }
-        }
+        }*/
     }
 }

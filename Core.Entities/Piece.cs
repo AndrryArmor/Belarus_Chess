@@ -1,35 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Entities
+namespace BelarusChess.Core.Entities
 {
     public abstract class Piece
     {
-        protected Chessboard _chessboard;
+        private Cell _cell;
 
         protected Piece(PieceType type, PlayerColor color, Cell cell, Chessboard chessboard)
         {
             Type = type;
             Color = color;
             Cell = cell;
-            _chessboard = chessboard;
-        }
-
-        private Cell cell;
-
-        public PieceType Type { get; }
-        public PlayerColor Color { get; }
-        public Cell Cell
-        {
-            get => cell;
-            set
-            {
-                cell = value;
-                OnCellChange?.Invoke(this, Cell);
-            }
+            Chessboard = chessboard;
         }
 
         public event EventHandler<Cell> OnCellChange;
@@ -40,6 +29,22 @@ namespace Core.Entities
             UpLeft, UpRight, DownRight, DownLeft,
             UpUpLeft, UpUpRight, RightRightUp, RightRightDown, DownDownRight, DownDownLeft, LeftLeftDown, LeftLeftUp
         }
+
+        public PieceType Type { get; }
+        public PlayerColor Color { get; }
+        public Cell Cell
+        {
+            get => _cell;
+            set
+            {
+                _cell = value;
+                if (HasToRaiseOnCellChangeEvent)
+                    OnCellChange?.Invoke(this, Cell);
+            }
+        }
+        public bool HasToRaiseOnCellChangeEvent { get; set; } = true;
+
+        protected Chessboard Chessboard { get; }
 
         public abstract IEnumerable<Cell> GetAvailableCells();
 
@@ -53,7 +58,7 @@ namespace Core.Entities
                 availableCells.Add(currentCell);
 
                 // If cell is empty and not a throne
-                if (_chessboard[currentCell] == null && (currentCell.Row != 4 || currentCell.Col != 4))
+                if (Chessboard[currentCell] == null && (currentCell.Row != 4 || currentCell.Col != 4))
                     currentCell = GetNextCell(direction, currentCell);
                 else
                     break;
@@ -68,7 +73,7 @@ namespace Core.Entities
                 return false;
 
             // Returns true if cell is empty or contains opponent's piece
-            return _chessboard[cell] == null || _chessboard[cell].Color != Color;
+            return Chessboard[cell] == null || Chessboard[cell].Color != Color;
         }
 
         protected Cell GetNextCell(MoveDirection direction, Cell currentCell)

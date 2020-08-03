@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Entities.Pieces
+namespace BelarusChess.Core.Entities.Pieces
 {
     public class Pawn : Piece
     {
@@ -43,7 +43,7 @@ namespace Core.Entities.Pieces
 
             if (direction == MoveDirection.Up || direction == MoveDirection.Down)
             {
-                if (_chessboard[currentCell] == null)
+                if (Chessboard[currentCell] == null)
                 {
                     availableCells.Add(currentCell);
 
@@ -52,7 +52,7 @@ namespace Core.Entities.Pieces
                         (direction == MoveDirection.Down && Cell.Row == 1))
                     {
                         currentCell = GetNextCell(direction, currentCell);
-                        if (_chessboard[currentCell] == null)
+                        if (Chessboard[currentCell] == null)
                             availableCells.Add(currentCell);
                     }
                 }
@@ -60,7 +60,7 @@ namespace Core.Entities.Pieces
             else
             {
                 // If cell contains opponent's piece
-                if (_chessboard[currentCell] != null && _chessboard[currentCell].Color != Color)
+                if (Chessboard[currentCell] != null && Chessboard[currentCell].Color != Color)
                     availableCells.Add(currentCell);
             }
 

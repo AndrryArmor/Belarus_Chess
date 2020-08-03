@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8471C64E-DDBB-43B8-B323-94609CDE614B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>UI</RootNamespace>
+    <RootNamespace>BelarusChess.UI</RootNamespace>
     <AssemblyName>UI</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -34,7 +34,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>BelarusChess.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -55,8 +61,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Views\ChessWindow.xaml.cs">
-      <DependentUpon>ChessWindow.xaml</DependentUpon>
+    <Compile Include="Enums\HighlightType.cs" />
+    <Compile Include="Utils\TimeSpanToStringConverter.cs" />
+    <Compile Include="ViewModelBase.cs" />
+    <Compile Include="ViewModels\GameViewModel.cs" />
+    <Compile Include="RelayCommand.cs" />
+    <Compile Include="ViewModels\HelpViewModel.cs" />
+    <Compile Include="ViewModels\HighlightViewModel.cs" />
+    <Compile Include="BoardImageViewModelBase.cs" />
+    <Compile Include="ViewModels\PieceViewModel.cs" />
+    <Compile Include="Views\GameWindow.xaml.cs">
+      <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EnterWindow.xaml.cs">
       <DependentUpon>EnterWindow.xaml</DependentUpon>
@@ -64,19 +79,11 @@
     <Compile Include="Views\HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="Views\ChessWindow.xaml">
+    <Page Include="Views\GameWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -107,6 +114,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -180,6 +188,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\PiecesSprites\White rook.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core.Entities\Core.Entities.csproj">
+      <Project>{E8DCB010-CF8E-4AB9-B451-AF7E0B594CD5}</Project>
+      <Name>Core.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core.Logic\Core.Logic.csproj">
+      <Project>{8AF532B3-B6CD-4C9B-8231-1E85E7504D9B}</Project>
+      <Name>Core.Logic</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Entities.Pieces
+namespace BelarusChess.Core.Entities.Pieces
 {
     public class Prince : Piece
     {
@@ -40,7 +40,7 @@ namespace Core.Entities.Pieces
                 {
                     availableCells.Add(currentCell);
 
-                    if (_chessboard[currentCell] == null)
+                    if (Chessboard[currentCell] == null)
                         currentCell = GetNextCell(direction, currentCell);
                     else
                         break;
