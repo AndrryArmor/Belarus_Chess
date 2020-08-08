@@ -142,6 +142,7 @@ namespace BelarusChess.Core.Entities
                 }
             }
 
+            this[piece.Cell] = null;
             this[cell] = piece;
         }
 

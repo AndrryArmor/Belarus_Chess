@@ -11,17 +11,31 @@ namespace BelarusChess.Core.Logic
     public class ChessEngine
     {
         private Chessboard _chessboard;
-        private Chessboard _savedChessboard;
+        private Chessboard _savedChessboard = new Chessboard();
 
         public ChessEngine(Chessboard chessboard)
         {
             _chessboard = chessboard;
-            _savedChessboard = chessboard;
         }
 
         public IEnumerable<Cell> FindAvailableCells(Piece piece)
         {
-            return piece.GetAvailableCells();
+            List<Cell> availableCells = piece.GetAvailableCells().ToList();
+
+            piece.HasToRaiseOnCellChangeEvent = false;
+
+            SaveChessboard();
+            foreach (Cell cell in piece.GetAvailableCells())
+            {
+                MakeMove(piece, cell);
+                if (IsCheck(piece.Color))
+                    availableCells.Remove(cell);
+                RestoreChessboard();
+            }
+
+            piece.HasToRaiseOnCellChangeEvent = true; 
+
+            return availableCells;
         }
 
         public void MakeMove(Piece piece, Cell cell)
@@ -31,15 +45,16 @@ namespace BelarusChess.Core.Logic
 
         public PlayerState GetPlayerState(PlayerColor player)
         {
-            bool isCheck = IsCheck(player);
-            bool isStalemate = IsStalemate(player);
-
-            if (isCheck == true && isStalemate == true)
+            if (IsCheckmate(player))
                 return PlayerState.Checkmate;
-            else if (isCheck == true && isStalemate == false)
+            else if (IsCheck(player))
                 return PlayerState.Check;
-            else if (isCheck == false && isStalemate == true)
+            else if (IsStalemate(player))
                 return PlayerState.Stalemate;
+            else if (IsThroneMine(player))
+                return PlayerState.ThroneMine;
+            else if (IsThrone(player))
+                return PlayerState.Throne;
             else
                 return PlayerState.Regular;
         }
@@ -69,7 +84,7 @@ namespace BelarusChess.Core.Logic
         {
             Piece prince = _chessboard.GetPrince(player);
             // If prince is alive there is no check
-            if (prince != null)
+            if (prince.Cell != null)
                 return false;
 
             var opponentPlayerAvailableCells = new List<Cell>();
@@ -81,7 +96,7 @@ namespace BelarusChess.Core.Logic
             }
 
             Piece king = _chessboard.GetKing(player);
-            return opponentPlayerAvailableCells.Contains(king.Cell);
+            return opponentPlayerAvailableCells.Exists(cell => cell == king.Cell);
         }
 
         private bool IsStalemate(PlayerColor player)
@@ -110,14 +125,22 @@ namespace BelarusChess.Core.Logic
             return currentPlayerAvailableCells.Count == 0;
         }
 
+        private bool IsCheckmate(PlayerColor player)
+        {
+            if (!IsCheck(player))
+                return false;
+
+            return IsStalemate(player);
+        }
+
         private bool IsThrone(PlayerColor player)
         {
-            return default;
+            return false;
         }
 
         private bool IsThroneMine(PlayerColor player)
         {
-            return default;
+            return false;
         }
 
         private void SaveChessboard()

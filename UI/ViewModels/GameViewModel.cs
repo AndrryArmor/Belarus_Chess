@@ -28,6 +28,8 @@ namespace BelarusChess.UI.ViewModels
         private readonly List<HighlightViewModel> _highlights = new List<HighlightViewModel>();
         private PieceViewModel _choosedPieceViewModel;
         private Cell _cellToMakeMove;
+        private string _whitePlayerState;
+        private string _blackPlayerState;
         private TimeSpan _time;
         private bool _isNewGameButtonEnabled;
         private bool _isFinishGameButtonEnabled;
@@ -54,8 +56,24 @@ namespace BelarusChess.UI.ViewModels
             _oneSecondTimer.Elapsed += OneSecond_Elapsed;
         }
 
-        public string WhitePlayerState { get; set; }
-        public string BlackPlayerState { get; set; }
+        public string WhitePlayerState
+        {
+            get => _whitePlayerState;
+            set
+            {
+                _whitePlayerState = value;
+                OnPropertyChanged();
+            }
+        }
+        public string BlackPlayerState
+        {
+            get => _blackPlayerState;
+            set
+            {
+                _blackPlayerState = value;
+                OnPropertyChanged();
+            }
+        }
         public TimeSpan Time
         {
             get => _time;
@@ -123,13 +141,13 @@ namespace BelarusChess.UI.ViewModels
                         if (_gameController.GetPieceAt(cell) != null)
                             highlight = HighlightType.ValidMoveOnPiece;
 
-                        var highlightViewModel =  new HighlightViewModel(highlight, cell);
+                        var highlightViewModel = new HighlightViewModel(highlight, cell);
                         highlightViewModel.OnImageClicked += HighlightViewModel_OnImageClicked;
 
                         return highlightViewModel;
                     }));
 
-                    _highlights.ForEach(highlight =>_gameWindow.grid.Children.Add(highlight.Image));
+                    _highlights.ForEach(highlight => _gameWindow.grid.Children.Add(highlight.Image));
 
                 }));
             }
@@ -142,7 +160,8 @@ namespace BelarusChess.UI.ViewModels
                 return _makeMoveCommand ?? (_makeMoveCommand = new RelayCommand(obj =>
                 {
                     _gameController.MakeMove(_choosedPieceViewModel.Piece, _cellToMakeMove);
-
+                    WhitePlayerState = _gameController.WhitePlayerState.ToString();
+                    BlackPlayerState = _gameController.BlackPlayerState.ToString();
                     _highlights.ForEach(highlight => _gameWindow.grid.Children.Remove(highlight.Image));
                     _highlights.Clear();
                 }));
@@ -165,7 +184,7 @@ namespace BelarusChess.UI.ViewModels
         }
 
         #endregion
-        
+
         private void PieceViewModel_OnImageClicked(object sender, EventArgs e)
         {
             if (_choosedPieceViewModel == null)

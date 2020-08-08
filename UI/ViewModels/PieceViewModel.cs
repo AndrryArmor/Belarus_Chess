@@ -37,8 +37,7 @@ namespace BelarusChess.UI.ViewModels
 
         private string GetPieceName(Piece piece)
         {
-            return Enum.GetName(piece.Color.GetType(), piece.Color) + " " + 
-                Enum.GetName(piece.Type.GetType(), piece.Type).ToLower();
+            return piece.Color.ToString() + " " + piece.Type.ToString().ToLower();
         }
 
         private void Piece_OnCellChange(object sender, Cell e)
