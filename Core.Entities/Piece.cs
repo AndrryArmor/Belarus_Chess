@@ -58,7 +58,7 @@ namespace BelarusChess.Core.Entities
                 availableCells.Add(currentCell);
 
                 // If cell is empty and not a throne
-                if (Chessboard[currentCell] == null && (currentCell.Row != 4 || currentCell.Col != 4))
+                if (Chessboard[currentCell] == null && currentCell != Cell.Throne)
                     currentCell = GetNextCell(direction, currentCell);
                 else
                     break;

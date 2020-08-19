@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace BelarusChess.Core.Entities
 {
-    public class Cell
+    public class Cell : IEquatable<Cell>
     {
+        public static readonly Cell Throne = new Cell(4, 4);
+
         public Cell(int row, int col)
         {
             Row = row;
@@ -20,9 +22,14 @@ namespace BelarusChess.Core.Entities
 
         public override bool Equals(object obj)
         {
-            return obj is Cell cell &&
-                   Row == cell.Row &&
-                   Col == cell.Col;
+            return Equals(obj as Cell);
+        }
+
+        public bool Equals(Cell other)
+        {
+            return other != null &&
+                   Row == other.Row &&
+                   Col == other.Col;
         }
 
         public static bool operator ==(Cell left, Cell right)

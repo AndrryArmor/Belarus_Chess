@@ -11,7 +11,7 @@ namespace BelarusChess.Core.Logic
 {
     public class GameController
     {
-        private ChessEngine _engine;
+        private readonly ChessEngine _engine;
 
         public GameController(ChessEngine engine)
         {
@@ -44,6 +44,7 @@ namespace BelarusChess.Core.Logic
             _engine.MakeMove(piece, cell);
             WhitePlayerState = _engine.GetPlayerState(PlayerColor.White);
             BlackPlayerState = _engine.GetPlayerState(PlayerColor.Black);
+
             SwitchPlayer();
         }
 

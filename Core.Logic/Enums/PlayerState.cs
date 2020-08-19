@@ -7,6 +7,7 @@
         Checkmate,
         Stalemate,
         Throne,
-        ThroneMine
+        ThroneMine,
+        Overthrowing
     }
 }

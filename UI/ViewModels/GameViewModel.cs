@@ -164,6 +164,14 @@ namespace BelarusChess.UI.ViewModels
                     BlackPlayerState = _gameController.BlackPlayerState.ToString();
                     _highlights.ForEach(highlight => _gameWindow.grid.Children.Remove(highlight.Image));
                     _highlights.Clear();
+
+                    if (_gameController.WhitePlayerState == PlayerState.Checkmate || 
+                        _gameController.WhitePlayerState == PlayerState.ThroneMine ||
+                        _gameController.BlackPlayerState == PlayerState.Checkmate || 
+                        _gameController.BlackPlayerState == PlayerState.ThroneMine)
+                    {
+                        FinishGameCommand.Execute(null);
+                    }
                 }));
             }
         }
