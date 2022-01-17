@@ -1,2 +1,2 @@
-# belarus_chess
-WPF realisation of the few-known belarus chess game. Rules will be published there in a while.
+# BelarusianLithuanianChess
+Original repository of the Belarusian-Lithuanian chess. Now the active one is BelarusianLithuanianChess repository.
